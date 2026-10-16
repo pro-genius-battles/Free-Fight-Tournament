@@ -1,1 +1,1814 @@
-Build a complete, mobile-friendly Free Fire tournament website named PRO GENIUS BATTLE using HTML, CSS, JavaScript, Firebase Authentication, and Firestore. Deploy the frontend on GitHub Pages. Create separate Player and Admin dashboards. Use two admin roles: Abdullah as Owner Admin with full control, and Hamza as Match Admin with match-management-only permissions. Configure admin emails through secure Firebase Authentication and database role records; never hardcode passwords in client-side code. Players can register, log in, edit their own profiles, update their Free Fire UID and avatar, join free or paid tournaments, and view match history, payment status, results, and leaderboard. Admins can create, edit, schedule, cancel, and delete matches; set match mode, map, start date and time, entry fee, prize pool, player limits, room ID and room password; manage registrations; publish verified results; and review payment requests. Show dashboard statistics for total players, upcoming matches, live matches, completed matches, registrations, and pending payments. Add countdowns, notifications, search, filters, activity logs, and responsive neon gaming design. Support Easypaisa and Paytm payment request workflows, but do not claim payment is verified until checked through a trusted payment process. Enforce role permissions with Firebase Security Rules and trusted backend functions, so players cannot access admin controls and Hamza cannot use Owner Admin permissions. Make player and match data sync across devices. Prepare a Progressive Web App with a manifest, service worker, app icon, and installation instructions. Include complete working source code, Firebase setup instructions, GitHub Pages deployment steps for Android users, and explain that Google Play publishing is a separate process. Do not use fake statistics, expose passwords, or claim any feature is deployed until configured and tested.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Fire Tournament App</title>
+  <meta name="description" content="Free Fire tournament app with admin login, profile editing, coins, matches, payments, leaderboard and announcements." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#040814;
+      --bg-2:#081127;
+      --panel:#0b1732;
+      --panel-2:#102044;
+      --text:#eef5ff;
+      --muted:#8fa9d6;
+      --line:rgba(153,191,255,.16);
+      --blue:#2f7dff;
+      --blue-2:#00c8ff;
+      --cyan:#77ebff;
+      --green:#4dffb7;
+      --gold:#ffc857;
+      --danger:#ff5f91;
+      --shadow:0 24px 60px rgba(0,0,0,.42);
+      --radius:24px;
+      --max:1440px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Inter', sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 12%, rgba(47,125,255,.18), transparent 20%),
+        radial-gradient(circle at 86% 8%, rgba(0,200,255,.14), transparent 23%),
+        radial-gradient(circle at 50% 100%, rgba(47,125,255,.1), transparent 28%),
+        linear-gradient(180deg, #030611 0%, #071022 45%, #040814 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:46px 46px;
+      mask-image:radial-gradient(circle at center, black 38%, transparent 88%);
+      opacity:.23;
+    }
+
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+
+    .app-shell{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    .sidebar{
+      height:100vh;
+      position:sticky;
+      top:0;
+      background:linear-gradient(180deg, rgba(8,17,38,.96), rgba(7,14,31,.98));
+      border-right:1px solid var(--line);
+      backdrop-filter:blur(16px);
+      padding:1rem;
+      overflow:auto;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.85rem;
+      padding:.5rem .55rem 1rem;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      margin-bottom:1rem;
+    }
+
+    .brand-mark{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      background:linear-gradient(135deg, var(--blue-2), var(--blue));
+      display:grid;
+      place-items:center;
+      color:#02111f;
+      font-family:'Orbitron', sans-serif;
+      font-weight:900;
+      box-shadow:0 16px 35px rgba(47,125,255,.35);
+    }
+
+    .brand-text h1{
+      margin:0;
+      font-family:'Orbitron', sans-serif;
+      font-size:1rem;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      line-height:1.08;
+    }
+
+    .brand-text span{
+      color:var(--muted);
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+    }
+
+    .menu{
+      display:grid;
+      gap:.45rem;
+    }
+
+    .menu button{
+      width:100%;
+      border:none;
+      text-align:left;
+      background:transparent;
+      color:#dfebff;
+      border-radius:16px;
+      padding:.95rem 1rem;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      transition:.25s ease;
+      border:1px solid transparent;
+    }
+
+    .menu button:hover,
+    .menu button.active{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-color:var(--line);
+      transform:translateX(3px);
+    }
+
+    .menu small{
+      color:var(--muted);
+      font-size:.7rem;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+    }
+
+    .side-card{
+      margin-top:1rem;
+      padding:1rem;
+      border-radius:20px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+    }
+
+    .side-card h3{
+      margin:.1rem 0 .5rem;
+      font-family:'Orbitron', sans-serif;
+      font-size:.95rem;
+      text-transform:uppercase;
+    }
+
+    .side-card p{
+      margin:0 0 .55rem;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:.9rem;
+      word-break:break-word;
+    }
+
+    .main{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:1rem 1.1rem;
+      background:rgba(4,8,20,.76);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:.85rem;
+      min-width:0;
+    }
+
+    .mobile-menu{
+      display:none;
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      cursor:pointer;
+    }
+
+    .page-title h2{
+      margin:0;
+      font-family:'Orbitron', sans-serif;
+      font-size:1.05rem;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .page-title span{
+      color:var(--muted);
+      font-size:.85rem;
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      min-height:42px;
+      padding:0 .95rem;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      font-weight:700;
+      color:#dce9ff;
+      white-space:nowrap;
+    }
+
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 18px rgba(77,255,183,.6);
+    }
+
+    .btn{
+      min-height:48px;
+      border:none;
+      border-radius:16px;
+      padding:0 1rem;
+      cursor:pointer;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.55rem;
+      transition:.22s ease;
+    }
+
+    .btn:hover{transform:translateY(-2px)}
+    .btn:active{transform:scale(.98)}
+    .btn-primary{
+      color:#021221;
+      background:linear-gradient(135deg, var(--blue-2), var(--blue));
+      box-shadow:0 16px 36px rgba(47,125,255,.28);
+    }
+    .btn-soft{
+      color:var(--text);
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+    }
+    .btn-danger{
+      color:#20040c;
+      background:linear-gradient(135deg, #ff82a7, #ff4d87);
+    }
+
+    .content{
+      padding:1.1rem;
+    }
+
+    .screen{display:none;animation:fade .4s ease}
+    .screen.active{display:block}
+
+    @keyframes fade{
+      from{opacity:0;transform:translateY(16px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .panel{
+      border-radius:28px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:1rem;
+      margin-bottom:1rem;
+    }
+
+    .hero-main{
+      padding:1.5rem;
+      min-height:360px;
+      background:
+        radial-gradient(circle at 80% 25%, rgba(0,200,255,.18), transparent 20%),
+        radial-gradient(circle at 25% 85%, rgba(47,125,255,.14), transparent 22%),
+        linear-gradient(135deg, rgba(6,18,42,.98), rgba(10,27,60,.98));
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      color:var(--cyan);
+      font-size:.72rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-weight:800;
+    }
+
+    .eyebrow::before{
+      content:"";
+      width:34px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--cyan));
+    }
+
+    .hero-main h3{
+      margin:.8rem 0;
+      font-family:'Orbitron', sans-serif;
+      font-size:clamp(2.1rem, 5vw, 4.8rem);
+      line-height:.95;
+      text-transform:uppercase;
+    }
+
+    .hero-main p,.muted{
+      color:var(--muted);
+      line-height:1.75;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:.8rem;
+      flex-wrap:wrap;
+      margin-top:1.3rem;
+    }
+
+    .stat-row{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:.85rem;
+      margin-top:1.3rem;
+    }
+
+    .stat{
+      padding:1rem;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .stat strong{
+      display:block;
+      font-family:'Orbitron', sans-serif;
+      font-size:1.45rem;
+      color:var(--cyan);
+      margin-bottom:.3rem;
+    }
+
+    .stat span{
+      color:var(--muted);
+      font-size:.8rem;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .hero-side{
+      display:grid;
+      gap:1rem;
+    }
+
+    .mini-panel{
+      padding:1.15rem;
+      min-height:172px;
+    }
+
+    .section-title{
+      margin:0 0 .75rem;
+      font-family:'Orbitron', sans-serif;
+      font-size:1rem;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:1rem;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+    }
+
+    .list{
+      display:grid;
+      gap:.75rem;
+    }
+
+    .list-item{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:.9rem;
+      align-items:center;
+      padding:1rem;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .rank{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      font-family:'Orbitron', sans-serif;
+      font-weight:900;
+      color:#021120;
+      background:linear-gradient(135deg, var(--blue), var(--blue-2));
+    }
+
+    .name{
+      font-weight:800;
+      color:#f4f8ff;
+    }
+
+    .sub{
+      display:block;
+      color:var(--muted);
+      font-size:.86rem;
+      margin-top:.18rem;
+      word-break:break-word;
+    }
+
+    .coin{
+      color:var(--gold);
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .auth-layout{
+      min-height:calc(100vh - 80px - 2.2rem);
+      display:grid;
+      grid-template-columns:1fr .92fr;
+      gap:1rem;
+      align-items:stretch;
+    }
+
+    .auth-showcase{
+      padding:1.5rem;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(0,200,255,.15), transparent 19%),
+        radial-gradient(circle at 18% 84%, rgba(47,125,255,.16), transparent 24%),
+        linear-gradient(135deg, rgba(7,19,42,.98), rgba(10,27,60,.98));
+    }
+
+    .auth-showcase h3{
+      margin:.8rem 0;
+      font-family:'Orbitron', sans-serif;
+      font-size:clamp(2.2rem,4vw,4.1rem);
+      line-height:.95;
+      text-transform:uppercase;
+    }
+
+    .feature-points{
+      display:grid;
+      gap:.85rem;
+      margin-top:1.2rem;
+    }
+
+    .point{
+      display:flex;
+      gap:.8rem;
+      align-items:flex-start;
+      color:#dce9ff;
+    }
+
+    .point i{
+      width:26px;height:26px;border-radius:50%;
+      display:grid;place-items:center;
+      font-style:normal;
+      color:#00111e;
+      background:linear-gradient(135deg, var(--cyan), var(--blue-2));
+      font-weight:900;
+      flex:0 0 auto;
+      margin-top:.05rem;
+    }
+
+    .auth-card{
+      padding:1.25rem;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:1rem;
+    }
+
+    .tab-switch{
+      display:flex;
+      gap:.6rem;
+      padding:.35rem;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+    }
+
+    .tab-switch button{
+      flex:1;
+      border:none;
+      border-radius:14px;
+      padding:.95rem 1rem;
+      cursor:pointer;
+      background:transparent;
+      color:#dbe9ff;
+      font-weight:800;
+    }
+
+    .tab-switch button.active{
+      color:#031321;
+      background:linear-gradient(135deg, var(--cyan), var(--blue));
+    }
+
+    .hidden{display:none!important}
+
+    .auth-head h4{
+      margin:0;
+      font-family:'Orbitron', sans-serif;
+      text-transform:uppercase;
+      font-size:1.15rem;
+      letter-spacing:.08em;
+    }
+
+    .auth-head p{
+      margin:.45rem 0 0;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .form-wrap{display:grid;gap:.9rem}
+    .field-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:.9rem;
+    }
+
+    label{
+      display:block;
+      margin-bottom:.45rem;
+      color:#e7f0ff;
+      font-size:.86rem;
+      font-weight:700;
+    }
+
+    input,select,textarea{
+      width:100%;
+      border:none;
+      outline:none;
+      color:var(--text);
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:16px;
+      padding:1rem;
+      transition:.25s ease;
+    }
+
+    input:focus,select:focus,textarea:focus{
+      border-color:rgba(119,235,255,.6);
+      box-shadow:0 0 0 4px rgba(119,235,255,.08);
+      transform:translateY(-1px);
+    }
+
+    textarea{min-height:120px;resize:vertical}
+
+    .link-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:.8rem;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .text-link{
+      color:var(--cyan);
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .success-msg{
+      display:none;
+      padding:.95rem 1rem;
+      border-radius:16px;
+      background:rgba(77,255,183,.08);
+      border:1px solid rgba(77,255,183,.22);
+      color:#d2fff0;
+    }
+
+    .table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    .table th,.table td{
+      text-align:left;
+      padding:1rem .9rem;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      vertical-align:top;
+    }
+
+    .table th{
+      font-size:.78rem;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+    }
+
+    .announcement{
+      padding:1rem;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .announcement strong{
+      display:block;
+      margin-bottom:.25rem;
+    }
+
+    .payments{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:1rem;
+    }
+
+    .pay-box{
+      padding:1rem;
+      border-radius:20px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .pay-box h4{
+      margin:0 0 .35rem;
+      font-family:'Orbitron', sans-serif;
+      text-transform:uppercase;
+      font-size:1rem;
+    }
+
+    .download-box{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:1rem;
+    }
+
+    .app-shot{
+      min-height:300px;
+      border-radius:24px;
+      background:
+        radial-gradient(circle at 22% 28%, rgba(119,235,255,.17), transparent 17%),
+        radial-gradient(circle at 76% 72%, rgba(47,125,255,.16), transparent 18%),
+        linear-gradient(180deg, #0a1732, #081121);
+      border:1px solid rgba(255,255,255,.08);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .phone{
+      position:absolute;
+      width:220px;
+      height:430px;
+      border-radius:34px;
+      background:linear-gradient(180deg, #081120, #0f2244);
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:0 25px 60px rgba(0,0,0,.46);
+      left:50%;
+      top:55%;
+      transform:translate(-50%,-50%) rotate(-9deg);
+    }
+
+    .phone::before{
+      content:"";
+      position:absolute;
+      inset:12px;
+      border-radius:26px;
+      background:
+        radial-gradient(circle at 50% 16%, rgba(0,200,255,.24), transparent 18%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .phone::after{
+      content:"APP";
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      font-family:'Orbitron', sans-serif;
+      font-size:2rem;
+      letter-spacing:.2em;
+      color:rgba(239,246,255,.9);
+    }
+
+    .profile-box{
+      padding:1.2rem;
+    }
+
+    .profile-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      flex-wrap:wrap;
+      margin-bottom:1rem;
+    }
+
+    .avatar{
+      width:70px;height:70px;border-radius:22px;
+      display:grid;place-items:center;
+      font-family:'Orbitron', sans-serif;
+      font-weight:900;
+      background:linear-gradient(135deg, var(--blue-2), var(--blue));
+      color:#021120;
+      box-shadow:0 16px 34px rgba(47,125,255,.3);
+    }
+
+    .profile-id{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+    }
+
+    .footer-note{
+      margin-top:1rem;
+      color:var(--muted);
+      font-size:.84rem;
+    }
+
+    @media (max-width:1200px){
+      .hero,.auth-layout,.download-box{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width:980px){
+      .app-shell{grid-template-columns:1fr}
+      .sidebar{
+        position:fixed;
+        left:0;
+        top:0;
+        bottom:0;
+        width:290px;
+        z-index:50;
+        transform:translateX(-102%);
+        transition:.28s ease;
+      }
+      .sidebar.open{transform:translateX(0)}
+      .mobile-menu{display:inline-grid;place-items:center}
+      .grid-2,.field-grid,.payments,.stat-row,.grid-3{grid-template-columns:1fr}
+    }
+
+    @media (max-width:640px){
+      .content,.topbar{padding:.8rem}
+      .hero-main,.mini-panel,.auth-card,.auth-showcase,.profile-box{padding:1rem}
+      .list-item{grid-template-columns:auto 1fr}
+      .coin{grid-column:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">FF</div>
+        <div class="brand-text">
+          <h1>Free Fire App</h1>
+          <span>Blue Black Arena</span>
+        </div>
+      </div>
+
+      <div class="menu">
+        <button class="nav-btn active" data-screen="authScreen"><span>Login / Register</span><small>Start</small></button>
+        <button class="nav-btn" data-screen="dashboardScreen"><span>Dashboard</span><small>Home</small></button>
+        <button class="nav-btn" data-screen="profileScreen"><span>My Profile</span><small>Edit</small></button>
+        <button class="nav-btn" data-screen="matchesScreen"><span>Matches</span><small>Play</small></button>
+        <button class="nav-btn" data-screen="leaderboardScreen"><span>Leaderboard</span><small>Top Teams</small></button>
+        <button class="nav-btn" data-screen="adminsScreen"><span>Admins Panel</span><small>Manage</small></button>
+        <button class="nav-btn" data-screen="paymentsScreen"><span>Payments</span><small>Easypaisa</small></button>
+        <button class="nav-btn" data-screen="groupsScreen"><span>Announcements</span><small>Admin Only</small></button>
+        <button class="nav-btn" data-screen="downloadScreen"><span>Download App</span><small>APK</small></button>
+      </div>
+
+      <div class="side-card">
+        <h3>Admin Login Data</h3>
+        <p><strong>Admin 1:</strong><br>Email: bajranbajrang521@gmail.com</p>
+        <p>Password: 23452345abdullah</p>
+        <p><strong>Admin 2:</strong><br>Email: bajranbajrabg523@gmail.com</p>
+        <p>Password: 23452345control</p>
+      </div>
+
+      <div class="side-card">
+        <h3>Payment Numbers</h3>
+        <p>Two payment number fields added in app. You can write Easypaisa and JazzCash numbers later from profile/admin settings.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu" id="menuToggle" aria-label="Open menu">☰</button>
+          <div class="page-title">
+            <h2 id="pageHeading">Login / Register</h2>
+            <span id="topSubline">Free Fire tournament app concept</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div class="badge"><span class="dot"></span> <span id="loginStatus">Guest Mode</span></div>
+          <div class="badge">Coins: <strong id="coinCount">1500</strong></div>
+          <button class="btn btn-primary" id="quickJoinBtn">Quick Join Match</button>
+          <button class="btn btn-danger hidden" id="logoutBtn">Logout</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="screen active" id="authScreen">
+          <div class="auth-layout">
+            <div class="panel auth-showcase">
+              <div>
+                <div class="eyebrow">Esports Mobile Platform</div>
+                <h3>Admin login and editable player profile</h3>
+                <p class="muted">
+                  This version adds admin login using your given email and password, plus an editable player/admin profile.
+                  After login, you can change name, username, Free Fire ID name, UID, phone number, and two payment numbers.
+                </p>
+
+                <div class="feature-points">
+                  <div class="point"><i>✓</i><div>Admin login works with your 2 fixed credentials in frontend demo.</div></div>
+                  <div class="point"><i>✓</i><div>Profile edit page allows changing all important account details.</div></div>
+                  <div class="point"><i>✓</i><div>Two payment number options included so you can add numbers later.</div></div>
+                </div>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat">
+                  <strong>02</strong>
+                  <span>Admins</span>
+                </div>
+                <div class="stat">
+                  <strong>1500</strong>
+                  <span>Coins</span>
+                </div>
+                <div class="stat">
+                  <strong>12</strong>
+                  <span>Matches</span>
+                </div>
+                <div class="stat">
+                  <strong>24/7</strong>
+                  <span>Control</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel auth-card">
+              <div class="tab-switch">
+                <button class="auth-tab active" data-auth="loginFormWrap">Login</button>
+                <button class="auth-tab" data-auth="registerFormWrap">Register</button>
+                <button class="auth-tab" data-auth="forgotFormWrap">Forgot Password</button>
+              </div>
+
+              <div id="loginFormWrap">
+                <div class="auth-head">
+                  <h4>Login Account</h4>
+                  <p>Use admin email and password, or create a player account.</p>
+                </div>
+                <form class="form-wrap" id="loginForm">
+                  <div>
+                    <label for="loginEmail">Email</label>
+                    <input id="loginEmail" type="email" placeholder="Enter email" required>
+                  </div>
+                  <div>
+                    <label for="loginPassword">Password</label>
+                    <input id="loginPassword" type="password" placeholder="Enter password" required>
+                  </div>
+                  <div class="link-row">
+                    <span class="text-link goto-forgot">Forgot password?</span>
+                    <span class="muted">Admin or player login</span>
+                  </div>
+                  <button class="btn btn-primary" type="submit">Login Now</button>
+                  <div class="success-msg" id="loginMsg"></div>
+                </form>
+              </div>
+
+              <div id="registerFormWrap" class="hidden">
+                <div class="auth-head">
+                  <h4>Player Registration</h4>
+                  <p>Register new player with editable profile data.</p>
+                </div>
+                <form class="form-wrap" id="registerForm">
+                  <div class="field-grid">
+                    <div>
+                      <label for="playerName">Name</label>
+                      <input id="playerName" type="text" placeholder="Enter full name" required>
+                    </div>
+                    <div>
+                      <label for="username">Username</label>
+                      <input id="username" type="text" placeholder="Enter username" required>
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div>
+                      <label for="ffid">Free Fire ID Name</label>
+                      <input id="ffid" type="text" placeholder="Enter FF name" required>
+                    </div>
+                    <div>
+                      <label for="uid">UID</label>
+                      <input id="uid" type="text" placeholder="Enter UID" required>
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div>
+                      <label for="phone">Phone Number</label>
+                      <input id="phone" type="tel" placeholder="03xx xxxxxxx" required>
+                    </div>
+                    <div>
+                      <label for="email">Email</label>
+                      <input id="email" type="email" placeholder="Enter email" required>
+                    </div>
+                  </div>
+
+                  <div class="field-grid">
+                    <div>
+                      <label for="regPassword">Password</label>
+                      <input id="regPassword" type="password" placeholder="Create password" required>
+                    </div>
+                    <div>
+                      <label for="confirmPassword">Confirm Password</label>
+                      <input id="confirmPassword" type="password" placeholder="Confirm password" required>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary" type="submit">Create Account</button>
+                  <div class="success-msg" id="registerMsg">Registration complete. You can now login.</div>
+                </form>
+              </div>
+
+              <div id="forgotFormWrap" class="hidden">
+                <div class="auth-head">
+                  <h4>Forgot Password</h4>
+                  <p>This demo shows reset request only. For real app, connect with email or OTP backend.</p>
+                </div>
+                <form class="form-wrap" id="forgotForm">
+                  <div>
+                    <label for="resetMethod">Reset Method</label>
+                    <select id="resetMethod" required>
+                      <option value="">Select method</option>
+                      <option>Email Reset Link</option>
+                      <option>Phone OTP</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="resetValue">Email or Phone</label>
+                    <input id="resetValue" type="text" placeholder="Enter email or phone" required>
+                  </div>
+                  <button class="btn btn-primary" type="submit">Send Reset</button>
+                  <div class="success-msg" id="forgotMsg">Reset request sent successfully.</div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="dashboardScreen">
+          <div class="hero">
+            <div class="panel hero-main">
+              <div class="eyebrow">Tournament Dashboard</div>
+              <h3>Control play, coins and profiles</h3>
+              <p class="muted">
+                Login with admin credentials or player account. Update your profile, manage matches, use coins to join,
+                submit Easypaisa and JazzCash payments, and view leaderboard and announcements.
+              </p>
+
+              <div class="hero-actions">
+                <button class="btn btn-primary" data-target="profileScreen">Edit Profile</button>
+                <button class="btn btn-soft" data-target="matchesScreen">Open Matches</button>
+                <button class="btn btn-soft" data-target="paymentsScreen">Payment Methods</button>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat">
+                  <strong id="dashName">Guest</strong>
+                  <span>User</span>
+                </div>
+                <div class="stat">
+                  <strong id="dashRole">Visitor</strong>
+                  <span>Role</span>
+                </div>
+                <div class="stat">
+                  <strong id="dashUid">-</strong>
+                  <span>UID</span>
+                </div>
+                <div class="stat">
+                  <strong id="dashFF">-</strong>
+                  <span>FF ID</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-side">
+              <div class="panel mini-panel">
+                <h3 class="section-title">Admin 1</h3>
+                <p class="muted"><strong>Abdullah</strong> controls all activities, registration verification, coins, results and announcements.</p>
+              </div>
+              <div class="panel mini-panel">
+                <h3 class="section-title">Admin 2</h3>
+                <p class="muted"><strong>Control Center</strong> controls matches, room setup, timing, pattern and bracket flow.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="panel mini-panel">
+              <h3 class="section-title">Profile Editing</h3>
+              <p class="muted">Name, username, Free Fire ID, UID, phone and payment numbers can be changed in My Profile.</p>
+            </div>
+            <div class="panel mini-panel">
+              <h3 class="section-title">Coins System</h3>
+              <p class="muted">Players join matches using coins. If coins are low, use payment page to recharge request.</p>
+            </div>
+            <div class="panel mini-panel">
+              <h3 class="section-title">Announcements</h3>
+              <p class="muted">Only admins can post announcements. Players can read official updates and room info.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="profileScreen">
+          <div class="grid-2">
+            <div class="panel profile-box">
+              <div class="profile-head">
+                <div class="profile-id">
+                  <div class="avatar" id="avatarBox">G</div>
+                  <div>
+                    <h3 class="section-title" style="margin:0 0 .25rem;">My Profile</h3>
+                    <div class="muted" id="profileRoleText">Guest account</div>
+                  </div>
+                </div>
+                <button class="btn btn-primary" id="fillAdmin1">Load Admin 1</button>
+              </div>
+
+              <form class="form-wrap" id="profileForm">
+                <div class="field-grid">
+                  <div>
+                    <label for="profileName">Name</label>
+                    <input id="profileName" type="text" placeholder="Enter name">
+                  </div>
+                  <div>
+                    <label for="profileUsername">Username</label>
+                    <input id="profileUsername" type="text" placeholder="Enter username">
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div>
+                    <label for="profileFF">Free Fire ID Name</label>
+                    <input id="profileFF" type="text" placeholder="Enter Free Fire ID name">
+                  </div>
+                  <div>
+                    <label for="profileUID">UID</label>
+                    <input id="profileUID" type="text" placeholder="Enter UID">
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div>
+                    <label for="profilePhone">Phone Number</label>
+                    <input id="profilePhone" type="tel" placeholder="Enter phone number">
+                  </div>
+                  <div>
+                    <label for="profileEmail">Email</label>
+                    <input id="profileEmail" type="email" placeholder="Enter email">
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div>
+                    <label for="paymentNumber1">Payment Number 1</label>
+                    <input id="paymentNumber1" type="text" placeholder="Write later for Easypaisa">
+                  </div>
+                  <div>
+                    <label for="paymentNumber2">Payment Number 2</label>
+                    <input id="paymentNumber2" type="text" placeholder="Write later for JazzCash">
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Save Profile</button>
+                <div class="success-msg" id="profileMsg">Profile updated successfully.</div>
+              </form>
+            </div>
+
+            <div class="panel profile-box">
+              <h3 class="section-title">Current Account Data</h3>
+              <table class="table">
+                <tbody>
+                  <tr><th>Name</th><td id="viewName">-</td></tr>
+                  <tr><th>Username</th><td id="viewUsername">-</td></tr>
+                  <tr><th>Free Fire ID</th><td id="viewFF">-</td></tr>
+                  <tr><th>UID</th><td id="viewUID">-</td></tr>
+                  <tr><th>Phone</th><td id="viewPhone">-</td></tr>
+                  <tr><th>Email</th><td id="viewEmail">-</td></tr>
+                  <tr><th>Payment Number 1</th><td id="viewPay1">-</td></tr>
+                  <tr><th>Payment Number 2</th><td id="viewPay2">-</td></tr>
+                  <tr><th>Role</th><td id="viewRole">Guest</td></tr>
+                </tbody>
+              </table>
+              <div class="footer-note">This data is stored in browser localStorage in this demo. For real app, connect backend/database.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="matchesScreen">
+          <div class="grid-2">
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Upcoming Matches</h3>
+              <div class="list">
+                <div class="list-item">
+                  <div class="rank">M1</div>
+                  <div>
+                    <div class="name">Squad Clash Evening</div>
+                    <span class="sub">7:00 PM • Bermuda • Entry 200 Coins</span>
+                  </div>
+                  <button class="btn btn-primary join-match" data-cost="200">Join</button>
+                </div>
+                <div class="list-item">
+                  <div class="rank">M2</div>
+                  <div>
+                    <div class="name">Rush Hour Knockout</div>
+                    <span class="sub">8:30 PM • Purgatory • Entry 250 Coins</span>
+                  </div>
+                  <button class="btn btn-primary join-match" data-cost="250">Join</button>
+                </div>
+                <div class="list-item">
+                  <div class="rank">M3</div>
+                  <div>
+                    <div class="name">Weekend Final Battle</div>
+                    <span class="sub">10:00 PM • Kalahari • Entry 300 Coins</span>
+                  </div>
+                  <button class="btn btn-primary join-match" data-cost="300">Join</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Create Match Pattern</h3>
+              <form class="form-wrap" id="matchForm">
+                <div class="field-grid">
+                  <div>
+                    <label for="matchName">Match Name</label>
+                    <input id="matchName" type="text" placeholder="Enter match title" required>
+                  </div>
+                  <div>
+                    <label for="entryCoins">Entry Coins</label>
+                    <input id="entryCoins" type="number" placeholder="200" required>
+                  </div>
+                </div>
+                <div class="field-grid">
+                  <div>
+                    <label for="map">Map</label>
+                    <select id="map" required>
+                      <option value="">Select map</option>
+                      <option>Bermuda</option>
+                      <option>Purgatory</option>
+                      <option>Kalahari</option>
+                      <option>Alpine</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="time">Time</label>
+                    <input id="time" type="text" placeholder="9:00 PM" required>
+                  </div>
+                </div>
+                <div>
+                  <label for="pattern">Pattern / Rules</label>
+                  <textarea id="pattern" placeholder="Describe match pattern..." required></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Create Match</button>
+                <div class="success-msg" id="matchMsg">Match pattern created.</div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="leaderboardScreen">
+          <div class="grid-2">
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Top Players / Teams</h3>
+              <div class="list">
+                <div class="list-item">
+                  <div class="rank">1</div>
+                  <div><div class="name">Shadow Hunters</div><span class="sub">UID: 77892113 • 1240 points</span></div>
+                  <div class="coin">🏆 #1</div>
+                </div>
+                <div class="list-item">
+                  <div class="rank">2</div>
+                  <div><div class="name">Blue Cobra</div><span class="sub">UID: 66190244 • 1150 points</span></div>
+                  <div class="coin">🔥 #2</div>
+                </div>
+                <div class="list-item">
+                  <div class="rank">3</div>
+                  <div><div class="name">Last Zone King</div><span class="sub">UID: 50911488 • 1088 points</span></div>
+                  <div class="coin">⚡ #3</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Scoring Format</h3>
+              <table class="table">
+                <thead>
+                  <tr><th>Metric</th><th>Points</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Booyah</td><td>20</td></tr>
+                  <tr><td>2nd - 5th Placement</td><td>15 - 8</td></tr>
+                  <tr><td>Each Kill</td><td>2</td></tr>
+                  <tr><td>MVP Bonus</td><td>5</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="adminsScreen">
+          <div class="grid-2">
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Admins Data</h3>
+              <div class="list">
+                <div class="list-item">
+                  <div class="rank">A1</div>
+                  <div>
+                    <div class="name">Abdullah</div>
+                    <span class="sub">Email: bajranbajrang521@gmail.com</span>
+                    <span class="sub">Password: 23452345abdullah</span>
+                  </div>
+                  <div class="coin">Super Admin</div>
+                </div>
+                <div class="list-item">
+                  <div class="rank">A2</div>
+                  <div>
+                    <div class="name">Control Center</div>
+                    <span class="sub">Email: bajranbajrabg523@gmail.com</span>
+                    <span class="sub">Password: 23452345control</span>
+                  </div>
+                  <div class="coin">Match Admin</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Admin Controls</h3>
+              <table class="table">
+                <thead>
+                  <tr><th>Task</th><th>Handled By</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>User registration approval</td><td>Abdullah</td></tr>
+                  <tr><td>Coins add/remove</td><td>Abdullah</td></tr>
+                  <tr><td>Create match rooms</td><td>Control Center</td></tr>
+                  <tr><td>Pattern & timing setup</td><td>Control Center</td></tr>
+                  <tr><td>Leaderboard publish</td><td>Abdullah</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="paymentsScreen">
+          <div class="grid-2">
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Payment Methods</h3>
+              <div class="payments">
+                <div class="pay-box">
+                  <h4>Easypaisa</h4>
+                  <p class="muted">Number field available in profile. You can write it later.</p>
+                  <p><strong id="easypaisaDisplay">Not added yet</strong></p>
+                </div>
+                <div class="pay-box">
+                  <h4>JazzCash</h4>
+                  <p class="muted">Second number field available in profile. You can write it later.</p>
+                  <p><strong id="jazzcashDisplay">Not added yet</strong></p>
+                </div>
+              </div>
+
+              <form class="form-wrap" id="paymentForm" style="margin-top:1rem;">
+                <div class="field-grid">
+                  <div>
+                    <label for="method">Payment Method</label>
+                    <select id="method" required>
+                      <option value="">Choose method</option>
+                      <option>Easypaisa</option>
+                      <option>JazzCash</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="amount">Amount</label>
+                    <input id="amount" type="number" placeholder="500" required>
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div>
+                    <label for="txn">Transaction ID / Reference</label>
+                    <input id="txn" type="text" placeholder="Enter reference" required>
+                  </div>
+                  <div>
+                    <label for="coinPackage">Coin Package</label>
+                    <select id="coinPackage" required>
+                      <option value="">Select package</option>
+                      <option>500 Coins</option>
+                      <option>1000 Coins</option>
+                      <option>2000 Coins</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Submit Payment Proof</button>
+                <div class="success-msg" id="paymentMsg">Payment proof submitted.</div>
+              </form>
+            </div>
+
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Recharge Flow</h3>
+              <div class="list">
+                <div class="list-item">
+                  <div class="rank">1</div>
+                  <div><div class="name">Send payment</div><span class="sub">Easypaisa or JazzCash</span></div>
+                </div>
+                <div class="list-item">
+                  <div class="rank">2</div>
+                  <div><div class="name">Submit proof</div><span class="sub">Reference number in app</span></div>
+                </div>
+                <div class="list-item">
+                  <div class="rank">3</div>
+                  <div><div class="name">Admin approval</div><span class="sub">Coins added after verification</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="groupsScreen">
+          <div class="grid-2">
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Official Announcements</h3>
+              <p class="muted">Only admins can write messages here.</p>
+              <div class="list" id="announcementList" style="margin-top:1rem;">
+                <div class="announcement">
+                  <strong>Abdullah</strong>
+                  <span class="sub">All players must complete check-in before 6:45 PM.</span>
+                </div>
+                <div class="announcement">
+                  <strong>Control Center</strong>
+                  <span class="sub">Room ID and password will be shared before match start.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel" style="padding:1.2rem;">
+              <h3 class="section-title">Post Announcement</h3>
+              <form class="form-wrap" id="announceForm">
+                <div class="field-grid">
+                  <div>
+                    <label for="adminName">Admin Name</label>
+                    <select id="adminName" required>
+                      <option value="">Select admin</option>
+                      <option>Abdullah</option>
+                      <option>Control Center</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="audience">Audience</label>
+                    <select id="audience" required>
+                      <option value="">Select audience</option>
+                      <option>All Players</option>
+                      <option>Qualified Teams</option>
+                      <option>Payment Pending Users</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label for="announcementText">Message</label>
+                  <textarea id="announcementText" placeholder="Write announcement..." required></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Post Announcement</button>
+                <div class="success-msg" id="announceMsg">Announcement posted.</div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen" id="downloadScreen">
+          <div class="panel" style="padding:1.2rem;">
+            <div class="download-box">
+              <div>
+                <div class="eyebrow">Download Zone</div>
+                <h3 class="section-title" style="font-size:1.35rem;">Download app apk</h3>
+                <p class="muted">
+                  Connect this section with your APK file link later. This is styled like a clean app-download area.
+                </p>
+
+                <div class="list" style="margin-top:1rem;">
+                  <div class="list-item">
+                    <div class="rank">V1</div>
+                    <div>
+                      <div class="name">Android APK</div>
+                      <span class="sub">Latest version for players</span>
+                    </div>
+                    <button class="btn btn-primary" id="downloadBtn">Download</button>
+                  </div>
+                  <div class="list-item">
+                    <div class="rank">G</div>
+                    <div>
+                      <div class="name">Installation Guide</div>
+                      <span class="sub">Unknown sources may need to be enabled</span>
+                    </div>
+                    <button class="btn btn-soft" id="guideBtn">View Guide</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="app-shot">
+                <div class="phone"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ADMINS = [
+      {
+        name: "Abdullah",
+        username: "abdullah_admin",
+        email: "bajranbajrang521@gmail.com",
+        password: "23452345abdullah",
+        role: "Super Admin",
+        ffid: "ABDULLAH_FF",
+        uid: "10000001",
+        phone: "",
+        pay1: "",
+        pay2: ""
+      },
+      {
+        name: "Control Center",
+        username: "control_center",
+        email: "bajranbajrabg523@gmail.com",
+        password: "23452345control",
+        role: "Match Admin",
+        ffid: "CONTROL_FF",
+        uid: "10000002",
+        phone: "",
+        pay1: "",
+        pay2: ""
+      }
+    ];
+
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const screens = document.querySelectorAll('.screen');
+    const pageHeading = document.getElementById('pageHeading');
+    const coinCount = document.getElementById('coinCount');
+    const loginStatus = document.getElementById('loginStatus');
+    const topSubline = document.getElementById('topSubline');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    let coins = Number(localStorage.getItem('ff_coins')) || 1500;
+    let currentUser = JSON.parse(localStorage.getItem('ff_current_user')) || {
+      name: "Guest",
+      username: "",
+      email: "",
+      role: "Guest",
+      ffid: "",
+      uid: "",
+      phone: "",
+      pay1: "",
+      pay2: ""
+    };
+
+    function saveCoins(){
+      localStorage.setItem('ff_coins', coins);
+      coinCount.textContent = coins;
+    }
+
+    function saveCurrentUser(){
+      localStorage.setItem('ff_current_user', JSON.stringify(currentUser));
+    }
+
+    function activateScreen(screenId, label){
+      screens.forEach(screen => screen.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.screen === screenId));
+      pageHeading.textContent = label;
+      sidebar.classList.remove('open');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activateScreen(btn.dataset.screen, btn.textContent.trim());
+      });
+    });
+
+    document.querySelectorAll('[data-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        const nav = [...navButtons].find(n => n.dataset.screen === target);
+        activateScreen(target, nav ? nav.textContent.trim() : 'Section');
+      });
+    });
+
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const authViews = ['loginFormWrap','registerFormWrap','forgotFormWrap'];
+
+    authTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        authTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        authViews.forEach(id => document.getElementById(id).classList.add('hidden'));
+        document.getElementById(tab.dataset.auth).classList.remove('hidden');
+      });
+    });
+
+    document.querySelectorAll('.goto-forgot').forEach(link => {
+      link.addEventListener('click', () => {
+        authTabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('[data-auth="forgotFormWrap"]').classList.add('active');
+        authViews.forEach(id => document.getElementById(id).classList.add('hidden'));
+        document.getElementById('forgotFormWrap').classList.remove('hidden');
+      });
+    });
+
+    function refreshProfileUI(){
+      coinCount.textContent = coins;
+      loginStatus.textContent = currentUser.role === 'Guest' ? 'Guest Mode' : `${currentUser.name} Logged In`;
+      topSubline.textContent = currentUser.role === 'Guest' ? 'Free Fire tournament app concept' : `${currentUser.role} access enabled`;
+      logoutBtn.classList.toggle('hidden', currentUser.role === 'Guest');
+
+      document.getElementById('dashName').textContent = currentUser.name || '-';
+      document.getElementById('dashRole').textContent = currentUser.role || '-';
+      document.getElementById('dashUid').textContent = currentUser.uid || '-';
+      document.getElementById('dashFF').textContent = currentUser.ffid || '-';
+
+      document.getElementById('profileName').value = currentUser.name || '';
+      document.getElementById('profileUsername').value = currentUser.username || '';
+      document.getElementById('profileFF').value = currentUser.ffid || '';
+      document.getElementById('profileUID').value = currentUser.uid || '';
+      document.getElementById('profilePhone').value = currentUser.phone || '';
+      document.getElementById('profileEmail').value = currentUser.email || '';
+      document.getElementById('paymentNumber1').value = currentUser.pay1 || '';
+      document.getElementById('paymentNumber2').value = currentUser.pay2 || '';
+
+      document.getElementById('viewName').textContent = currentUser.name || '-';
+      document.getElementById('viewUsername').textContent = currentUser.username || '-';
+      document.getElementById('viewFF').textContent = currentUser.ffid || '-';
+      document.getElementById('viewUID').textContent = currentUser.uid || '-';
+      document.getElementById('viewPhone').textContent = currentUser.phone || '-';
+      document.getElementById('viewEmail').textContent = currentUser.email || '-';
+      document.getElementById('viewPay1').textContent = currentUser.pay1 || 'Not added yet';
+      document.getElementById('viewPay2').textContent = currentUser.pay2 || 'Not added yet';
+      document.getElementById('viewRole').textContent = currentUser.role || '-';
+      document.getElementById('profileRoleText').textContent = currentUser.role || 'Guest';
+      document.getElementById('avatarBox').textContent = (currentUser.name || 'G').charAt(0).toUpperCase();
+
+      document.getElementById('easypaisaDisplay').textContent = currentUser.pay1 || 'Not added yet';
+      document.getElementById('jazzcashDisplay').textContent = currentUser.pay2 || 'Not added yet';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      const loginMsg = document.getElementById('loginMsg');
+
+      const adminFound = ADMINS.find(admin => admin.email === email && admin.password === password);
+
+      if(adminFound){
+        currentUser = {...adminFound};
+        saveCurrentUser();
+        refreshProfileUI();
+        loginMsg.style.display = 'block';
+        loginMsg.textContent = `${adminFound.name} login successful.`;
+        e.target.reset();
+        setTimeout(() => {
+          loginMsg.style.display = 'none';
+          activateScreen('dashboardScreen', 'Dashboard');
+        }, 700);
+        return;
+      }
+
+      const storedPlayer = JSON.parse(localStorage.getItem('ff_registered_player') || 'null');
+      if(storedPlayer && storedPlayer.email === email && storedPlayer.password === password){
+        currentUser = {
+          name: storedPlayer.name,
+          username: storedPlayer.username,
+          email: storedPlayer.email,
+          role: 'Player',
+          ffid: storedPlayer.ffid,
+          uid: storedPlayer.uid,
+          phone: storedPlayer.phone,
+          pay1: storedPlayer.pay1 || '',
+          pay2: storedPlayer.pay2 || ''
+        };
+        saveCurrentUser();
+        refreshProfileUI();
+        loginMsg.style.display = 'block';
+        loginMsg.textContent = 'Player login successful.';
+        e.target.reset();
+        setTimeout(() => {
+          loginMsg.style.display = 'none';
+          activateScreen('dashboardScreen', 'Dashboard');
+        }, 700);
+      } else {
+        loginMsg.style.display = 'block';
+        loginMsg.textContent = 'Wrong email or password.';
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pwd = document.getElementById('regPassword').value;
+      const cpwd = document.getElementById('confirmPassword').value;
+      if(pwd !== cpwd){
+        alert('Passwords do not match.');
+        return;
+      }
+
+      const player = {
+        name: document.getElementById('playerName').value.trim(),
+        username: document.getElementById('username').value.trim(),
+        ffid: document.getElementById('ffid').value.trim(),
+        uid: document.getElementById('uid').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: pwd,
+        pay1: '',
+        pay2: ''
+      };
+
+      localStorage.setItem('ff_registered_player', JSON.stringify(player));
+      document.getElementById('registerMsg').style.display = 'block';
+      e.target.reset();
+    });
+
+    document.getElementById('forgotForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('forgotMsg').style.display = 'block';
+      e.target.reset();
+    });
+
+    document.getElementById('profileForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      currentUser.name = document.getElementById('profileName').value.trim();
+      currentUser.username = document.getElementById('profileUsername').value.trim();
+      currentUser.ffid = document.getElementById('profileFF').value.trim();
+      currentUser.uid = document.getElementById('profileUID').value.trim();
+      currentUser.phone = document.getElementById('profilePhone').value.trim();
+      currentUser.email = document.getElementById('profileEmail').value.trim();
+      currentUser.pay1 = document.getElementById('paymentNumber1').value.trim();
+      currentUser.pay2 = document.getElementById('paymentNumber2').value.trim();
+
+      saveCurrentUser();
+
+      if(currentUser.role === 'Player'){
+        const storedPlayer = JSON.parse(localStorage.getItem('ff_registered_player') || 'null');
+        if(storedPlayer){
+          storedPlayer.name = currentUser.name;
+          storedPlayer.username = currentUser.username;
+          storedPlayer.ffid = currentUser.ffid;
+          storedPlayer.uid = currentUser.uid;
+          storedPlayer.phone = currentUser.phone;
+          storedPlayer.email = currentUser.email;
+          storedPlayer.pay1 = currentUser.pay1;
+          storedPlayer.pay2 = currentUser.pay2;
+          localStorage.setItem('ff_registered_player', JSON.stringify(storedPlayer));
+        }
+      }
+
+      refreshProfileUI();
+      document.getElementById('profileMsg').style.display = 'block';
+    });
+
+    document.querySelectorAll('.join-match').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(currentUser.role === 'Guest'){
+          alert('Please login first.');
+          activateScreen('authScreen', 'Login / Register');
+          return;
+        }
+        const cost = parseInt(btn.dataset.cost, 10);
+        if(coins >= cost){
+          coins -= cost;
+          saveCoins();
+          alert(`Match joined successfully. ${cost} coins deducted.`);
+        }else{
+          alert('Not enough coins. Please recharge using payment methods.');
+          activateScreen('paymentsScreen', 'Payments');
+        }
+      });
+    });
+
+    document.getElementById('quickJoinBtn').addEventListener('click', () => {
+      activateScreen('matchesScreen', 'Matches');
+    });
+
+    document.getElementById('matchForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if(currentUser.role !== 'Super Admin' && currentUser.role !== 'Match Admin'){
+        alert('Only admins can create matches.');
+        return;
+      }
+      document.getElementById('matchMsg').style.display = 'block';
+      e.target.reset();
+    });
+
+    document.getElementById('paymentForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('paymentMsg').style.display = 'block';
+      e.target.reset();
+    });
+
+    document.getElementById('announceForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if(currentUser.role !== 'Super Admin' && currentUser.role !== 'Match Admin'){
+        alert('Only admins can post announcements.');
+        return;
+      }
+
+      const adminName = document.getElementById('adminName').value;
+      const message = document.getElementById('announcementText').value.trim();
+      const list = document.getElementById('announcementList');
+      const box = document.createElement('div');
+      box.className = 'announcement';
+      box.innerHTML = `<strong>${adminName}</strong><span class="sub">${message}</span>`;
+      list.prepend(box);
+      document.getElementById('announceMsg').style.display = 'block';
+      e.target.reset();
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      alert('Connect this button with your APK file link later.');
+    });
+
+    document.getElementById('guideBtn').addEventListener('click', () => {
+      alert('Install Guide:\\n1. Download APK\\n2. Allow unknown sources if needed\\n3. Install app\\n4. Login and play');
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      currentUser = {
+        name: "Guest",
+        username: "",
+        email: "",
+        role: "Guest",
+        ffid: "",
+        uid: "",
+        phone: "",
+        pay1: "",
+        pay2: ""
+      };
+      saveCurrentUser();
+      refreshProfileUI();
+      activateScreen('authScreen', 'Login / Register');
+    });
+
+    document.getElementById('fillAdmin1').addEventListener('click', () => {
+      currentUser = {...ADMINS[0]};
+      saveCurrentUser();
+      refreshProfileUI();
+      alert('Admin 1 data loaded into profile.');
+    });
+
+    refreshProfileUI();
+    saveCoins();
+  </script>
+</body>
+</html>
