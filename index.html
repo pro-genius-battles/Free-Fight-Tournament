@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -516,69 +516,4 @@ th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}
 
     list.push({
       name,
-      email,
-      password,
-      role:"player",
-      gameId:"",
-      phone:"",
-      wins:0
-    });
-
-    save("pgb_users", list);
-    $("registerForm").reset();
-    showAuth("login");
-    showMessage("loginMsg", "Account created on this device. Please login.");
-  });
-
-  $("loginForm").addEventListener("submit", event => {
-    event.preventDefault();
-
-    const email = $("loginEmail").value.trim().toLowerCase();
-    const password = $("loginPassword").value;
-
-    const user = users().find(item =>
-      item.email === email && item.password === password
-    );
-
-    if (!user) {
-      showMessage("loginMsg", "Incorrect login, or account not registered on this device.", true);
-      return;
-    }
-
-    setSession(user);
-  });
-
-  $("logoutBtn").onclick = () => {
-    localStorage.removeItem("pgb_session");
-    current = null;
-    showAuth("login");
-  };
-
-  $("nav").addEventListener("click", event => {
-    const button = event.target.closest("button[data-page]");
-    if (button) go(button.dataset.page);
-  });
-
-  document.addEventListener("click", event => {
-    const button = event.target.closest("[data-goto]");
-    if (button) go(button.dataset.goto);
-  });
-
-  $("profileForm").addEventListener("submit", event => {
-    event.preventDefault();
-
-    current.name = $("profileName").value.trim();
-    current.gameId = $("profileGameId").value.trim();
-    current.phone = $("profilePhone").value.trim();
-
-    const list = users();
-    const index = list.findIndex(user => user.email === current.email);
-
-    if (index >= 0) list[index] = current;
-
-    save("pgb_users", list);
-    showMessage("profileMsg", "Profile saved on this device.");
-    renderAll();
-  });
-
-  const session = read("
+      
