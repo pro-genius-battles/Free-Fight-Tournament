@@ -1,519 +1,384 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050914">
 <title>PRO GENIUS BATTLE</title>
+
 <style>
-:root {
-  --bg:#050914;
-  --panel:#0b1428;
-  --cyan:#00e5ff;
-  --blue:#377dff;
-  --gold:#ffd166;
-  --text:#eef7ff;
-  --muted:#9bb0cc;
-  --line:#233a5b;
-}
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:radial-gradient(ellipse at top,#102b52,transparent 45%),var(--bg);
-  color:var(--text);
-  font:15px/1.5 Arial,sans-serif;
-  min-height:100vh;
+ margin:0;padding:20px;
+ background:radial-gradient(circle at top,#12315b,#050914 65%);
+ color:#eef7ff;font-family:Arial,sans-serif;min-height:100vh
 }
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
 .hidden{display:none!important}
-.wrap{max-width:1150px;margin:auto;padding:18px}
-.brand{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:900}
+header{display:flex;align-items:center;gap:12px;margin-bottom:35px}
 .logo{
-  display:grid;place-items:center;width:48px;height:48px;
-  border-radius:14px;color:#001018;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
+ background:linear-gradient(135deg,#00e5ff,#377dff);
+ color:#001018;padding:13px;border-radius:14px;font-size:24px;font-weight:900
 }
-.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:2px}
-h1{font-size:clamp(30px,6vw,52px);line-height:1.1}
-h2,h3{margin-top:0}
-.muted,.small{color:var(--muted)}
-.small{font-size:12px}
-.eyebrow{color:var(--cyan);font-size:11px;font-weight:bold;letter-spacing:3px}
+.brand{font-size:21px;font-weight:900}
+.brand small{display:block;font-size:10px;color:#9bb0cc;letter-spacing:2px}
+h1{font-size:35px;line-height:1.1}
+.cyan{color:#00e5ff}
 .panel{
-  background:linear-gradient(145deg,#101e37,#080f20);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:22px;
-  margin-bottom:16px;
+ max-width:520px;margin:20px auto;padding:22px;
+ border:1px solid #29415f;border-radius:20px;
+ background:linear-gradient(145deg,#101e37,#080f20);
+ box-shadow:0 15px 45px #0005
 }
-.auth-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.showcase{min-height:330px;display:flex;flex-direction:column;justify-content:center}
-.showcase h2{font-size:36px;line-height:1.1}
-.feature{padding:10px 0;border-bottom:1px solid var(--line)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:20px}
-.tabs button{
-  border:1px solid var(--line);border-radius:10px;padding:12px;
-  background:#060d1a;color:var(--muted);font-weight:bold
+.tabs{display:flex;gap:8px;margin-bottom:25px}
+button{
+ padding:13px;border:0;border-radius:10px;font-weight:bold;cursor:pointer
 }
-.tabs button.active{background:var(--cyan);color:#001018}
-.field{margin:14px 0}
-label{display:block;font-size:13px;margin-bottom:7px;font-weight:bold}
-input,select,textarea{
-  width:100%;padding:13px;border:1px solid #29415f;border-radius:10px;
-  background:#060d1a;color:var(--text)
+.tabs button{flex:1;background:#060d1a;color:#9bb0cc}
+.tabs button.active,.primary{
+ background:linear-gradient(110deg,#00e5ff,#377dff);color:#001018
 }
-.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:bold}
-.primary{background:linear-gradient(110deg,var(--cyan),var(--blue));color:#001018}
-.soft{background:#ffffff0b;border:1px solid var(--line);color:var(--text)}
-.full{width:100%}
-.notice{padding:12px;border:1px solid #ffd16655;border-radius:10px;color:#ffe7ad;font-size:12px;margin-top:15px}
-.message{margin:12px 0;color:var(--cyan)}
-.app{display:grid;grid-template-columns:220px 1fr;gap:18px;margin-top:20px}
-.nav{display:grid;gap:7px}
-.nav button{text-align:left;background:transparent;border:1px solid transparent;color:var(--text);padding:12px;border-radius:10px}
-.nav button.active,.nav button:hover{border-color:var(--cyan);background:#00dfff12}
-.top,.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.stats,.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
-.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-.stat,.match,.list-item{padding:15px;border:1px solid var(--line);border-radius:14px;background:#ffffff07}
-.stat strong{display:block;color:var(--cyan);font-size:25px}
-.stat span{color:var(--muted);font-size:12px}
-.match h3{margin:10px 0}
-.pill{display:inline-block;border:1px solid #00e5ff55;color:var(--cyan);padding:4px 9px;border-radius:20px;font-size:11px;font-weight:bold}
-.gold{color:var(--gold)}
-.list{display:grid;gap:10px}
-.list-item{margin-bottom:8px}
-table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}
-.table-wrap{overflow-x:auto}
-.footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
-@media(max-width:760px){
-  .auth-layout,.app{grid-template-columns:1fr}
-  .showcase{min-height:250px}
-  .cards{grid-template-columns:1fr}
-  .stats{grid-template-columns:1fr 1fr}
+label{display:block;margin:15px 0 7px;font-size:13px;font-weight:bold}
+input,textarea,select{
+ width:100%;padding:13px;border-radius:10px;
+ border:1px solid #29415f;background:#060d1a;color:white
 }
-@media(max-width:420px){
-  .wrap{padding:10px}
-  .panel{padding:16px}
-  .stats{grid-template-columns:1fr}
-  .nav{grid-template-columns:1fr 1fr}
-}
+.primary{width:100%;margin-top:15px}
+.soft{background:#152440;color:white;border:1px solid #29415f}
+.message{margin:12px 0;color:#00e5ff;font-size:13px}
+.notice{font-size:12px;color:#ffe7ad;margin-top:15px}
+nav{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0}
+nav button{background:#13223b;color:white}
+.card{padding:15px;border:1px solid #29415f;border-radius:12px;margin:12px 0}
+.muted{color:#9bb0cc}
+footer{text-align:center;color:#8196b4;font-size:12px;margin:30px 0}
 </style>
 </head>
-<body>
-<div class="wrap">
 
-<header class="brand">
-  <div class="logo">PG</div>
-  <div>PRO GENIUS BATTLE
-    <small>FREE FIRE TOURNAMENT ARENA</small>
-  </div>
+<body>
+
+<header>
+ <div class="logo">PG</div>
+ <div class="brand">
+  PRO GENIUS BATTLE
+  <small>FREE FIRE TOURNAMENT ARENA</small>
+ </div>
 </header>
 
-<!-- FIRST SCREEN: LOGIN AND REGISTER ONLY -->
+<!-- LOGIN AND REGISTER -->
 <section id="authView">
-  <div class="eyebrow" style="margin-top:28px">ENTER THE ARENA</div>
-  <h1>PLAY SMART.<br>RISE TO THE TOP.</h1>
-  <p class="muted">Join tournaments and compete with your squad.</p>
+ <p class="cyan"><b>PLAYER & ADMIN LOGIN</b></p>
+ <h1>PLAY SMART.<br>RISE TO THE TOP.</h1>
+ <p class="muted">Login or register to continue.</p>
 
-  <div class="auth-layout">
-    <div class="panel showcase">
-      <span class="pill">REGISTRATION OPEN</span>
-      <h2>Your squad.<br>Your moment.<br><span style="color:var(--cyan)">Your victory.</span></h2>
-      <div class="feature">⚡ Free and paid tournament listings</div>
-      <div class="feature">🏆 Player profile and leaderboard</div>
-      <div class="feature">📢 Tournament announcements</div>
-    </div>
-
-    <div class="panel">
-      <div class="tabs">
-        <button id="loginTab" class="active" type="button">LOGIN</button>
-        <button id="registerTab" type="button">REGISTER</button>
-      </div>
-
-      <form id="loginForm">
-        <h2>Welcome back</h2>
-        <p class="muted">Login to continue.</p>
-        <div id="loginMsg" class="message"></div>
-
-        <div class="field">
-          <label for="loginEmail">Email address</label>
-          <input id="loginEmail" type="email" required placeholder="you@example.com">
-        </div>
-
-        <div class="field">
-          <label for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" required minlength="6" placeholder="Your password">
-        </div>
-
-        <button class="btn primary full" type="submit">LOGIN TO ARENA →</button>
-        <p class="small">New player? <a href="#" id="goRegister" style="color:var(--cyan)">Create account</a></p>
-      </form>
-
-      <form id="registerForm" class="hidden">
-        <h2>Create account</h2>
-        <p class="muted">Register as a new player.</p>
-        <div id="registerMsg" class="message"></div>
-
-        <div class="field">
-          <label for="regName">Player name</label>
-          <input id="regName" maxlength="30" required placeholder="Your player name">
-        </div>
-
-        <div class="field">
-          <label for="regEmail">Email address</label>
-          <input id="regEmail" type="email" required placeholder="you@example.com">
-        </div>
-
-        <div class="field">
-          <label for="regPassword">Create password</label>
-          <input id="regPassword" type="password" minlength="6" required placeholder="At least 6 characters">
-        </div>
-
-        <button class="btn primary full" type="submit">CREATE ACCOUNT →</button>
-        <p class="small">Already registered? <a href="#" id="goLogin" style="color:var(--cyan)">Login</a></p>
-      </form>
-
-      <div class="notice">
-        Demo version: accounts are saved only in this browser. Do not use a real or reused password.
-      </div>
-    </div>
+ <div class="panel">
+  <div class="tabs">
+   <button id="loginTab" class="active">LOGIN</button>
+   <button id="registerTab">REGISTER</button>
   </div>
+
+  <form id="loginForm">
+   <h2>Welcome back</h2>
+   <div id="loginMsg" class="message"></div>
+
+   <label>Email address</label>
+   <input id="loginEmail" type="email" required placeholder="Your email">
+
+   <label>Password</label>
+   <input id="loginPassword" type="password" required minlength="6" placeholder="Your password">
+
+   <button class="primary" type="submit">LOGIN TO ARENA →</button>
+   <p class="muted">New player? <a href="#" id="goRegister" class="cyan">Register here</a></p>
+  </form>
+
+  <form id="registerForm" class="hidden">
+   <h2>Create account</h2>
+   <div id="registerMsg" class="message"></div>
+
+   <label>Player name</label>
+   <input id="regName" required maxlength="30" placeholder="Player name">
+
+   <label>Email address</label>
+   <input id="regEmail" type="email" required placeholder="Email address">
+
+   <label>Create password</label>
+   <input id="regPassword" type="password" minlength="6" required placeholder="At least 6 characters">
+
+   <button class="primary" type="submit">CREATE ACCOUNT →</button>
+   <p class="muted">Already registered? <a href="#" id="goLogin" class="cyan">Login</a></p>
+  </form>
+
+  <div class="notice">
+   Demo version: accounts are saved only in this browser.
+   Do not use a real or reused password.
+  </div>
+ </div>
 </section>
 
-<!-- APP DASHBOARD: SHOWN AFTER LOGIN -->
+<!-- DASHBOARD -->
 <section id="appView" class="hidden">
-  <div class="app">
-    <aside class="panel">
-      <div class="brand" style="font-size:15px;margin-bottom:20px">
-        <div class="logo">PG</div>
-        <div>BATTLE HUB<small>PLAYER CONSOLE</small></div>
-      </div>
+ <div class="panel">
+  <p class="cyan">PLAYER CONSOLE</p>
+  <h2 id="welcome">Welcome!</h2>
+  <button class="soft" id="logoutBtn">Logout</button>
 
-      <nav class="nav" id="nav">
-        <button class="active" data-page="dashboard">⌂ Dashboard</button>
-        <button data-page="profile">♙ My Profile</button>
-        <button data-page="matches">⚡ Matches</button>
-        <button data-page="leaderboard">★ Leaderboard</button>
-        <button data-page="payments">▣ Payments</button>
-        <button data-page="announcements">◉ Announcements</button>
-      </nav>
-    </aside>
+  <nav id="nav">
+   <button data-page="dashboard">Dashboard</button>
+   <button data-page="profile">My Profile</button>
+   <button data-page="matches">Matches</button>
+   <button data-page="leaderboard">Leaderboard</button>
+   <button data-page="announcements">Announcements</button>
+   <button data-page="admin">Admin Panel</button>
+  </nav>
 
-    <main>
-      <div class="top">
-        <div>
-          <div class="eyebrow">PLAYER CONSOLE</div>
-          <h2 id="pageTitle">Dashboard</h2>
-        </div>
-        <button class="btn soft" id="logoutBtn">Logout</button>
-      </div>
-
-      <section class="page" id="page-dashboard">
-        <div class="panel">
-          <div class="eyebrow">WELCOME TO THE BATTLE</div>
-          <h2 id="welcomeTitle">Ready to compete?</h2>
-          <p class="muted">Find your next match and keep your player profile updated.</p>
-          <button class="btn primary" data-goto="matches">Explore Matches →</button>
-
-          <div class="stats">
-            <div class="stat"><strong id="statJoined">0</strong><span>Matches joined</span></div>
-            <div class="stat"><strong id="statWins">0</strong><span>Wins recorded</span></div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h3>Featured Matches</h3>
-          <div id="featuredMatches" class="cards"></div>
-        </div>
-      </section>
-
-      <section class="page hidden" id="page-profile">
-        <div class="panel">
-          <h3>My Player Profile</h3>
-          <form id="profileForm">
-            <div class="field">
-              <label for="profileName">Player name</label>
-              <input id="profileName" maxlength="30" required>
-            </div>
-            <div class="field">
-              <label for="profileGameId">Free Fire Player UID</label>
-              <input id="profileGameId" placeholder="Your game UID">
-            </div>
-            <div class="field">
-              <label for="profilePhone">Contact number (optional)</label>
-              <input id="profilePhone" type="tel" placeholder="Your contact number">
-            </div>
-            <button class="btn primary" type="submit">Save Profile</button>
-            <div id="profileMsg" class="message"></div>
-          </form>
-        </div>
-      </section>
-
-      <section class="page hidden" id="page-matches">
-        <div class="panel">
-          <h3>Upcoming Matches</h3>
-          <p class="muted">Choose a tournament to register your interest.</p>
-          <div id="matchList" class="cards"></div>
-          <p class="small">Demo mode: no real payment or room booking happens here.</p>
-        </div>
-      </section>
-
-      <section class="page hidden" id="page-leaderboard">
-        <div class="panel">
-          <h3>Leaderboard</h3>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Rank</th><th>Player</th><th>Wins</th><th>Points</th></tr></thead>
-              <tbody id="leaderboardBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section class="page hidden" id="page-payments">
-        <div class="panel">
-          <h3>Payments & Entry Fees</h3>
-          <p class="muted">Contact the verified tournament organizer before sending money.</p>
-          <div class="cards">
-            <div class="match"><span class="pill gold">PAYMENT METHOD</span><h3>Easypaisa</h3><p class="muted">Ask the verified organizer for official details.</p></div>
-            <div class="match"><span class="pill gold">PAYMENT METHOD</span><h3>JazzCash</h3><p class="muted">Ask the verified organizer for official details.</p></div>
-          </div>
-          <div class="notice">This demo does not process payments. Never share your PIN or OTP.</div>
-        </div>
-      </section>
-
-      <section class="page hidden" id="page-announcements">
-        <div class="panel">
-          <h3>Announcements</h3>
-          <div id="announcementList" class="list"></div>
-        </div>
-      </section>
-    </main>
+  <div id="page-dashboard" class="page">
+   <h2>Battle Dashboard</h2>
+   <p class="muted">Welcome to PRO GENIUS BATTLE!</p>
+   <div class="card">⚡ Free and paid tournaments</div>
+   <div class="card">🏆 Player leaderboard</div>
+   <div class="card">📢 Tournament announcements</div>
   </div>
+
+  <div id="page-profile" class="page hidden">
+   <h2>My Profile</h2>
+   <form id="profileForm">
+    <label>Player name</label>
+    <input id="profileName" required>
+    <label>Free Fire UID</label>
+    <input id="profileUID" placeholder="Your game UID">
+    <button class="primary">Save Profile</button>
+   </form>
+   <div id="profileMsg" class="message"></div>
+  </div>
+
+  <div id="page-matches" class="page hidden">
+   <h2>Available Matches</h2>
+   <div id="matchList"></div>
+  </div>
+
+  <div id="page-leaderboard" class="page hidden">
+   <h2>Leaderboard</h2>
+   <div id="leaderboardList"></div>
+  </div>
+
+  <div id="page-announcements" class="page hidden">
+   <h2>Announcements</h2>
+   <div id="announcementList"></div>
+  </div>
+
+  <div id="page-admin" class="page hidden">
+   <h2>Admin Panel</h2>
+   <p class="notice">
+    Demo only. A secure online admin account requires backend authentication.
+   </p>
+
+   <h3>Create tournament</h3>
+   <form id="matchForm">
+    <label>Tournament name</label>
+    <input id="matchName" required>
+
+    <label>Tournament type</label>
+    <select id="matchType">
+     <option>Free</option>
+     <option>Paid</option>
+    </select>
+
+    <label>Map / Mode / Time</label>
+    <input id="matchMode" required placeholder="Squad / Bermuda / 7 PM">
+
+    <button class="primary">Add Tournament</button>
+   </form>
+
+   <h3>Publish announcement</h3>
+   <form id="announcementForm">
+    <label>Title</label>
+    <input id="announcementTitle" required>
+
+    <label>Message</label>
+    <textarea id="announcementText" required></textarea>
+
+    <button class="primary">Publish</button>
+   </form>
+
+   <div id="adminMsg" class="message"></div>
+  </div>
+ </div>
 </section>
 
-<footer class="footer">
-  PRO GENIUS BATTLE • Fan-made tournament portal. Not affiliated with Garena Free Fire.
-</footer>
-</div>
+<footer>PRO GENIUS BATTLE • Fan-made tournament portal</footer>
 
 <script>
-(() => {
-  const $ = id => document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-  function read(key, fallback) {
-    try {
-      const value = localStorage.getItem(key);
-      return value === null ? fallback : JSON.parse(value);
-    } catch {
-      return fallback;
-    }
-  }
+function read(key, fallback){
+ try{
+  const value=localStorage.getItem(key);
+  return value===null?fallback:JSON.parse(value);
+ }catch(e){return fallback}
+}
+function save(key,value){
+ localStorage.setItem(key,JSON.stringify(value));
+}
+function safe(text){
+ return String(text||"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
 
-  function save(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
+let current=null;
+let matches=read("pgb_matches",[
+ {name:"Rookie Training Room",type:"Free",mode:"Duo • Bermuda"},
+ {name:"Squad Clash",type:"Paid",mode:"Squad • Bermuda"}
+]);
+let announcements=read("pgb_news",[
+ {title:"Welcome",text:"Welcome to PRO GENIUS BATTLE!"}
+]);
 
-  let current = null;
+function users(){return read("pgb_users",[])}
+function msg(id,text){
+ $(id).textContent=text;
+}
+function auth(which){
+ $("authView").classList.remove("hidden");
+ $("appView").classList.add("hidden");
+ $("loginForm").classList.toggle("hidden",which!=="login");
+ $("registerForm").classList.toggle("hidden",which!=="register");
+ $("loginTab").classList.toggle("active",which==="login");
+ $("registerTab").classList.toggle("active",which==="register");
+}
+function openApp(user){
+ current=user;
+ save("pgb_session",{email:user.email});
+ $("authView").classList.add("hidden");
+ $("appView").classList.remove("hidden");
+ $("welcome").textContent="Welcome, "+user.name+"!";
+ $("adminNav");
+ render();
+ page("dashboard");
+}
+function page(name){
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ $("page-"+name).classList.remove("hidden");
+}
+function render(){
+ $("matchList").innerHTML=matches.map((m,i)=>`
+  <div class="card">
+   <b>${safe(m.name)}</b>
+   <p>${safe(m.type)} tournament</p>
+   <p class="muted">${safe(m.mode)}</p>
+   <button class="soft" onclick="joinMatch(${i})">Join Match</button>
+  </div>`).join("");
 
-  let matches = read("pgb_matches", [
-    {id:1,name:"Squad Clash Evening",type:"Paid",mode:"Squad • Bermuda • 7:00 PM",cost:200},
-    {id:2,name:"Rookie Training Room",type:"Free",mode:"Duo • Bermuda • 5:30 PM",cost:0},
-    {id:3,name:"Neon Night Battle",type:"Paid",mode:"Squad • Purgatory • 9:00 PM",cost:100},
-    {id:4,name:"Weekend Open Cup",type:"Free",mode:"Squad • Bermuda • Saturday",cost:0}
-  ]);
+ $("leaderboardList").innerHTML=users().map((u,i)=>`
+  <div class="card">#${i+1} — ${safe(u.name)}</div>`).join("");
 
-  let announcements = read("pgb_announcements", [
-    {
-      title:"Welcome to PRO GENIUS BATTLE",
-      text:"Create your player profile and check upcoming matches."
-    }
-  ]);
+ $("announcementList").innerHTML=announcements.map(a=>`
+  <div class="card"><b>${safe(a.title)}</b><p>${safe(a.text)}</p></div>`
+ ).join("");
+}
+window.joinMatch=function(i){
+ alert("Demo only: selected "+matches[i].name);
+};
 
-  function users() {
-    return read("pgb_users", []);
-  }
+$("loginTab").onclick=()=>auth("login");
+$("registerTab").onclick=()=>auth("register");
+$("goRegister").onclick=e=>{e.preventDefault();auth("register")};
+$("goLogin").onclick=e=>{e.preventDefault();auth("login")};
 
-  function showMessage(id, text, error=false) {
-    const el = $(id);
-    el.textContent = text;
-    el.style.color = error ? "#ff8aa8" : "#00e5ff";
-  }
+$("registerForm").onsubmit=e=>{
+ e.preventDefault();
+ const name=$("regName").value.trim();
+ const email=$("regEmail").value.trim().toLowerCase();
+ const password=$("regPassword").value;
+ const list=users();
 
-  function showAuth(which) {
-    $("authView").classList.remove("hidden");
-    $("appView").classList.add("hidden");
-    $("loginForm").classList.toggle("hidden", which !== "login");
-    $("registerForm").classList.toggle("hidden", which !== "register");
-    $("loginTab").classList.toggle("active", which === "login");
-    $("registerTab").classList.toggle("active", which === "register");
-  }
+ if(list.some(u=>u.email===email)){
+  msg("registerMsg","This email is already registered.");
+  return;
+ }
 
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    })[char]);
-  }
+ list.push({name,email,password,role:"player",uid:""});
+ save("pgb_users",list);
+ $("registerForm").reset();
+ auth("login");
+ msg("loginMsg","Account created. Please login.");
+};
 
-  function joinedMatches() {
-    return read("pgb_joined_" + current.email, []);
-  }
+$("loginForm").onsubmit=e=>{
+ e.preventDefault();
+ const email=$("loginEmail").value.trim().toLowerCase();
+ const password=$("loginPassword").value;
+ const user=users().find(u=>u.email===email&&u.password===password);
 
-  function go(page) {
-    document.querySelectorAll(".page").forEach(section => section.classList.add("hidden"));
-    const target = $("page-" + page);
-    if (target) target.classList.remove("hidden");
+ if(!user){
+  msg("loginMsg","Incorrect email/password or account not registered on this device.");
+  return;
+ }
+ openApp(user);
+};
 
-    document.querySelectorAll("#nav button").forEach(button => {
-      button.classList.toggle("active", button.dataset.page === page);
-    });
+$("logoutBtn").onclick=()=>{
+ localStorage.removeItem("pgb_session");
+ current=null;
+ auth("login");
+};
 
-    const titles = {
-      dashboard:"Dashboard",
-      profile:"My Profile",
-      matches:"Matches",
-      leaderboard:"Leaderboard",
-      payments:"Payments",
-      announcements:"Announcements"
-    };
+$("nav").onclick=e=>{
+ const b=e.target.closest("button[data-page]");
+ if(!b)return;
 
-    $("pageTitle").textContent = titles[page] || "Dashboard";
+ if(b.dataset.page==="admin"&&current.role!=="admin"){
+  alert("Admin account is not configured.");
+  return;
+ }
+ page(b.dataset.page);
+};
 
-    if (page === "profile") loadProfile();
-  }
+$("profileForm").onsubmit=e=>{
+ e.preventDefault();
+ current.name=$("profileName").value.trim();
+ current.uid=$("profileUID").value.trim();
+ const list=users();
+ const i=list.findIndex(u=>u.email===current.email);
+ if(i>=0)list[i]=current;
+ save("pgb_users",list);
+ save("pgb_session",{email:current.email});
+ msg("profileMsg","Profile saved.");
+ $("welcome").textContent="Welcome, "+current.name+"!";
+};
 
-  function setSession(user) {
-    current = user;
-    save("pgb_session", {email:user.email});
+$("matchForm").onsubmit=e=>{
+ e.preventDefault();
+ matches.push({
+  name:$("matchName").value.trim(),
+  type:$("matchType").value,
+  mode:$("matchMode").value.trim()
+ });
+ save("pgb_matches",matches);
+ $("matchForm").reset();
+ render();
+ msg("adminMsg","Tournament added in this browser.");
+};
 
-    $("authView").classList.add("hidden");
-    $("appView").classList.remove("hidden");
+$("announcementForm").onsubmit=e=>{
+ e.preventDefault();
+ announcements.unshift({
+  title:$("announcementTitle").value.trim(),
+  text:$("announcementText").value.trim()
+ });
+ save("pgb_news",announcements);
+ $("announcementForm").reset();
+ render();
+ msg("adminMsg","Announcement saved in this browser.");
+};
 
-    renderAll();
-    go("dashboard");
-  }
-
-  function loadProfile() {
-    $("profileName").value = current.name || "";
-    $("profileGameId").value = current.gameId || "";
-    $("profilePhone").value = current.phone || "";
-  }
-
-  function renderMatches() {
-    const joined = joinedMatches();
-
-    $("matchList").innerHTML = matches.map(match => `
-      <article class="match">
-        <span class="pill">${match.type === "Paid" ? "PAID TOURNAMENT" : "FREE TOURNAMENT"}</span>
-        <h3>${escapeHTML(match.name)}</h3>
-        <p class="muted">${escapeHTML(match.mode)}</p>
-        <div class="row">
-          <strong class="gold">${match.cost === 0 ? "Free Entry" : match.cost + " demo coins"}</strong>
-          <button class="btn primary joinBtn" data-id="${match.id}"
-            ${joined.includes(match.id) ? "disabled" : ""}>
-            ${joined.includes(match.id) ? "Joined" : "Join Match"}
-          </button>
-        </div>
-      </article>
-    `).join("");
-
-    $("featuredMatches").innerHTML = matches.slice(0,2).map(match => `
-      <article class="match">
-        <span class="pill">${match.type === "Free" ? "FREE ENTRY" : "PAID ENTRY"}</span>
-        <h3>${escapeHTML(match.name)}</h3>
-        <p class="muted">${escapeHTML(match.mode)}</p>
-        <button class="btn primary" data-goto="matches">View Match</button>
-      </article>
-    `).join("");
-
-    document.querySelectorAll(".joinBtn").forEach(button => {
-      button.addEventListener("click", () => {
-        const id = Number(button.dataset.id);
-        const match = matches.find(item => item.id === id);
-        if (!match) return;
-
-        if (match.cost > 0 && !confirm(
-          "This is only a demo entry fee. No payment will be made. Continue?"
-        )) return;
-
-        const joined = joinedMatches();
-        if (!joined.includes(id)) joined.push(id);
-
-        save("pgb_joined_" + current.email, joined);
-        renderAll();
-        alert("Demo: match selection saved on this device.");
-      });
-    });
-  }
-
-  function renderAnnouncements() {
-    $("announcementList").innerHTML = announcements.map(item => `
-      <div class="list-item">
-        <strong>${escapeHTML(item.title)}</strong>
-        <p class="muted">${escapeHTML(item.text)}</p>
-      </div>
-    `).join("") || "<p>No announcements yet.</p>";
-  }
-
-  function renderLeaderboard() {
-    const list = users().slice(0,10);
-
-    $("leaderboardBody").innerHTML = list.length
-      ? list.map((user,index) => `
-          <tr>
-            <td>#${index+1}</td>
-            <td>${escapeHTML(user.name || "Player")}</td>
-            <td>${Number(user.wins) || 0}</td>
-            <td>${(Number(user.wins) || 0) * 100}</td>
-          </tr>
-        `).join("")
-      : "<tr><td>#1</td><td>Rookie Player</td><td>0</td><td>0</td></tr>";
-  }
-
-  function renderAll() {
-    $("welcomeTitle").textContent = "Welcome, " + (current.name || "Player") + "!";
-    $("statJoined").textContent = joinedMatches().length;
-    $("statWins").textContent = Number(current.wins) || 0;
-    renderMatches();
-    renderAnnouncements();
-    renderLeaderboard();
-  }
-
-  $("loginTab").onclick = () => showAuth("login");
-  $("registerTab").onclick = () => showAuth("register");
-
-  $("goRegister").onclick = event => {
-    event.preventDefault();
-    showAuth("register");
-  };
-
-  $("goLogin").onclick = event => {
-    event.preventDefault();
-    showAuth("login");
-  };
-
-  $("registerForm").addEventListener("submit", event => {
-    event.preventDefault();
-
-    const name = $("regName").value.trim();
-    const email = $("regEmail").value.trim().toLowerCase();
-    const password = $("regPassword").value;
-
-    if (password.length < 6) {
-      showMessage("registerMsg", "Password must be at least 6 characters.", true);
-      return;
-    }
-
-    const list = users();
-
-    if (list.some(user => user.email === email)) {
-      showMessage("registerMsg", "This email is already registered. Please login.", true);
-      return;
-    }
-
-    list.push({
-      name,
-      
+const session=read("pgb_session",null);
+if(session){
+ const user=users().find(u=>u.email===session.email);
+ if(user)openApp(user);
+ else auth("login");
+}else{
+ auth("login");
+}
+</script>
+</body>
+  </html>
