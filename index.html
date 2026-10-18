@@ -7,16 +7,15 @@
   <meta name="theme-color" content="#071a33" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Inter:wght@400;500;600;700;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    *{box-sizing:border-box}
     :root{
       --bg:#04101f;
       --bg2:#071a33;
       --panel:#0b1d35;
       --panel2:#102746;
       --line:#25486f;
-      --soft:#12304f;
       --text:#eef7ff;
       --muted:#9fb7d4;
       --blue:#33b7ff;
@@ -26,302 +25,131 @@
       --orange:#ff9f59;
       --red:#ff627b;
       --shadow:0 20px 50px rgba(0,0,0,.28);
-      --radius:22px;
     }
-
     html{scroll-behavior:smooth}
     body{
       margin:0;
+      min-height:100vh;
       color:var(--text);
       font-family:Inter,sans-serif;
       background:
         radial-gradient(circle at 10% 10%, rgba(51,183,255,.14), transparent 24%),
         radial-gradient(circle at 90% 0%, rgba(117,236,255,.11), transparent 18%),
         linear-gradient(180deg,#030d18 0%,#04101f 45%,#020811 100%);
-      min-height:100vh;
     }
-
+    h1,h2,h3,h4{font-family:Orbitron,sans-serif;letter-spacing:.04em;margin:0}
     .hidden{display:none!important}
     .muted{color:var(--muted)}
-    .tiny{font-size:12px}
     .small{font-size:13px}
-    .center{text-align:center}
-
-    h1,h2,h3,h4,.display{
-      font-family:Orbitron,sans-serif;
-      letter-spacing:.04em;
-      margin:0;
-    }
-
-    .reveal{
-      opacity:0;
-      transform:translateY(18px);
-      transition:.6s ease;
-    }
-    .reveal.in{
-      opacity:1;
-      transform:none;
-    }
+    .tiny{font-size:12px}
+    .reveal{opacity:0;transform:translateY(18px);transition:.6s ease}
+    .reveal.in{opacity:1;transform:none}
 
     header{
-      position:sticky;
-      top:0;
-      z-index:60;
+      position:sticky;top:0;z-index:60;
       backdrop-filter:blur(14px);
       background:linear-gradient(180deg, rgba(4,16,31,.96), rgba(4,16,31,.82));
       border-bottom:1px solid rgba(37,72,111,.55);
     }
     .topbar{
-      max-width:1180px;
-      margin:0 auto;
-      padding:14px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+      max-width:1180px;margin:0 auto;padding:14px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
+    .brand{display:flex;align-items:center;gap:12px}
     .logo{
-      width:48px;height:48px;border-radius:16px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--blue),var(--cyan));
-      color:#03111d;
-      font-family:Orbitron,sans-serif;
-      font-weight:800;
-      box-shadow:0 14px 28px rgba(51,183,255,.22);
-      flex:0 0 auto;
+      width:48px;height:48px;border-radius:16px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--blue),var(--cyan));color:#03111d;
+      font-family:Orbitron,sans-serif;font-weight:800;box-shadow:0 14px 28px rgba(51,183,255,.22)
     }
     .brand strong{display:block;font-size:16px}
     .brand small{display:block;color:var(--cyan);font-size:10px;letter-spacing:.16em;margin-top:4px}
-
     .top-actions{display:flex;align-items:center;gap:10px}
     .pill{
-      padding:9px 12px;
-      border-radius:999px;
-      border:1px solid rgba(117,236,255,.24);
-      background:rgba(10,28,49,.72);
-      color:#d7f3ff;
-      font-size:12px;
+      padding:9px 12px;border-radius:999px;border:1px solid rgba(117,236,255,.24);
+      background:rgba(10,28,49,.72);color:#d7f3ff;font-size:12px;
       display:flex;align-items:center;gap:8px;
     }
     .iconbtn{
-      border:1px solid rgba(117,236,255,.18);
-      background:rgba(8,22,38,.74);
-      color:#dff5ff;
-      width:42px;height:42px;border-radius:14px;
-      display:grid;place-items:center;
-      cursor:pointer;
-      transition:.2s ease;
+      border:1px solid rgba(117,236,255,.18);background:rgba(8,22,38,.74);color:#dff5ff;
+      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+      cursor:pointer;transition:.2s ease;
     }
     .iconbtn:hover{transform:translateY(-1px);border-color:rgba(117,236,255,.4)}
-    .iconbtn:active{transform:scale(.98)}
 
-    .shell{
-      max-width:1180px;
-      margin:0 auto;
-      padding:0 16px 110px;
-    }
-
+    .shell{max-width:1180px;margin:0 auto;padding:0 16px 110px}
     .hero{
-      position:relative;
-      min-height:calc(100vh - 78px);
-      display:grid;
-      place-items:center;
-      overflow:hidden;
+      position:relative;min-height:calc(100vh - 78px);display:grid;place-items:center;overflow:hidden;
     }
-    .hero-bg{
-      position:absolute;
-      inset:0;
-      overflow:hidden;
-    }
+    .hero-bg{position:absolute;inset:0;overflow:hidden}
     .hero-slide{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transition:opacity 1s ease;
-      background-size:cover;
-      background-position:center;
+      position:absolute;inset:0;opacity:0;transition:opacity 1s ease;background-size:cover;background-position:center;
       transform:scale(1.04);
     }
     .hero-slide.active{opacity:1}
     .hero-slide::after{
-      content:"";
-      position:absolute;inset:0;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.78)),
-        radial-gradient(circle at 80% 20%, rgba(51,183,255,.18), transparent 22%);
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.78)),
+      radial-gradient(circle at 80% 20%, rgba(51,183,255,.18), transparent 22%);
     }
-
     .hero-grid{
-      position:relative;
-      z-index:2;
-      width:min(1080px,100%);
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:24px;
-      align-items:center;
+      position:relative;z-index:2;width:min(1080px,100%);
+      display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;
     }
-    .hero-copy .tag{
-      display:inline-block;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(117,236,255,.22);
-      background:rgba(10,28,49,.58);
-      color:var(--cyan);
-      font-size:11px;
-      letter-spacing:.16em;
-      margin-bottom:14px;
+    .tag{
+      display:inline-block;padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(117,236,255,.22);background:rgba(10,28,49,.58);
+      color:var(--cyan);font-size:11px;letter-spacing:.16em;margin-bottom:14px;
     }
-    .hero-copy h1{
-      font-size:clamp(34px,6vw,66px);
-      line-height:1.02;
-      max-width:10ch;
-    }
-    .hero-copy p{
-      margin:16px 0 0;
-      max-width:55ch;
-      color:#d8e8f8;
-      line-height:1.65;
-    }
-    .hero-meta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:22px;
-    }
+    .hero-copy h1{font-size:clamp(34px,6vw,66px);line-height:1.02;max-width:10ch}
+    .hero-copy p{margin:16px 0 0;max-width:55ch;color:#d8e8f8;line-height:1.65}
+    .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
     .meta-chip{
-      padding:10px 12px;
-      border-radius:14px;
-      background:rgba(8,22,38,.64);
-      border:1px solid rgba(117,236,255,.16);
-      font-size:12px;
-      color:#dff6ff;
+      padding:10px 12px;border-radius:14px;background:rgba(8,22,38,.64);
+      border:1px solid rgba(117,236,255,.16);font-size:12px;color:#dff6ff;
     }
 
     .auth-card{
       background:linear-gradient(180deg, rgba(11,29,53,.82), rgba(8,21,38,.92));
-      border:1px solid rgba(117,236,255,.18);
-      border-radius:26px;
-      padding:20px;
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
-      position:relative;
-      overflow:hidden;
+      border:1px solid rgba(117,236,255,.18);border-radius:26px;padding:20px;
+      box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;overflow:hidden;
     }
-    .auth-card::before{
-      content:"";
-      position:absolute;
-      right:-80px;bottom:-80px;
-      width:220px;height:220px;border-radius:50%;
-      background:radial-gradient(circle, rgba(51,183,255,.22), transparent 62%);
-      pointer-events:none;
-    }
-
-    .tabs{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-bottom:14px;
-    }
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
     .tab{
-      flex:1 1 0;
-      min-width:90px;
-      border:1px solid rgba(117,236,255,.16);
-      background:#0b1b31;
-      color:#e9f6ff;
-      border-radius:12px;
-      padding:10px 12px;
-      font-weight:800;
-      cursor:pointer;
+      flex:1 1 0;min-width:90px;border:1px solid rgba(117,236,255,.16);
+      background:#0b1b31;color:#e9f6ff;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer;
     }
-    .tab.active{
-      background:linear-gradient(90deg,var(--blue),var(--cyan));
-      color:#03111d;
-      border-color:transparent;
-    }
+    .tab.active{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#03111d;border-color:transparent}
 
     .form{display:grid;gap:12px}
     .field{display:grid;gap:6px}
     .field label{font-size:12px;color:#bdd3ea}
     input,select,textarea{
-      width:100%;
-      padding:13px 14px;
-      border-radius:14px;
-      border:1px solid rgba(37,72,111,.9);
-      background:#07121f;
-      color:#fff;
-      outline:none;
+      width:100%;padding:13px 14px;border-radius:14px;border:1px solid rgba(37,72,111,.9);
+      background:#07121f;color:#fff;outline:none;
     }
     textarea{min-height:96px;resize:vertical}
-    input:focus,select:focus,textarea:focus{
-      border-color:var(--cyan);
-      box-shadow:0 0 0 3px rgba(117,236,255,.08);
-    }
+    input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(117,236,255,.08)}
 
     .btn{
-      border:0;
-      border-radius:14px;
-      padding:13px 15px;
-      font-weight:800;
-      cursor:pointer;
-      transition:.18s ease;
+      border:0;border-radius:14px;padding:13px 15px;font-weight:800;cursor:pointer;transition:.18s ease;
     }
     .btn:hover{transform:translateY(-1px);filter:brightness(1.03)}
-    .btn:active{transform:scale(.985)}
-    .btn-primary{
-      background:linear-gradient(90deg,var(--blue),var(--cyan));
-      color:#03111d;
-    }
-    .btn-secondary{
-      background:#0d1d33;
-      color:#eef7ff;
-      border:1px solid rgba(37,72,111,.9);
-    }
-    .btn-success{
-      background:#0f2a20;
-      color:#dcfff1;
-      border:1px solid rgba(46,211,154,.35);
-    }
-    .btn-danger{
-      background:#2d1118;
-      color:#ffe5eb;
-      border:1px solid rgba(255,98,123,.34);
-    }
-    .btn-warning{
-      background:#2a1c0d;
-      color:#fff0d2;
-      border:1px solid rgba(255,159,89,.35);
-    }
+    .btn-primary{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#03111d}
+    .btn-secondary{background:#0d1d33;color:#eef7ff;border:1px solid rgba(37,72,111,.9)}
+    .btn-success{background:#0f2a20;color:#dcfff1;border:1px solid rgba(46,211,154,.35)}
+    .btn-danger{background:#2d1118;color:#ffe5eb;border:1px solid rgba(255,98,123,.34)}
+    .btn-warning{background:#2a1c0d;color:#fff0d2;border:1px solid rgba(255,159,89,.35)}
 
     .panel{
       background:linear-gradient(180deg, rgba(11,29,53,.92), rgba(9,22,40,.92));
-      border:1px solid rgba(37,72,111,.82);
-      border-radius:24px;
-      padding:16px;
-      box-shadow:var(--shadow);
+      border:1px solid rgba(37,72,111,.82);border-radius:24px;padding:16px;box-shadow:var(--shadow);
     }
-    .glass{
-      background:linear-gradient(180deg, rgba(11,29,53,.76), rgba(9,22,40,.88));
-      backdrop-filter:blur(14px);
-    }
+    .glass{background:linear-gradient(180deg, rgba(11,29,53,.76), rgba(9,22,40,.88));backdrop-filter:blur(14px)}
     .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;
     }
 
-    .grid{
-      display:grid;
-      gap:16px;
-    }
+    .grid{display:grid;gap:16px}
     .grid-2{grid-template-columns:1fr}
     .grid-3{grid-template-columns:1fr}
     @media(min-width:860px){
@@ -329,99 +157,43 @@
       .grid-3{grid-template-columns:repeat(3,1fr)}
     }
 
-    .kpis{
-      display:grid;
-      gap:12px;
-      grid-template-columns:repeat(2,1fr);
-      margin-top:16px;
-    }
+    .kpis{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin-top:16px}
     .kpi{
-      background:linear-gradient(180deg,#071423,#0b1d35);
-      border:1px solid rgba(37,72,111,.65);
-      border-radius:18px;
-      padding:14px;
+      background:linear-gradient(180deg,#071423,#0b1d35);border:1px solid rgba(37,72,111,.65);
+      border-radius:18px;padding:14px;
     }
-    .kpi strong{
-      display:block;
-      font-size:24px;
-      font-family:Orbitron,sans-serif;
-      color:#fff;
-    }
+    .kpi strong{display:block;font-size:24px;font-family:Orbitron,sans-serif;color:#fff}
     .kpi span{font-size:12px;color:var(--muted)}
 
     .carousel{
-      position:relative;
-      min-height:280px;
-      border-radius:24px;
-      overflow:hidden;
-      border:1px solid rgba(117,236,255,.18);
+      position:relative;min-height:280px;border-radius:24px;overflow:hidden;border:1px solid rgba(117,236,255,.18);
     }
     .carousel-slide{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transition:opacity .9s ease;
-      background-size:cover;
-      background-position:center;
+      position:absolute;inset:0;opacity:0;transition:opacity .9s ease;background-size:cover;background-position:center;
     }
     .carousel-slide.active{opacity:1}
     .carousel-slide::after{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.82));
+      content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.82));
     }
     .carousel-copy{
-      position:absolute;
-      left:18px;right:18px;bottom:18px;
-      z-index:2;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:16px;
-      flex-wrap:wrap;
+      position:absolute;left:18px;right:18px;bottom:18px;z-index:2;
+      display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;
     }
     .dots{display:flex;gap:8px}
     .dot{
-      width:10px;height:10px;border-radius:50%;
-      background:rgba(255,255,255,.3);
-      border:0;
-      cursor:pointer;
+      width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);border:0;cursor:pointer;
     }
     .dot.active{background:var(--cyan);box-shadow:0 0 0 4px rgba(117,236,255,.14)}
 
     .item-list,.feed,.payment-list,.team-list,.history-list,.leader-list,.request-list{display:grid;gap:12px}
     .item{
-      background:linear-gradient(180deg,#081423,#0c1d33);
-      border:1px solid rgba(37,72,111,.72);
-      border-radius:20px;
-      padding:14px;
-      position:relative;
-      overflow:hidden;
+      background:linear-gradient(180deg,#081423,#0c1d33);border:1px solid rgba(37,72,111,.72);
+      border-radius:20px;padding:14px;position:relative;overflow:hidden;
     }
-    .item::before{
-      content:"";
-      position:absolute;left:0;right:0;top:0;height:1px;
-      background:linear-gradient(90deg, transparent, rgba(117,236,255,.32), transparent);
-    }
-    .row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
+    .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
     .badge{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:800;
-      border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.04);
-      color:#eef7ff;
+      display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;
+      font-size:11px;font-weight:800;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#eef7ff;
     }
     .st-upcoming{background:rgba(51,183,255,.12);border-color:rgba(51,183,255,.3);color:#dff5ff}
     .st-live{background:rgba(46,211,154,.12);border-color:rgba(46,211,154,.3);color:#ddfff1}
@@ -429,134 +201,54 @@
     .st-cancelled{background:rgba(255,98,123,.12);border-color:rgba(255,98,123,.3);color:#ffe1e7}
     .st-pending{background:rgba(255,159,89,.12);border-color:rgba(255,159,89,.3);color:#ffe9d5}
 
-    .toolbar{
-      display:grid;
-      gap:12px;
-      grid-template-columns:1fr;
-      margin-bottom:14px;
-    }
-    @media(min-width:760px){
-      .toolbar{grid-template-columns:1.2fr .9fr .9fr}
-    }
+    .toolbar{display:grid;gap:12px;grid-template-columns:1fr;margin-bottom:14px}
+    @media(min-width:760px){.toolbar{grid-template-columns:1.2fr .9fr .9fr}}
 
     .overlay{
-      position:fixed;
-      inset:0;
-      z-index:80;
-      background:rgba(2,8,14,.72);
-      backdrop-filter:blur(8px);
-      display:none;
-      align-items:flex-end;
-      justify-content:center;
-      padding:16px;
+      position:fixed;inset:0;z-index:80;background:rgba(2,8,14,.72);backdrop-filter:blur(8px);
+      display:none;align-items:flex-end;justify-content:center;padding:16px;
     }
     .overlay.show{display:flex}
     .sheet{
-      width:min(960px,100%);
-      max-height:92vh;
-      overflow:auto;
+      width:min(960px,100%);max-height:92vh;overflow:auto;
       background:linear-gradient(180deg, rgba(9,22,40,.98), rgba(7,18,33,.98));
-      border:1px solid rgba(37,72,111,.72);
-      border-radius:26px;
-      padding:18px;
-      box-shadow:var(--shadow);
+      border:1px solid rgba(37,72,111,.72);border-radius:26px;padding:18px;box-shadow:var(--shadow);
     }
 
-    .menu-grid{
-      display:grid;
-      gap:10px;
-      grid-template-columns:1fr;
-    }
-    @media(min-width:760px){
-      .menu-grid{grid-template-columns:1fr 1fr}
-    }
+    .menu-grid{display:grid;gap:10px;grid-template-columns:1fr}
+    @media(min-width:760px){.menu-grid{grid-template-columns:1fr 1fr}}
     .menu-item{
-      width:100%;
-      text-align:left;
-      border:1px solid rgba(37,72,111,.7);
-      background:#081423;
-      color:#eef7ff;
-      border-radius:18px;
-      padding:14px;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      cursor:pointer;
+      width:100%;text-align:left;border:1px solid rgba(37,72,111,.7);background:#081423;color:#eef7ff;
+      border-radius:18px;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;
     }
     .menu-item .emoji{font-size:22px;line-height:1}
 
     .bottomnav{
-      position:fixed;
-      left:0;right:0;bottom:0;
-      z-index:70;
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
+      position:fixed;left:0;right:0;bottom:0;z-index:70;display:grid;grid-template-columns:repeat(5,1fr);
       background:linear-gradient(180deg, rgba(4,14,24,.98), rgba(3,10,18,.98));
-      border-top:1px solid rgba(37,72,111,.52);
-      backdrop-filter:blur(14px);
+      border-top:1px solid rgba(37,72,111,.52);backdrop-filter:blur(14px);
     }
     .bottomnav button{
-      border:0;background:none;
-      color:#a8bfd9;
-      font-size:10px;
-      font-weight:800;
-      padding:12px 4px 14px;
-      cursor:pointer;
+      border:0;background:none;color:#a8bfd9;font-size:10px;font-weight:800;padding:12px 4px 14px;cursor:pointer;
     }
     .bottomnav .ic{display:block;font-size:20px;margin-bottom:5px}
     .bottomnav button.active{color:var(--cyan)}
 
     .notice{
-      padding:12px 14px;
-      border-radius:16px;
-      border:1px solid rgba(117,236,255,.2);
-      background:rgba(8,22,38,.56);
-      color:#d5ebff;
-      line-height:1.6;
-      font-size:13px;
+      padding:12px 14px;border-radius:16px;border:1px solid rgba(117,236,255,.2);
+      background:rgba(8,22,38,.56);color:#d5ebff;line-height:1.6;font-size:13px;
     }
-
-    .admin-tabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:14px;
-    }
+    .admin-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
     .admin-tabs button{
-      border:1px solid rgba(37,72,111,.76);
-      background:#0a1a2d;
-      color:#eaf6ff;
-      border-radius:12px;
-      padding:10px 12px;
-      font-weight:800;
-      cursor:pointer;
+      border:1px solid rgba(37,72,111,.76);background:#0a1a2d;color:#eaf6ff;border-radius:12px;
+      padding:10px 12px;font-weight:800;cursor:pointer;
     }
-    .admin-tabs button.active{
-      background:linear-gradient(90deg,var(--blue),var(--cyan));
-      color:#03111d;
-      border-color:transparent;
-    }
-
-    .table{
-      width:100%;
-      border-collapse:collapse;
-      font-size:13px;
-    }
-    .table th,.table td{
-      border-bottom:1px solid rgba(37,72,111,.42);
-      padding:10px 8px;
-      text-align:left;
-      vertical-align:top;
-    }
+    .admin-tabs button.active{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#03111d;border-color:transparent}
+    .table{width:100%;border-collapse:collapse;font-size:13px}
+    .table th,.table td{border-bottom:1px solid rgba(37,72,111,.42);padding:10px 8px;text-align:left;vertical-align:top}
     .table th{font-size:12px;color:#d8ebff}
 
-    footer{
-      text-align:center;
-      color:#7d97b5;
-      font-size:12px;
-      padding:28px 16px 140px;
-    }
-
+    footer{text-align:center;color:#7d97b5;font-size:12px;padding:28px 16px 140px}
     @media(max-width:920px){
       .hero-grid{grid-template-columns:1fr}
       .hero-copy h1{max-width:none}
@@ -575,8 +267,8 @@
       </div>
       <div class="top-actions">
         <div class="pill">🪙 <span id="topCoins">0</span></div>
-        <button class="iconbtn" onclick="openNotifications()" aria-label="Notifications">🔔</button>
-        <button class="iconbtn" onclick="openMenu()" aria-label="Open Menu">☰</button>
+        <button class="iconbtn" onclick="openNotifications()">🔔</button>
+        <button class="iconbtn" onclick="openMenu()">☰</button>
       </div>
     </div>
   </header>
@@ -589,22 +281,23 @@
         <div class="hero-grid">
           <div class="hero-copy reveal">
             <div class="tag">LIVE TOURNAMENT PLATFORM</div>
-            <h1>Enter the arena. Build your squad. Win the board.</h1>
+            <h1>Login, register, play and manage Free Fire tournaments.</h1>
             <p>
-              Pakistan-focused Free Fire tournament app with EasyPaisa and JazzCash support, rotating banners, centered login over image, match hub, wallet, leaderboard, profile, team creation, tournament history, and admin-only announcements.
+              Full registration with full name, Free Fire ID name, Free Fire UID, email, password, referral or promo code, login with email or Free Fire ID name, forgot password, wallet, payments, leaderboard, profile edit, and admin player database.
             </p>
             <div class="hero-meta">
-              <div class="meta-chip">Solo / Duo / Squad</div>
-              <div class="meta-chip">BR / CS / Lone Wolf</div>
-              <div class="meta-chip">1v1 / 2v2 / 3v3 / 4v4</div>
-              <div class="meta-chip">EasyPaisa / JazzCash</div>
+              <div class="meta-chip">Email + Password</div>
+              <div class="meta-chip">Free Fire ID Name Login</div>
+              <div class="meta-chip">Referral / Promo System</div>
+              <div class="meta-chip">Forgot Password</div>
             </div>
           </div>
 
           <div class="auth-card reveal">
             <div class="tabs">
-              <button class="tab active" id="tabLogin" onclick="switchAuth('login')">PLAYER LOGIN</button>
+              <button class="tab active" id="tabLogin" onclick="switchAuth('login')">LOGIN</button>
               <button class="tab" id="tabRegister" onclick="switchAuth('register')">REGISTER</button>
+              <button class="tab" id="tabForgot" onclick="switchAuth('forgot')">FORGOT</button>
               <button class="tab" id="tabAdmin" onclick="switchAuth('admin')">ADMIN</button>
             </div>
 
@@ -612,54 +305,70 @@
 
             <form id="loginForm" class="form">
               <div class="field">
-                <label>Email</label>
-                <input id="loginEmail" type="email" placeholder="player@email.com" required>
+                <label>Email or Free Fire ID Name</label>
+                <input id="loginIdentifier" placeholder="Email or FF ID name" required>
               </div>
               <div class="field">
                 <label>Password</label>
                 <input id="loginPassword" type="password" placeholder="Enter password" required>
               </div>
-              <button class="btn btn-primary">LOGIN TO DASHBOARD</button>
+              <button class="btn btn-primary">LOGIN</button>
             </form>
 
             <form id="registerForm" class="form hidden">
               <div class="field">
-                <label>Email</label>
-                <input id="regEmail" type="email" placeholder="player@email.com" required>
+                <label>Full Name</label>
+                <input id="regFullName" required>
               </div>
               <div class="field">
-                <label>Password</label>
-                <input id="regPassword" type="password" placeholder="Create password" minlength="6" required>
-              </div>
-              <div class="field">
-                <label>Username</label>
-                <input id="regUsername" type="text" placeholder="Username" required>
+                <label>Free Fire ID Name</label>
+                <input id="regFfName" required>
               </div>
               <div class="field">
                 <label>Free Fire UID</label>
-                <input id="regUid" type="text" placeholder="8-10 digit UID" required>
+                <input id="regUid" placeholder="8-12 digits" required>
               </div>
               <div class="field">
-                <label>Free Fire In-Game Name</label>
-                <input id="regIgn" type="text" placeholder="IGN" required>
+                <label>Email</label>
+                <input id="regEmail" type="email" required>
               </div>
-              <button class="btn btn-primary">CREATE PLAYER ACCOUNT</button>
+              <div class="field">
+                <label>Password</label>
+                <input id="regPassword" type="password" minlength="6" required>
+              </div>
+              <div class="field">
+                <label>Referral / Promo Code</label>
+                <input id="regPromo" placeholder="Optional">
+              </div>
+              <button class="btn btn-primary">CREATE ACCOUNT</button>
+            </form>
+
+            <form id="forgotForm" class="form hidden">
+              <div class="field">
+                <label>Email</label>
+                <input id="forgotEmail" type="email" required>
+              </div>
+              <div class="field">
+                <label>New Password</label>
+                <input id="forgotNewPassword" type="password" minlength="6" required>
+              </div>
+              <button class="btn btn-primary">RESET PASSWORD</button>
             </form>
 
             <form id="adminForm" class="form hidden">
               <div class="field">
                 <label>Admin Email</label>
-                <input id="adminEmail" type="email" placeholder="Admin email" required>
+                <input id="adminEmail" type="email" required>
               </div>
               <div class="field">
                 <label>Admin Password</label>
-                <input id="adminPassword" type="password" placeholder="Admin password" required>
+                <input id="adminPassword" type="password" required>
               </div>
               <button class="btn btn-primary">LOGIN AS ADMIN</button>
             </form>
 
             <div class="notice" style="margin-top:14px">
-              Admin manages matches, room details, payment methods, payment approvals, announcements, leaderboard, player database, policy, and support.
+              Referral code gives bonus coins. Email stays locked after registration. Players can edit full name, Free Fire ID name, and UID later from profile.
             </div>
           </div>
         </div>
@@ -671,29 +380,29 @@
         <div class="panel glass reveal">
           <div class="section-head">
             <div>
-              <h2>Player Command Hub</h2>
+              <h2>Home Dashboard</h2>
               <div class="tiny muted" id="playerIdentity">Player</div>
             </div>
-            <span class="badge" id="heroBadge">LIVE BOARD</span>
+            <span class="badge" id="heroBadge">LIVE TOURNAMENT</span>
           </div>
 
-          <div class="carousel" id="homeCarousel">
+          <div class="carousel">
             <div id="homeCarouselTrack"></div>
             <div class="carousel-copy">
               <div>
-                <div class="badge" id="bannerChip">FEATURED</div>
-                <h2 id="bannerTitle" style="margin-top:10px">Tournament Banner</h2>
-                <div class="small muted" id="bannerSubtitle" style="margin-top:6px">Rotating banner</div>
+                <div class="badge">ROTATING BANNER</div>
+                <h2 id="bannerTitle" style="margin-top:10px">Banner</h2>
+                <div class="small muted" id="bannerSubtitle" style="margin-top:6px"></div>
               </div>
               <div class="dots" id="bannerDots"></div>
             </div>
           </div>
 
           <div class="kpis">
-            <div class="kpi"><strong id="kpiJoined">0</strong><span>Joined Matches</span></div>
+            <div class="kpi"><strong id="kpiJoined">0</strong><span>Matches Joined</span></div>
             <div class="kpi"><strong id="kpiWins">0</strong><span>Wins</span></div>
             <div class="kpi"><strong id="kpiKills">0</strong><span>Kills</span></div>
-            <div class="kpi"><strong id="kpiBalance">0</strong><span>Coins / PKR</span></div>
+            <div class="kpi"><strong id="kpiBalance">0</strong><span>Coins / Rupees</span></div>
           </div>
         </div>
 
@@ -729,15 +438,15 @@
       </div>
 
       <div class="menu-grid">
-        <button class="menu-item" onclick="goMenu('home')"><span class="emoji">🏠</span><span><strong>Home</strong><br><small class="muted">Dashboard and quick stats</small></span></button>
-        <button class="menu-item" onclick="goMenu('matches')"><span class="emoji">🎮</span><span><strong>Matches</strong><br><small class="muted">Search, filter, details, join</small></span></button>
-        <button class="menu-item" onclick="goMenu('teams')"><span class="emoji">👥</span><span><strong>Team Creator</strong><br><small class="muted">Add team, captain, player slots</small></span></button>
-        <button class="menu-item" onclick="goMenu('wallet')"><span class="emoji">💳</span><span><strong>Deposit / Withdraw</strong><br><small class="muted">EasyPaisa and JazzCash requests</small></span></button>
-        <button class="menu-item" onclick="goMenu('leaderboard')"><span class="emoji">🏆</span><span><strong>Leaderboard</strong><br><small class="muted">Kills, matches, wins</small></span></button>
-        <button class="menu-item" onclick="goMenu('history')"><span class="emoji">📜</span><span><strong>Player History</strong><br><small class="muted">Matches, payments, teams</small></span></button>
-        <button class="menu-item" onclick="goMenu('announcements')"><span class="emoji">📢</span><span><strong>Announcements</strong><br><small class="muted">Admin-only posted messages</small></span></button>
-        <button class="menu-item" onclick="goMenu('support')"><span class="emoji">☎️</span><span><strong>Support</strong><br><small class="muted">Contact, payment help, rules</small></span></button>
-        <button class="menu-item" onclick="goMenu('admin')"><span class="emoji">🛠️</span><span><strong>Admin Panel</strong><br><small class="muted">Manage players, payments, matches</small></span></button>
+        <button class="menu-item" onclick="goMenu('home')"><span class="emoji">🏠</span><span><strong>Home</strong><br><small class="muted">Dashboard</small></span></button>
+        <button class="menu-item" onclick="goMenu('matches')"><span class="emoji">🎮</span><span><strong>Matches</strong><br><small class="muted">Search and join</small></span></button>
+        <button class="menu-item" onclick="goMenu('teams')"><span class="emoji">👥</span><span><strong>Teams</strong><br><small class="muted">Create team</small></span></button>
+        <button class="menu-item" onclick="goMenu('wallet')"><span class="emoji">💳</span><span><strong>Wallet</strong><br><small class="muted">Deposit and withdraw</small></span></button>
+        <button class="menu-item" onclick="goMenu('leaderboard')"><span class="emoji">🏆</span><span><strong>Leaderboard</strong><br><small class="muted">Kills and wins</small></span></button>
+        <button class="menu-item" onclick="goMenu('history')"><span class="emoji">📜</span><span><strong>History</strong><br><small class="muted">Matches, teams, payments</small></span></button>
+        <button class="menu-item" onclick="goMenu('announcements')"><span class="emoji">📢</span><span><strong>Announcements</strong><br><small class="muted">Admin-only messages</small></span></button>
+        <button class="menu-item" onclick="goMenu('support')"><span class="emoji">☎️</span><span><strong>Support</strong><br><small class="muted">Help and rules</small></span></button>
+        <button class="menu-item" onclick="goMenu('admin')"><span class="emoji">🛠️</span><span><strong>Admin Panel</strong><br><small class="muted">Manage app data</small></span></button>
       </div>
 
       <button class="btn btn-danger" style="width:100%;margin-top:16px" onclick="logout()">LOG OUT</button>
@@ -749,7 +458,7 @@
       <div class="section-head">
         <div>
           <h2>Notifications</h2>
-          <div class="tiny muted">Match reminder, payment status, room update, result</div>
+          <div class="tiny muted">Match, payment, room, result</div>
         </div>
         <button class="iconbtn" onclick="closeNotifications()">✕</button>
       </div>
@@ -768,11 +477,11 @@
       </div>
 
       <div class="item-list">
-        <div class="item">🚫 No hacks or third-party cheats</div>
-        <div class="item">🗣️ No abusive language or harassment</div>
-        <div class="item">⏰ No late joining after room opens</div>
-        <div class="item">💸 No refund after admin approved payment</div>
-        <div class="item">⚖️ Fair play only. Admin decision is final</div>
+        <div class="item">🚫 No hacks or cheats</div>
+        <div class="item">🗣️ No abusive language</div>
+        <div class="item">⏰ No late joining</div>
+        <div class="item">💸 No refund after approval</div>
+        <div class="item">⚖️ Admin decision is final</div>
       </div>
 
       <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="confirmJoin()">I ACCEPT & JOIN</button>
@@ -780,7 +489,7 @@
   </div>
 
   <footer>
-    PRO GENIUS BATTLE • Free Fire tournament app • Frontend demo with local storage
+    PRO GENIUS BATTLE • Single-file tournament app demo • Frontend only local storage version
   </footer>
 
   <script>
@@ -791,180 +500,186 @@
     };
     const esc = s => String(s ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 
-    let banners = store.get("pg_banners_full", [
-      {
-        title:"Pakistan Tournament Night",
-        subtitle:"EasyPaisa and JazzCash payment-ready Free Fire events",
-        image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#0b3158'/><stop offset='1' stop-color='#071325'/></linearGradient></defs><rect width='1600' height='900' fill='url(#g)'/><circle cx='260' cy='180' r='160' fill='#35b8ff' opacity='.16'/><circle cx='1360' cy='180' r='130' fill='#78ecff' opacity='.12'/><path d='M0 720 C 300 620 520 820 840 720 C 1100 640 1310 560 1600 660 L1600 900 L0 900 Z' fill='#113a62' opacity='.9'/><text x='120' y='340' fill='#fff' font-size='88' font-family='Arial' font-weight='700'>PAKISTAN FF TOURNAMENT</text><text x='120' y='420' fill='#a6e7ff' font-size='34' font-family='Arial'>Join rooms • pay securely • compete daily</text></svg>`)
-      },
-      {
-        title:"Clash Squad Knockouts",
-        subtitle:"CS, BR, Lone Wolf, 1v1, 2v2, 3v3, 4v4 formats",
-        image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#06111e'/><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#123d6b'/><stop offset='1' stop-color='#081423'/></linearGradient></defs><rect width='1600' height='900' fill='url(#g)'/><circle cx='1220' cy='190' r='160' fill='#4ed8ff' opacity='.15'/><text x='120' y='300' fill='#92e8ff' font-size='30' font-family='Arial'>CLASH SQUAD / BATTLE ROYALE</text><text x='120' y='400' fill='#fff' font-size='86' font-family='Arial' font-weight='700'>KNOCKOUT FORMAT</text><text x='120' y='480' fill='#d7eeff' font-size='34' font-family='Arial'>Team play, brackets, winners and room codes</text></svg>`)
-      },
-      {
-        title:"Squad Arena",
-        subtitle:"Create your team, assign captain, save player UIDs",
-        image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#071223'/><circle cx='300' cy='190' r='140' fill='#35b8ff' opacity='.18'/><path d='M0 760 C 280 620 560 580 830 700 C 1120 820 1320 700 1600 620 L1600 900 L0 900 Z' fill='#12355a'/><text x='120' y='340' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>BUILD YOUR SQUAD</text><text x='120' y='420' fill='#9de7ff' font-size='34' font-family='Arial'>Captain, players, team history, join team matches</text></svg>`)
-      },
-      {
-        title:"Leaderboard Live",
-        subtitle:"Kills, matches, wins, match names and times",
-        image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#0b3158'/><stop offset='1' stop-color='#06111e'/></linearGradient></defs><rect width='1600' height='900' fill='url(#g)'/><rect x='150' y='180' width='260' height='260' rx='28' fill='#0f2744' stroke='#84e1ff' opacity='.78'/><text x='220' y='338' fill='#ffd870' font-size='126' font-family='Arial'>🏆</text><text x='470' y='300' fill='#fff' font-size='86' font-family='Arial' font-weight='700'>LEADERBOARD LIVE</text><text x='470' y='380' fill='#d6ebff' font-size='34' font-family='Arial'>Track every top player and squad</text></svg>`)
-      },
-      {
-        title:"Admin Control Center",
-        subtitle:"Payments, players, matches, room passwords, announcements",
-        image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#071224'/><circle cx='1320' cy='200' r='150' fill='#6eeeff' opacity='.15'/><text x='120' y='310' fill='#9fe7ff' font-size='28' font-family='Arial'>ADMIN TOOLS</text><text x='120' y='400' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>CONTROL THE TOURNAMENT</text><text x='120' y='480' fill='#d8ebff' font-size='34' font-family='Arial'>Approve payments, update rooms, publish announcements</text></svg>`)
-      }
+    let banners = store.get("pg_banners_auth", [
+      { title:"Prize Pool Royale", subtitle:"Winner, runner-up, and special kill rewards on every match", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#0a2546'/><circle cx='1300' cy='180' r='150' fill='#6feeff' opacity='.15'/><rect x='150' y='180' width='260' height='260' rx='28' fill='#0f2744' stroke='#84e1ff' opacity='.78'/><text x='220' y='338' fill='#ffd870' font-size='126' font-family='Arial'>🏆</text><text x='470' y='300' fill='#fff' font-size='86' font-family='Arial' font-weight='700'>PRIZE POOL ROYALE</text><text x='470' y='380' fill='#d6ebff' font-size='34' font-family='Arial'>Compete daily and win rewards</text></svg>`) },
+      { title:"Squad Arena", subtitle:"Create team, add captain, save players", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#071223'/><circle cx='300' cy='190' r='140' fill='#35b8ff' opacity='.18'/><text x='120' y='340' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>BUILD YOUR SQUAD</text><text x='120' y='420' fill='#9de7ff' font-size='34' font-family='Arial'>Captain, players, team history</text></svg>`) },
+      { title:"Live Board", subtitle:"Track kills, wins, rankings, and results", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#081627'/><text x='120' y='330' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>LEADERBOARD LIVE</text><text x='120' y='410' fill='#a2e7ff' font-size='34' font-family='Arial'>Every top player in one place</text></svg>`) },
+      { title:"EasyPaisa & JazzCash", subtitle:"Deposit and withdraw for Pakistan players", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#0a2340'/><text x='120' y='330' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>PAY FAST</text><text x='120' y='410' fill='#a2e7ff' font-size='34' font-family='Arial'>EasyPaisa and JazzCash supported</text></svg>`) },
+      { title:"Admin Control", subtitle:"Manage players, matches, announcements, and payments", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#08192b'/><text x='120' y='330' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>ADMIN CONTROL</text><text x='120' y='410' fill='#a2e7ff' font-size='34' font-family='Arial'>Full tournament management</text></svg>`) }
     ]);
 
-    let users = store.get("pg_users_full", []);
-    let matches = store.get("pg_matches_full", [
-      {
-        id:1,title:"Daily Solo Clash",matchName:"Solo",mode:"Battle Royale",map:"Bermuda",time:"7:00 PM",
-        entryFee:0,roomType:"BR",teamAllowed:false,status:"Upcoming",
-        prizePool:{total:300,winner:150,runnerUp:100,killReward:50},
-        roomId:"",roomPass:"",notes:"Open solo practice match"
-      },
-      {
-        id:2,title:"Duo Rush CS",matchName:"Duo",mode:"Clash Squad",map:"Kalahari",time:"8:00 PM",
-        entryFee:50,roomType:"CS",teamAllowed:false,status:"Live",
-        prizePool:{total:1000,winner:500,runnerUp:300,killReward:200},
-        roomId:"CS-44",roomPass:"2299",notes:"Fast duo CS match"
-      },
-      {
-        id:3,title:"Squad Night Battle",matchName:"Squad",mode:"Battle Royale",map:"Purgatory",time:"9:00 PM",
-        entryFee:100,roomType:"BR",teamAllowed:true,status:"Upcoming",
-        prizePool:{total:2500,winner:1500,runnerUp:700,killReward:300},
-        roomId:"",roomPass:"",notes:"Team match for 4 players"
-      },
-      {
-        id:4,title:"Lone Wolf Finals",matchName:"1 vs 1",mode:"Lone Wolf",map:"Iron Cage",time:"10:00 PM",
-        entryFee:25,roomType:"Lone Wolf",teamAllowed:false,status:"Completed",
-        prizePool:{total:500,winner:300,runnerUp:150,killReward:50},
-        roomId:"LW-91",roomPass:"1010",notes:"1v1 challenge room"
-      }
+    let promoCodes = store.get("pg_promos_auth", [
+      { code:"WELCOME50", reward:50, active:true },
+      { code:"PRO100", reward:100, active:true }
     ]);
-    let leaderboard = store.get("pg_leaderboard_full", [
-      {name:"Alpha Squad",kills:18,matches:4,wins:4,matchName:"Squad Night Battle",time:"9:00 PM"},
-      {name:"Storm King",kills:15,matches:5,wins:3,matchName:"Duo Rush CS",time:"8:00 PM"},
+
+    let users = store.get("pg_users_auth", []);
+    let matches = store.get("pg_matches_auth", [
+      { id:1,title:"Daily Solo Clash",matchName:"Solo",mode:"Battle Royale",map:"Bermuda",time:"7:00 PM",entryFee:0,roomType:"BR",teamAllowed:false,status:"Upcoming",prizePool:{total:300,winner:150,runnerUp:100,killReward:50},roomId:"",roomPass:"",notes:"Open solo practice match" },
+      { id:2,title:"CS Duo Rush",matchName:"Duo",mode:"Clash Squad",map:"Kalahari",time:"8:00 PM",entryFee:50,roomType:"CS",teamAllowed:false,status:"Live",prizePool:{total:1000,winner:500,runnerUp:300,killReward:200},roomId:"CS-44",roomPass:"2299",notes:"Fast duo CS match" },
+      { id:3,title:"Squad Classic",matchName:"Squad",mode:"Battle Royale",map:"Bermuda",time:"9:00 PM",entryFee:100,roomType:"BR",teamAllowed:true,status:"Upcoming",prizePool:{total:2500,winner:1500,runnerUp:700,killReward:300},roomId:"",roomPass:"",notes:"Team match for 4 players" }
+    ]);
+    let leaderboard = store.get("pg_leaderboard_auth", [
+      {name:"Alpha Squad",kills:18,matches:4,wins:4,matchName:"Squad Classic",time:"9:00 PM"},
+      {name:"Storm King",kills:15,matches:5,wins:3,matchName:"CS Duo Rush",time:"8:00 PM"},
       {name:"Headshot Pro",kills:12,matches:6,wins:2,matchName:"Daily Solo Clash",time:"7:00 PM"}
     ]);
-    let announcements = store.get("pg_announce_full", [
-      {title:"Welcome",text:"Official tournament portal is live.",by:"ADMIN"},
-      {title:"Payment Notice",text:"Only admin can publish announcements here.",by:"ADMIN"}
+    let announcements = store.get("pg_announce_auth", [
+      {title:"Welcome",text:"Tournament portal is live. Review details before joining.",by:"ADMIN"},
+      {title:"Room Rules",text:"Join only when room details are announced.",by:"MATCH ADMIN"}
     ]);
-    let notifications = store.get("pg_notifications_full", [
-      {title:"Match Reminder",text:"Daily Solo Clash starts at 7:00 PM",type:"reminder",time:new Date().toLocaleString()},
-      {title:"Room Update",text:"Duo Rush CS room is live now",type:"room",time:new Date().toLocaleString()}
+    let notifications = store.get("pg_notifications_auth", [
+      {title:"Match reminder",text:"Daily Solo Clash starts at 7:00 PM",type:"reminder",time:new Date().toLocaleString()},
+      {title:"Result published",text:"Lone Wolf 1v1 results are available now",type:"result",time:new Date().toLocaleString()}
     ]);
-    let teams = store.get("pg_teams_full", []);
-    let joined = store.get("pg_joined_full", {});
-    let paymentMethods = store.get("pg_payments_full", [
+    let teams = store.get("pg_teams_auth", []);
+    let joined = store.get("pg_joined_auth", {});
+    let paymentMethods = store.get("pg_methods_auth", [
       {id:1,title:"EasyPaisa",number:"03XX-XXXXXXX",active:true},
       {id:2,title:"JazzCash",number:"03XX-XXXXXXX",active:true}
     ]);
-    let paymentRequests = store.get("pg_payment_requests_full", []);
-    let support = store.get("pg_support_full", {
+    let paymentRequests = store.get("pg_requests_auth", []);
+    let support = store.get("pg_support_auth", {
       contact:"support@progeniusbattle.local",
       whatsapp:"+92 300 0000000",
-      help:"For deposit or withdrawal issues, contact support with transaction ID.",
-      report:"Report abuse, room issue, or payment issue to the admin support line."
+      help:"For payment help, contact support with your transaction ID.",
+      report:"Report abuse, room issue, or payment issue here."
     });
 
-    let currentEmail = store.get("pg_session_full", null);
+    let currentEmail = store.get("pg_session_auth", null);
     let currentPage = "home";
     let bannerIndex = 0;
     let pendingJoinId = null;
-    let adminView = "matches";
+    let adminView = "players";
 
-    const demoAdmin = {
-      name:"Admin",
+    const safeAdmin = {
+      fullName:"Admin User",
+      ffName:"AdminFF",
+      uid:"00000000",
       email:"admin@example.com",
       password:"change-me-now",
       role:"admin",
-      uid:"",
-      username:"Admin",
-      ign:"Tournament Admin",
       coins:9999,
       rupees:9999,
       kills:0,
       wins:0,
-      banned:false
+      banned:false,
+      referralCode:"ADMINREF",
+      usedPromo:""
     };
 
-    if(!users.some(u => u.email === demoAdmin.email)){
-      users.unshift(demoAdmin);
+    if(!users.some(u => u.email === safeAdmin.email)){
+      users.unshift(safeAdmin);
       saveAll();
     }
 
     function saveAll(){
-      store.set("pg_banners_full", banners);
-      store.set("pg_users_full", users);
-      store.set("pg_matches_full", matches);
-      store.set("pg_leaderboard_full", leaderboard);
-      store.set("pg_announce_full", announcements);
-      store.set("pg_notifications_full", notifications);
-      store.set("pg_teams_full", teams);
-      store.set("pg_joined_full", joined);
-      store.set("pg_payments_full", paymentMethods);
-      store.set("pg_payment_requests_full", paymentRequests);
-      store.set("pg_support_full", support);
-      store.set("pg_session_full", currentEmail);
+      store.set("pg_banners_auth", banners);
+      store.set("pg_promos_auth", promoCodes);
+      store.set("pg_users_auth", users);
+      store.set("pg_matches_auth", matches);
+      store.set("pg_leaderboard_auth", leaderboard);
+      store.set("pg_announce_auth", announcements);
+      store.set("pg_notifications_auth", notifications);
+      store.set("pg_teams_auth", teams);
+      store.set("pg_joined_auth", joined);
+      store.set("pg_methods_auth", paymentMethods);
+      store.set("pg_requests_auth", paymentRequests);
+      store.set("pg_support_auth", support);
+      store.set("pg_session_auth", currentEmail);
     }
 
-    function me(){
-      return users.find(u => u.email === currentEmail) || null;
-    }
+    function me(){ return users.find(u => u.email === currentEmail) || null; }
 
     function switchAuth(tab){
       $("loginForm").classList.toggle("hidden", tab !== "login");
       $("registerForm").classList.toggle("hidden", tab !== "register");
+      $("forgotForm").classList.toggle("hidden", tab !== "forgot");
       $("adminForm").classList.toggle("hidden", tab !== "admin");
       $("tabLogin").classList.toggle("active", tab === "login");
       $("tabRegister").classList.toggle("active", tab === "register");
+      $("tabForgot").classList.toggle("active", tab === "forgot");
       $("tabAdmin").classList.toggle("active", tab === "admin");
       $("authMsg").textContent = "";
     }
 
+    function makeReferralCode(name){
+      return (name || "PLAYER").replace(/\s+/g,"").toUpperCase().slice(0,5) + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    $("registerForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const fullName = $("regFullName").value.trim();
+      const ffName = $("regFfName").value.trim();
+      const uid = $("regUid").value.trim();
+      const email = $("regEmail").value.trim().toLowerCase();
+      const password = $("regPassword").value;
+      const promo = $("regPromo").value.trim().toUpperCase();
+
+      if(!/^\d{8,12}$/.test(uid)){ $("authMsg").textContent = "Free Fire UID must be 8 to 12 digits."; return; }
+      if(users.some(u => u.email === email)){ $("authMsg").textContent = "Email already registered."; return; }
+      if(users.some(u => (u.ffName || "").toLowerCase() === ffName.toLowerCase())){ $("authMsg").textContent = "Free Fire ID name already used."; return; }
+
+      let bonus = 100;
+      let usedPromo = "";
+      if(promo){
+        const foundPromo = promoCodes.find(p => p.code === promo && p.active);
+        const refUser = users.find(u => u.referralCode === promo);
+        if(foundPromo){
+          bonus += Number(foundPromo.reward || 0);
+          usedPromo = promo;
+        } else if(refUser){
+          bonus += 50;
+          refUser.coins = (refUser.coins || 0) + 50;
+          refUser.rupees = refUser.coins;
+          usedPromo = promo;
+        }
+      }
+
+      users.push({
+        fullName,
+        ffName,
+        uid,
+        email,
+        password,
+        role:"player",
+        coins:bonus,
+        rupees:bonus,
+        kills:0,
+        wins:0,
+        banned:false,
+        referralCode:makeReferralCode(fullName),
+        usedPromo
+      });
+      saveAll();
+      $("authMsg").textContent = "Account created successfully. Login now.";
+      switchAuth("login");
+      $("loginIdentifier").value = email;
+    });
+
     $("loginForm").addEventListener("submit", e => {
       e.preventDefault();
-      const email = $("loginEmail").value.trim().toLowerCase();
+      const identifier = $("loginIdentifier").value.trim().toLowerCase();
       const password = $("loginPassword").value;
-      const user = users.find(u => u.email === email && u.password === password && u.role !== "admin");
-      if(!user){ $("authMsg").textContent = "Player login failed."; return; }
-      if(user.banned){ $("authMsg").textContent = "Account is banned by admin."; return; }
+      const user = users.find(u => u.role !== "admin" && (u.email.toLowerCase() === identifier || (u.ffName || "").toLowerCase() === identifier) && u.password === password);
+      if(!user){ $("authMsg").textContent = "Invalid login details."; return; }
+      if(user.banned){ $("authMsg").textContent = "Your account is banned."; return; }
       currentEmail = user.email;
       saveAll();
       startApp();
     });
 
-    $("registerForm").addEventListener("submit", e => {
+    $("forgotForm").addEventListener("submit", e => {
       e.preventDefault();
-      const email = $("regEmail").value.trim().toLowerCase();
-      if(users.some(u => u.email === email)){ $("authMsg").textContent = "Email already registered."; return; }
-      const uid = $("regUid").value.trim();
-      if(!/^\d{8,10}$/.test(uid)){ $("authMsg").textContent = "UID must be 8 to 10 digits."; return; }
-
-      users.push({
-        name:$("regUsername").value.trim(),
-        username:$("regUsername").value.trim(),
-        email,
-        password:$("regPassword").value,
-        role:"player",
-        uid,
-        ign:$("regIgn").value.trim(),
-        coins:100,
-        rupees:100,
-        kills:0,
-        wins:0,
-        banned:false
-      });
+      const email = $("forgotEmail").value.trim().toLowerCase();
+      const newPass = $("forgotNewPassword").value;
+      const user = users.find(u => u.email === email && u.role !== "admin");
+      if(!user){ $("authMsg").textContent = "Account not found."; return; }
+      user.password = newPass;
       saveAll();
-      $("authMsg").textContent = "Account created. Login now.";
+      $("authMsg").textContent = "Password reset successful. Login now.";
       switchAuth("login");
-      $("loginEmail").value = email;
+      $("loginIdentifier").value = email;
     });
 
     $("adminForm").addEventListener("submit", e => {
@@ -999,76 +714,42 @@
     }
 
     function renderHero(){
-      $("heroBg").innerHTML = banners.map((b,i)=>`
-        <div class="hero-slide ${i===bannerIndex?'active':''}" style="background-image:url('${esc(b.image)}')"></div>
-      `).join("");
+      $("heroBg").innerHTML = banners.map((b,i)=>`<div class="hero-slide ${i===bannerIndex?'active':''}" style="background-image:url('${esc(b.image)}')"></div>`).join("");
     }
-
     function renderCarousel(){
-      $("homeCarouselTrack").innerHTML = banners.map((b,i)=>`
-        <div class="carousel-slide ${i===bannerIndex?'active':''}" style="background-image:url('${esc(b.image)}')"></div>
-      `).join("");
-      $("bannerDots").innerHTML = banners.map((_,i)=>`
-        <button class="dot ${i===bannerIndex?'active':''}" onclick="setBanner(${i})"></button>
-      `).join("");
-      $("bannerTitle").textContent = banners[bannerIndex]?.title || "Tournament Banner";
+      $("homeCarouselTrack").innerHTML = banners.map((b,i)=>`<div class="carousel-slide ${i===bannerIndex?'active':''}" style="background-image:url('${esc(b.image)}')"></div>`).join("");
+      $("bannerDots").innerHTML = banners.map((_,i)=>`<button class="dot ${i===bannerIndex?'active':''}" onclick="setBanner(${i})"></button>`).join("");
+      $("bannerTitle").textContent = banners[bannerIndex]?.title || "Banner";
       $("bannerSubtitle").textContent = banners[bannerIndex]?.subtitle || "";
     }
+    function setBanner(i){ bannerIndex = i % banners.length; renderHero(); if(!$("appPage").classList.contains("hidden")) renderCarousel(); }
+    setInterval(()=> setBanner((bannerIndex + 1) % banners.length), 3500);
 
-    function setBanner(i){
-      bannerIndex = i % banners.length;
-      renderHero();
-      if(!$("appPage").classList.contains("hidden")) renderCarousel();
-    }
-    function nextBanner(){ setBanner((bannerIndex + 1) % banners.length); }
-    setInterval(nextBanner, 3500);
-
-    function pushNotification(title,text,type="info"){
-      notifications.unshift({title,text,type,time:new Date().toLocaleString()});
-      saveAll();
-      renderNotifications();
-    }
-
-    function renderNotifications(full=false){
-      const target = full ? $("notificationsList") : null;
-      const list = full ? notifications : notifications.slice(0,3);
-      if(target){
-        target.innerHTML = list.map(n=>`
-          <div class="item reveal">
-            <div class="row">
-              <strong>${esc(n.title)}</strong>
-              <span class="badge">${esc(n.type)}</span>
-            </div>
-            <div class="small muted" style="margin-top:8px">${esc(n.text)}</div>
-            <div class="tiny muted" style="margin-top:8px">${esc(n.time)}</div>
-          </div>
-        `).join("") || `<div class="item">No notifications.</div>`;
-      }
-      triggerReveal();
-    }
+    function pushNotification(title,text,type="info"){ notifications.unshift({title,text,type,time:new Date().toLocaleString()}); saveAll(); }
 
     function openNotifications(){
       $("notificationsOverlay").classList.add("show");
-      renderNotifications(true);
+      $("notificationsList").innerHTML = notifications.map(n=>`
+        <div class="item reveal">
+          <div class="row"><strong>${esc(n.title)}</strong><span class="badge">${esc(n.type)}</span></div>
+          <div class="small muted" style="margin-top:8px">${esc(n.text)}</div>
+          <div class="tiny muted" style="margin-top:8px">${esc(n.time)}</div>
+        </div>
+      `).join("") || `<div class="item">No notifications.</div>`;
+      triggerReveal();
     }
     function closeNotifications(){ $("notificationsOverlay").classList.remove("show"); }
 
     function openMenu(){
       $("menuOverlay").classList.add("show");
       const u = me();
-      $("menuIdentity").textContent = u ? `${u.username || u.name} • ${u.email} • ${u.role}` : "Guest";
+      $("menuIdentity").textContent = u ? `${u.ffName} • ${u.role}` : "Guest";
     }
     function closeMenu(){ $("menuOverlay").classList.remove("show"); }
     function goMenu(page){ closeMenu(); showPage(page); }
 
-    function openRules(matchId){
-      pendingJoinId = matchId;
-      $("rulesOverlay").classList.add("show");
-    }
-    function closeRules(){
-      $("rulesOverlay").classList.remove("show");
-      pendingJoinId = null;
-    }
+    function openRules(matchId){ pendingJoinId = matchId; $("rulesOverlay").classList.add("show"); }
+    function closeRules(){ $("rulesOverlay").classList.remove("show"); pendingJoinId = null; }
 
     function statusClass(status){
       const s = String(status || "").toLowerCase();
@@ -1079,38 +760,27 @@
       return "st-upcoming";
     }
 
-    function joinedKey(matchId){
-      const u = me();
-      return u ? `${u.email}:${matchId}` : "";
-    }
+    function joinedKey(id){ const u = me(); return u ? `${u.email}:${id}` : ""; }
 
     function confirmJoin(){
       const u = me();
       const match = matches.find(m => m.id === pendingJoinId);
       if(!u || !match){ closeRules(); return; }
       const key = joinedKey(match.id);
-      if(joined[key]){
-        alert("Already joined.");
-        closeRules();
-        return;
-      }
+      if(joined[key]){ alert("Already joined."); closeRules(); return; }
       joined[key] = true;
-      if(match.entryFee){
-        u.coins = Math.max(0, (u.coins || 0) - Number(match.entryFee));
-        u.rupees = u.coins;
-      }
+      if(match.entryFee){ u.coins = Math.max(0, (u.coins || 0) - Number(match.entryFee)); u.rupees = u.coins; }
       saveAll();
-      pushNotification("Match joined", `You joined ${match.title}`, "join");
+      pushNotification("Join successful", `You joined ${match.title}`, "join");
       renderAll();
       closeRules();
-      alert("Joined successfully.");
     }
 
     function renderHome(){
       const u = me();
       if(!u) return;
       $("topCoins").textContent = u.coins || 0;
-      $("playerIdentity").textContent = `${u.username || u.name} • ${u.role}`;
+      $("playerIdentity").textContent = `${u.ffName} • ${u.role}`;
       $("heroBadge").textContent = matches.some(m => m.status === "Live") ? "LIVE TOURNAMENT" : "EVENT BOARD";
       $("kpiJoined").textContent = Object.keys(joined).filter(k => k.startsWith(u.email + ":")).length;
       $("kpiWins").textContent = u.wins || 0;
@@ -1119,10 +789,7 @@
 
       $("homeAnnouncements").innerHTML = announcements.slice(0,3).map(a=>`
         <div class="item reveal">
-          <div class="row">
-            <strong>${esc(a.title)}</strong>
-            <span class="badge">${esc(a.by)}</span>
-          </div>
+          <div class="row"><strong>${esc(a.title)}</strong><span class="badge">${esc(a.by)}</span></div>
           <div class="small muted" style="margin-top:8px">${esc(a.text)}</div>
         </div>
       `).join("") || `<div class="item">No announcements.</div>`;
@@ -1132,7 +799,7 @@
     }
 
     function matchCard(m){
-      const joinedAlready = !!joined[joinedKey(m.id)];
+      const isJoined = !!joined[joinedKey(m.id)];
       return `
         <div class="item reveal">
           <div class="row">
@@ -1142,17 +809,15 @@
             </div>
             <span class="badge ${statusClass(m.status)}">${esc(m.status)}</span>
           </div>
-
           <div class="small muted" style="margin-top:10px">
             Time: ${esc(m.time)}<br>
-            Entry Fee: ${m.entryFee ? "PKR " + esc(m.entryFee) : "Free"}<br>
+            Entry Fee: ${m.entryFee ? "Rs " + esc(m.entryFee) : "Free"}<br>
             Room Type: ${esc(m.roomType)}<br>
             Team Allowed: ${m.teamAllowed ? "Yes" : "No"}
           </div>
-
           <div class="row" style="margin-top:12px">
             <button class="btn btn-secondary" onclick="showMatchDetail(${m.id})">DETAILS</button>
-            <button class="btn ${joinedAlready?'btn-success':'btn-primary'}" onclick="openRules(${m.id})">${joinedAlready ? "JOINED" : "JOIN MATCH"}</button>
+            <button class="btn ${isJoined?'btn-success':'btn-primary'}" onclick="openRules(${m.id})">${isJoined?'JOINED':'JOIN MATCH'}</button>
           </div>
         </div>
       `;
@@ -1166,27 +831,9 @@
       if(page === "home"){
         c.innerHTML = `
           <div class="grid grid-3">
-            <div class="panel reveal">
-              <div class="section-head">
-                <h2>Matches & Scrims</h2>
-                <button class="btn btn-secondary" onclick="showPage('matches')">Open</button>
-              </div>
-              <div class="small muted">Join tournament rooms, scrims, CS 4v4, BR, and all supported formats.</div>
-            </div>
-            <div class="panel reveal">
-              <div class="section-head">
-                <h2>Deposit / Withdraw</h2>
-                <button class="btn btn-secondary" onclick="showPage('wallet')">Open</button>
-              </div>
-              <div class="small muted">Use EasyPaisa and JazzCash for Pakistan-only payment flow.</div>
-            </div>
-            <div class="panel reveal">
-              <div class="section-head">
-                <h2>Leaderboard</h2>
-                <button class="btn btn-secondary" onclick="showPage('leaderboard')">Open</button>
-              </div>
-              <div class="small muted">Track kills, wins, standings, and top players.</div>
-            </div>
+            <div class="panel reveal"><div class="section-head"><h2>Matches</h2><button class="btn btn-secondary" onclick="showPage('matches')">Open</button></div><div class="small muted">Open tournaments and join match rooms.</div></div>
+            <div class="panel reveal"><div class="section-head"><h2>Wallet</h2><button class="btn btn-secondary" onclick="showPage('wallet')">Open</button></div><div class="small muted">Deposit and withdraw with EasyPaisa / JazzCash.</div></div>
+            <div class="panel reveal"><div class="section-head"><h2>Profile</h2><button class="btn btn-secondary" onclick="showPage('profile')">Open</button></div><div class="small muted">Edit full name, FF ID name, UID.</div></div>
           </div>
         `;
         renderHome();
@@ -1198,18 +845,13 @@
         c.innerHTML = `
           <section class="panel">
             <div class="section-head">
-              <div>
-                <h2>Matches</h2>
-                <div class="tiny muted">Search and filter tournaments</div>
-              </div>
+              <div><h2>Matches</h2><div class="tiny muted">Search and filter</div></div>
             </div>
             <div class="toolbar">
-              <input id="matchSearch" placeholder="Search match title, map, mode" oninput="renderMatchesPage()">
+              <input id="matchSearch" placeholder="Search title, mode, map" oninput="renderMatchesPage()">
               <select id="matchType" onchange="renderMatchesPage()">
                 <option value="">All Types</option>
-                <option>Solo</option><option>Duo</option><option>Squad</option>
-                <option>CS</option><option>BR</option>
-                <option>1 vs 1</option><option>2 vs 2</option><option>3 vs 3</option><option>4 vs 4</option>
+                <option>Solo</option><option>Duo</option><option>Squad</option><option>CS</option><option>BR</option>
               </select>
               <select id="matchStatus" onchange="renderMatchesPage()">
                 <option value="">All Status</option>
@@ -1226,38 +868,21 @@
         c.innerHTML = `
           <section class="panel">
             <div class="section-head">
-              <div>
-                <h2>Wallet, Deposit & Withdrawal</h2>
-                <div class="tiny muted">EasyPaisa and JazzCash only</div>
-              </div>
-              <span class="badge">1 coin = 1 PKR</span>
+              <div><h2>Wallet</h2><div class="tiny muted">Deposit and withdrawal</div></div>
+              <span class="badge">1 coin = 1 rupee</span>
             </div>
-
             <div class="grid grid-2">
               <div class="panel glass">
                 <h3>Payment Methods</h3>
                 <div id="paymentMethodsWrap" class="payment-list" style="margin-top:12px"></div>
               </div>
-
               <div class="panel glass">
                 <h3>Deposit Request</h3>
                 <form id="depositForm" class="form" style="margin-top:12px">
-                  <div class="field">
-                    <label>Method</label>
-                    <select id="depositMethod"></select>
-                  </div>
-                  <div class="field">
-                    <label>Amount (PKR)</label>
-                    <input id="depositAmount" type="number" min="0" required>
-                  </div>
-                  <div class="field">
-                    <label>Sender Number</label>
-                    <input id="senderNumber" placeholder="03XX-XXXXXXX" required>
-                  </div>
-                  <div class="field">
-                    <label>Transaction ID</label>
-                    <input id="depositTrx" required>
-                  </div>
+                  <div class="field"><label>Method</label><select id="depositMethod"></select></div>
+                  <div class="field"><label>Amount (Rs)</label><input id="depositAmount" type="number" min="0" required></div>
+                  <div class="field"><label>Sender Number</label><input id="senderNumber" required></div>
+                  <div class="field"><label>Transaction ID</label><input id="depositTrx" required></div>
                   <button class="btn btn-primary">SUBMIT DEPOSIT</button>
                 </form>
               </div>
@@ -1267,26 +892,13 @@
               <div class="panel glass">
                 <h3>Withdraw Request</h3>
                 <form id="withdrawForm" class="form" style="margin-top:12px">
-                  <div class="field">
-                    <label>Method</label>
-                    <select id="withdrawMethod"></select>
-                  </div>
-                  <div class="field">
-                    <label>Amount (PKR)</label>
-                    <input id="withdrawAmount" type="number" min="0" required>
-                  </div>
-                  <div class="field">
-                    <label>Account Title</label>
-                    <input id="withdrawTitle" required>
-                  </div>
-                  <div class="field">
-                    <label>Account Number</label>
-                    <input id="withdrawNumber" required>
-                  </div>
+                  <div class="field"><label>Method</label><select id="withdrawMethod"></select></div>
+                  <div class="field"><label>Amount (Rs)</label><input id="withdrawAmount" type="number" min="0" required></div>
+                  <div class="field"><label>Account Title</label><input id="withdrawTitle" required></div>
+                  <div class="field"><label>Account Number</label><input id="withdrawNumber" required></div>
                   <button class="btn btn-primary">REQUEST WITHDRAWAL</button>
                 </form>
               </div>
-
               <div class="panel glass">
                 <h3>Your Payment History</h3>
                 <div id="paymentHistoryWrap" class="payment-list" style="margin-top:12px"></div>
@@ -1304,7 +916,7 @@
           <section class="panel">
             <div class="section-head">
               <h2>Leaderboard</h2>
-              <span class="badge">Kills • Matches • Wins • Match Name • Time</span>
+              <span class="badge">Kills • Matches • Wins</span>
             </div>
             <div class="leader-list">
               ${leaderboard.map((l,i)=>`
@@ -1313,11 +925,9 @@
                     <strong>#${i+1} ${esc(l.name)}</strong>
                     <span class="badge">Kills ${esc(l.kills)}</span>
                   </div>
-                  <div class="small muted" style="margin-top:8px">
-                    Matches: ${esc(l.matches)} • Wins: ${esc(l.wins)} • Match: ${esc(l.matchName)} • Time: ${esc(l.time)}
-                  </div>
+                  <div class="small muted" style="margin-top:8px">Matches: ${esc(l.matches)} • Wins: ${esc(l.wins)} • Match: ${esc(l.matchName)} • Time: ${esc(l.time)}</div>
                 </div>
-              `).join("") || `<div class="item">No leaderboard data.</div>`}
+              `).join("")}
             </div>
           </section>
         `;
@@ -1329,29 +939,15 @@
         c.innerHTML = `
           <section class="panel">
             <div class="section-head">
-              <div>
-                <h2>Profile Settings</h2>
-                <div class="tiny muted">Email cannot be changed. UID and names can be edited live.</div>
-              </div>
+              <div><h2>Player Profile</h2><div class="tiny muted">Email cannot be changed</div></div>
             </div>
-
             <form id="profileForm" class="form" style="max-width:700px">
-              <div class="field">
-                <label>Email</label>
-                <input value="${esc(u.email)}" disabled>
-              </div>
-              <div class="field">
-                <label>Username</label>
-                <input id="profileUsername" value="${esc(u.username || u.name || "")}" required>
-              </div>
-              <div class="field">
-                <label>Free Fire UID</label>
-                <input id="profileUid" value="${esc(u.uid || "")}" required>
-              </div>
-              <div class="field">
-                <label>Free Fire In-Game Name</label>
-                <input id="profileIgn" value="${esc(u.ign || "")}" required>
-              </div>
+              <div class="field"><label>Full Name</label><input id="profileFullName" value="${esc(u.fullName || "")}" required></div>
+              <div class="field"><label>Free Fire ID Name</label><input id="profileFfName" value="${esc(u.ffName || "")}" required></div>
+              <div class="field"><label>Email</label><input value="${esc(u.email)}" disabled></div>
+              <div class="field"><label>Free Fire UID</label><input id="profileUid" value="${esc(u.uid || "")}" required></div>
+              <div class="field"><label>Your Referral Code</label><input value="${esc(u.referralCode || "")}" disabled></div>
+              <div class="field"><label>Used Promo / Referral</label><input value="${esc(u.usedPromo || "None")}" disabled></div>
               <button class="btn btn-primary">SAVE PROFILE</button>
             </form>
           </section>
@@ -1363,12 +959,8 @@
         c.innerHTML = `
           <section class="panel">
             <div class="section-head">
-              <div>
-                <h2>Team Creator</h2>
-                <div class="tiny muted">Create squad, captain, and player list</div>
-              </div>
+              <div><h2>Team Creator</h2><div class="tiny muted">Add captain and players</div></div>
             </div>
-
             <div class="grid grid-2">
               <form id="teamForm" class="panel glass form">
                 <div class="field"><label>Team Name</label><input id="teamName" required></div>
@@ -1379,7 +971,6 @@
                 <div class="field"><label>Player 4 UID</label><input id="teamP4"></div>
                 <button class="btn btn-primary">SAVE TEAM</button>
               </form>
-
               <div class="panel glass">
                 <h3>Saved Teams</h3>
                 <div id="teamsWrap" class="team-list" style="margin-top:12px"></div>
@@ -1400,18 +991,15 @@
           <section class="panel">
             <div class="section-head">
               <h2>Announcements</h2>
-              <span class="badge">Only admin can write messages</span>
+              <span class="badge">Only admin can write</span>
             </div>
             <div class="feed">
               ${announcements.map(a=>`
                 <div class="item reveal">
-                  <div class="row">
-                    <strong>${esc(a.title)}</strong>
-                    <span class="badge">${esc(a.by)}</span>
-                  </div>
+                  <div class="row"><strong>${esc(a.title)}</strong><span class="badge">${esc(a.by)}</span></div>
                   <div class="small muted" style="margin-top:8px">${esc(a.text)}</div>
                 </div>
-              `).join("") || `<div class="item">No announcements.</div>`}
+              `).join("")}
             </div>
           </section>
         `;
@@ -1423,26 +1011,13 @@
           <section class="panel">
             <div class="section-head">
               <h2>Support</h2>
-              <span class="badge">Contact • payment help • report problem</span>
+              <span class="badge">Help and report</span>
             </div>
             <div class="grid grid-2">
-              <div class="item reveal">
-                <strong>Contact</strong>
-                <div class="small muted" style="margin-top:8px">${esc(support.contact)}</div>
-                <div class="small muted">${esc(support.whatsapp)}</div>
-              </div>
-              <div class="item reveal">
-                <strong>Payment Help</strong>
-                <div class="small muted" style="margin-top:8px">${esc(support.help)}</div>
-              </div>
-              <div class="item reveal">
-                <strong>Policy & Security</strong>
-                <div class="small muted" style="margin-top:8px">Email locked. Admin can review player data, ban accounts, approve payments, and manage security policies.</div>
-              </div>
-              <div class="item reveal">
-                <strong>Report Problem</strong>
-                <div class="small muted" style="margin-top:8px">${esc(support.report)}</div>
-              </div>
+              <div class="item reveal"><strong>Contact</strong><div class="small muted" style="margin-top:8px">${esc(support.contact)}</div><div class="small muted">${esc(support.whatsapp)}</div></div>
+              <div class="item reveal"><strong>Payment Help</strong><div class="small muted" style="margin-top:8px">${esc(support.help)}</div></div>
+              <div class="item reveal"><strong>Rules</strong><div class="small muted" style="margin-top:8px">No hacks, no abuse, no late join, no refund after approval.</div></div>
+              <div class="item reveal"><strong>Report Problem</strong><div class="small muted" style="margin-top:8px">${esc(support.report)}</div></div>
             </div>
           </section>
         `;
@@ -1452,34 +1027,21 @@
       if(page === "admin"){
         const u = me();
         if(!u || u.role !== "admin"){
-          c.innerHTML = `
-            <section class="panel">
-              <h2>Admin Panel</h2>
-              <div class="notice" style="margin-top:14px">Admin login required.</div>
-            </section>
-          `;
+          c.innerHTML = `<section class="panel"><h2>Admin Panel</h2><div class="notice" style="margin-top:14px">Admin login required.</div></section>`;
           return;
         }
-
         c.innerHTML = `
           <section class="panel">
             <div class="section-head">
-              <div>
-                <h2>Admin Dashboard</h2>
-                <div class="tiny muted">Players, payments, matches, announcements, leaderboard, banners, policy</div>
-              </div>
+              <div><h2>Admin Dashboard</h2><div class="tiny muted">Player database, payments, promos, announcements</div></div>
             </div>
-
             <div class="admin-tabs">
               <button class="${adminView==='players'?'active':''}" onclick="setAdminView('players')">Players</button>
-              <button class="${adminView==='matches'?'active':''}" onclick="setAdminView('matches')">Matches</button>
               <button class="${adminView==='payments'?'active':''}" onclick="setAdminView('payments')">Payments</button>
               <button class="${adminView==='announcements'?'active':''}" onclick="setAdminView('announcements')">Announcements</button>
               <button class="${adminView==='leaderboard'?'active':''}" onclick="setAdminView('leaderboard')">Leaderboard</button>
-              <button class="${adminView==='banners'?'active':''}" onclick="setAdminView('banners')">Banners</button>
-              <button class="${adminView==='policy'?'active':''}" onclick="setAdminView('policy')">Policy</button>
+              <button class="${adminView==='promos'?'active':''}" onclick="setAdminView('promos')">Promo Codes</button>
             </div>
-
             <div id="adminWrap"></div>
           </section>
         `;
@@ -1509,13 +1071,9 @@
       $("pageContent").innerHTML = `
         <section class="panel">
           <div class="section-head">
-            <div>
-              <h2>Match Detail Page</h2>
-              <div class="tiny muted">Every detail before join</div>
-            </div>
+            <div><h2>Match Detail Page</h2><div class="tiny muted">See every detail before join</div></div>
             <button class="btn btn-secondary" onclick="showPage('matches')">← Back</button>
           </div>
-
           <div class="grid grid-2">
             <div class="item reveal">
               <strong>${esc(m.title)}</strong>
@@ -1524,21 +1082,19 @@
                 Mode: ${esc(m.mode)}<br>
                 Map: ${esc(m.map)}<br>
                 Time: ${esc(m.time)}<br>
-                Entry Fee: ${m.entryFee ? "PKR " + esc(m.entryFee) : "Free"}<br>
+                Entry Fee: ${m.entryFee ? "Rs " + esc(m.entryFee) : "Free"}<br>
                 Room Type: ${esc(m.roomType)}<br>
                 Team Allowed: ${m.teamAllowed ? "Yes" : "No"}<br>
                 Status: ${esc(m.status)}
               </div>
-              <div class="small muted" style="margin-top:10px">${esc(m.notes || "")}</div>
             </div>
-
             <div class="item reveal">
               <strong>Prize Pool</strong>
               <div class="small muted" style="margin-top:10px">
-                Total Prize Pool: PKR ${esc(m.prizePool.total)}<br>
-                Winner Prize: PKR ${esc(m.prizePool.winner)}<br>
-                Runner-up Prize: PKR ${esc(m.prizePool.runnerUp)}<br>
-                Special Kill Reward: PKR ${esc(m.prizePool.killReward)}<br><br>
+                Total Prize Pool: Rs ${esc(m.prizePool.total)}<br>
+                Winner Prize: Rs ${esc(m.prizePool.winner)}<br>
+                Runner-up Prize: Rs ${esc(m.prizePool.runnerUp)}<br>
+                Special Kill Reward: Rs ${esc(m.prizePool.killReward)}<br><br>
                 Room ID: ${esc(m.roomId || "Not announced")}<br>
                 Room Password: ${esc(m.roomPass || "Not announced")}
               </div>
@@ -1556,29 +1112,26 @@
         <div class="item reveal">
           <div class="row">
             <strong>${esc(m.title)}</strong>
-            <span class="badge ${m.active ? 'st-live' : 'st-cancelled'}">${m.active ? 'Active' : 'Disabled'}</span>
+            <span class="badge ${m.active?'st-live':'st-cancelled'}">${m.active?'Active':'Disabled'}</span>
           </div>
           <div class="small muted" style="margin-top:8px">${esc(m.number)}</div>
         </div>
-      `).join("") || `<div class="item">No payment methods.</div>`;
+      `).join("") || `<div class="item">No methods.</div>`;
 
       $("depositMethod").innerHTML = methods.map(m=>`<option value="${m.id}">${esc(m.title)} — ${esc(m.number)}</option>`).join("");
       $("withdrawMethod").innerHTML = methods.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join("");
 
       const u = me();
-      const myReq = paymentRequests.filter(r => r.email === u.email);
-      $("paymentHistoryWrap").innerHTML = myReq.map(r=>`
+      const mine = paymentRequests.filter(r => r.email === u.email);
+      $("paymentHistoryWrap").innerHTML = mine.map(r=>`
         <div class="item reveal">
           <div class="row">
             <strong>${esc(r.kind)} • ${esc(r.methodTitle)}</strong>
             <span class="badge ${statusClass(r.status)}">${esc(r.status)}</span>
           </div>
-          <div class="small muted" style="margin-top:8px">
-            Amount: PKR ${esc(r.amount)}<br>
-            ${r.kind === 'Deposit' ? `Sender: ${esc(r.sender)} • TRX: ${esc(r.trx)}` : `Title: ${esc(r.title)} • Number: ${esc(r.number)}`}
-          </div>
+          <div class="small muted" style="margin-top:8px">Amount: Rs ${esc(r.amount)}</div>
         </div>
-      `).join("") || `<div class="item">No payment requests yet.</div>`;
+      `).join("") || `<div class="item">No payment requests.</div>`;
       triggerReveal();
     }
 
@@ -1598,7 +1151,7 @@
         status:"Pending"
       });
       saveAll();
-      pushNotification("Deposit submitted", "Your deposit request is pending admin approval.", "payment");
+      pushNotification("Deposit submitted", "Your deposit request is pending approval.", "payment");
       renderWallet();
       e.target.reset();
     }
@@ -1619,7 +1172,7 @@
         status:"Pending"
       });
       saveAll();
-      pushNotification("Withdrawal requested", "Your withdrawal request is pending admin review.", "withdraw");
+      pushNotification("Withdrawal requested", "Your withdrawal request is pending review.", "withdraw");
       renderWallet();
       e.target.reset();
     }
@@ -1628,11 +1181,10 @@
       e.preventDefault();
       const u = me();
       const uid = $("profileUid").value.trim();
-      if(!/^\d{8,10}$/.test(uid)){ alert("UID must be 8 to 10 digits."); return; }
-      u.username = $("profileUsername").value.trim();
-      u.name = $("profileUsername").value.trim();
+      if(!/^\d{8,12}$/.test(uid)){ alert("UID must be 8 to 12 digits."); return; }
+      u.fullName = $("profileFullName").value.trim();
+      u.ffName = $("profileFfName").value.trim();
       u.uid = uid;
-      u.ign = $("profileIgn").value.trim();
       saveAll();
       renderAll();
       alert("Profile updated.");
@@ -1646,16 +1198,10 @@
         ownerEmail:u.email,
         teamName:$("teamName").value.trim(),
         captain:$("teamCaptain").value.trim(),
-        players:[
-          $("teamP1").value.trim(),
-          $("teamP2").value.trim(),
-          $("teamP3").value.trim(),
-          $("teamP4").value.trim()
-        ].filter(Boolean)
+        players:[$("teamP1").value.trim(),$("teamP2").value.trim(),$("teamP3").value.trim(),$("teamP4").value.trim()].filter(Boolean)
       });
       saveAll();
       renderTeams();
-      pushNotification("Team saved", "Your team has been created successfully.", "team");
       e.target.reset();
     }
 
@@ -1677,7 +1223,7 @@
     function renderHistoryPage(){
       const u = me();
       const joinedIds = Object.keys(joined).filter(k => k.startsWith(u.email + ":")).map(k => Number(k.split(":")[1]));
-      const joinedMatches = matches.filter(m => joinedIds.includes(m.id));
+      const myMatches = matches.filter(m => joinedIds.includes(m.id));
       const myPayments = paymentRequests.filter(p => p.email === u.email);
       const myTeams = teams.filter(t => t.ownerEmail === u.email);
 
@@ -1685,28 +1231,22 @@
         <section class="panel">
           <div class="section-head">
             <h2>Player History</h2>
-            <span class="badge">Joined matches • payments • teams</span>
+            <span class="badge">Matches • payments • teams</span>
           </div>
 
           <div class="grid grid-2">
             <div class="panel glass">
               <h3>Joined Matches</h3>
               <div class="history-list" style="margin-top:12px">
-                ${joinedMatches.map(m=>`
-                  <div class="item">
-                    <strong>${esc(m.title)}</strong>
-                    <div class="small muted">${esc(m.matchName)} • ${esc(m.time)} • ${esc(m.status)}</div>
-                  </div>
-                `).join("") || `<div class="item">No matches joined.</div>`}
+                ${myMatches.map(m=>`<div class="item"><strong>${esc(m.title)}</strong><div class="small muted">${esc(m.matchName)} • ${esc(m.time)}</div></div>`).join("") || `<div class="item">No matches joined.</div>`}
               </div>
             </div>
-
             <div class="panel glass">
-              <h3>Account Stats</h3>
+              <h3>Stats</h3>
               <div class="history-list" style="margin-top:12px">
                 <div class="item"><strong>Wins</strong><div class="small muted">${u.wins || 0}</div></div>
                 <div class="item"><strong>Kills</strong><div class="small muted">${u.kills || 0}</div></div>
-                <div class="item"><strong>Coins / PKR</strong><div class="small muted">${u.coins || 0}</div></div>
+                <div class="item"><strong>Coins</strong><div class="small muted">${u.coins || 0}</div></div>
               </div>
             </div>
           </div>
@@ -1715,27 +1255,13 @@
             <div class="panel glass">
               <h3>Payment History</h3>
               <div class="payment-list" style="margin-top:12px">
-                ${myPayments.map(p=>`
-                  <div class="item">
-                    <div class="row">
-                      <strong>${esc(p.kind)} • ${esc(p.methodTitle)}</strong>
-                      <span class="badge ${statusClass(p.status)}">${esc(p.status)}</span>
-                    </div>
-                    <div class="small muted" style="margin-top:8px">PKR ${esc(p.amount)}</div>
-                  </div>
-                `).join("") || `<div class="item">No payment history.</div>`}
+                ${myPayments.map(p=>`<div class="item"><div class="row"><strong>${esc(p.kind)} • ${esc(p.methodTitle)}</strong><span class="badge ${statusClass(p.status)}">${esc(p.status)}</span></div><div class="small muted" style="margin-top:8px">Rs ${esc(p.amount)}</div></div>`).join("") || `<div class="item">No payment history.</div>`}
               </div>
             </div>
-
             <div class="panel glass">
               <h3>Team History</h3>
               <div class="team-list" style="margin-top:12px">
-                ${myTeams.map(t=>`
-                  <div class="item">
-                    <strong>${esc(t.teamName)}</strong>
-                    <div class="small muted">Captain: ${esc(t.captain)}</div>
-                  </div>
-                `).join("") || `<div class="item">No teams created.</div>`}
+                ${myTeams.map(t=>`<div class="item"><strong>${esc(t.teamName)}</strong><div class="small muted">Captain: ${esc(t.captain)}</div></div>`).join("") || `<div class="item">No teams.</div>`}
               </div>
             </div>
           </div>
@@ -1744,15 +1270,10 @@
       triggerReveal();
     }
 
-    function setAdminView(view){
-      adminView = view;
-      showPage("admin");
-    }
+    function setAdminView(v){ adminView = v; showPage("admin"); }
 
     function renderAdmin(){
       const wrap = $("adminWrap");
-      if(!wrap) return;
-
       if(adminView === "players"){
         wrap.innerHTML = `
           <div class="panel glass">
@@ -1760,11 +1281,12 @@
             <table class="table" style="margin-top:12px">
               <thead>
                 <tr>
-                  <th>Email</th>
-                  <th>Username</th>
+                  <th>Full Name</th>
+                  <th>FF Name</th>
                   <th>UID</th>
-                  <th>IGN</th>
-                  <th>Balance</th>
+                  <th>Email</th>
+                  <th>Coins</th>
+                  <th>Referral</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -1772,15 +1294,14 @@
               <tbody>
                 ${users.filter(u=>u.role!=="admin").map(u=>`
                   <tr>
-                    <td>${esc(u.email)}</td>
-                    <td>${esc(u.username || u.name)}</td>
+                    <td>${esc(u.fullName)}</td>
+                    <td>${esc(u.ffName)}</td>
                     <td>${esc(u.uid)}</td>
-                    <td>${esc(u.ign)}</td>
+                    <td>${esc(u.email)}</td>
                     <td>${esc(u.coins || 0)}</td>
+                    <td>${esc(u.referralCode || "")}</td>
                     <td>${u.banned ? '<span class="badge st-cancelled">Banned</span>' : '<span class="badge st-live">Active</span>'}</td>
-                    <td>
-                      <button class="btn btn-warning" onclick="toggleBan('${esc(u.email)}')">${u.banned?'Unban':'Ban'}</button>
-                    </td>
+                    <td><button class="btn btn-warning" onclick="toggleBan('${esc(u.email)}')">${u.banned?'Unban':'Ban'}</button></td>
                   </tr>
                 `).join("")}
               </tbody>
@@ -1789,117 +1310,32 @@
         `;
       }
 
-      if(adminView === "matches"){
-        wrap.innerHTML = `
-          <div class="grid grid-2">
-            <form id="adminMatchForm" class="panel glass form">
-              <h3>Add / Edit Match</h3>
-              <input type="hidden" id="amId">
-              <div class="field"><label>Title</label><input id="amTitle" required></div>
-              <div class="field"><label>Match Name</label>
-                <select id="amMatchName">
-                  <option>Solo</option><option>Duo</option><option>Squad</option><option>CS</option><option>BR</option>
-                  <option>1 vs 1</option><option>2 vs 2</option><option>3 vs 3</option><option>4 vs 4</option>
-                </select>
-              </div>
-              <div class="field"><label>Mode</label><input id="amMode" required></div>
-              <div class="field"><label>Map</label><input id="amMap" required></div>
-              <div class="field"><label>Time</label><input id="amTime" required></div>
-              <div class="field"><label>Entry Fee</label><input id="amFee" type="number" min="0" value="0"></div>
-              <div class="field"><label>Room Type</label><input id="amRoomType" required></div>
-              <div class="field"><label>Team Allowed</label><select id="amTeamAllowed"><option value="false">No</option><option value="true">Yes</option></select></div>
-              <div class="field"><label>Status</label><select id="amStatus"><option>Upcoming</option><option>Live</option><option>Completed</option><option>Cancelled</option></select></div>
-              <div class="field"><label>Room ID</label><input id="amRoomId"></div>
-              <div class="field"><label>Room Password</label><input id="amRoomPass"></div>
-              <div class="field"><label>Total Prize Pool</label><input id="amTotal" type="number" min="0" value="0"></div>
-              <div class="field"><label>Winner Prize</label><input id="amWinner" type="number" min="0" value="0"></div>
-              <div class="field"><label>Runner-up Prize</label><input id="amRunner" type="number" min="0" value="0"></div>
-              <div class="field"><label>Special Kill Reward</label><input id="amKill" type="number" min="0" value="0"></div>
-              <div class="field"><label>Notes</label><textarea id="amNotes"></textarea></div>
-              <button class="btn btn-primary">SAVE MATCH</button>
-            </form>
-
-            <div class="panel glass">
-              <h3>Existing Matches</h3>
-              <div class="item-list" style="margin-top:12px">
-                ${matches.map(m=>`
-                  <div class="item">
-                    <div class="row">
-                      <strong>${esc(m.title)}</strong>
-                      <span class="badge ${statusClass(m.status)}">${esc(m.status)}</span>
-                    </div>
-                    <div class="small muted" style="margin-top:8px">${esc(m.matchName)} • ${esc(m.time)} • PKR ${esc(m.entryFee)}</div>
-                    <div class="row" style="margin-top:10px">
-                      <button class="btn btn-secondary" onclick="editMatch(${m.id})">EDIT</button>
-                      <button class="btn btn-danger" onclick="deleteMatch(${m.id})">DELETE</button>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-        `;
-        $("adminMatchForm").addEventListener("submit", saveMatch);
-      }
-
       if(adminView === "payments"){
         wrap.innerHTML = `
-          <div class="grid grid-2">
-            <form id="methodForm" class="panel glass form">
-              <h3>Add Payment Method</h3>
-              <div class="field"><label>Title</label><input id="pmTitle" required></div>
-              <div class="field"><label>Number</label><input id="pmNumber" required></div>
-              <div class="field"><label>Active</label><select id="pmActive"><option value="true">Yes</option><option value="false">No</option></select></div>
-              <button class="btn btn-primary">ADD METHOD</button>
-            </form>
-
-            <div class="panel glass">
-              <h3>Payment Methods</h3>
-              <div class="payment-list" style="margin-top:12px">
-                ${paymentMethods.map(p=>`
-                  <div class="item">
-                    <div class="row">
-                      <strong>${esc(p.title)}</strong>
-                      <span class="badge ${p.active?'st-live':'st-cancelled'}">${p.active?'Active':'Disabled'}</span>
-                    </div>
-                    <div class="small muted" style="margin-top:8px">${esc(p.number)}</div>
-                    <div class="row" style="margin-top:10px">
-                      <button class="btn btn-warning" onclick="toggleMethod(${p.id})">${p.active?'Disable':'Enable'}</button>
-                      <button class="btn btn-danger" onclick="deleteMethod(${p.id})">DELETE</button>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-
-          <div class="panel glass" style="margin-top:14px">
-            <h3>Payment Requests Approval</h3>
+          <div class="panel glass">
+            <h3>Payment Requests</h3>
             <div class="request-list" style="margin-top:12px">
               ${paymentRequests.map(r=>`
                 <div class="item">
                   <div class="row">
                     <div>
                       <strong>${esc(r.email)}</strong>
-                      <div class="small muted">${esc(r.kind)} • ${esc(r.methodTitle)} • PKR ${esc(r.amount)}</div>
+                      <div class="small muted">${esc(r.kind)} • ${esc(r.methodTitle)} • Rs ${esc(r.amount)}</div>
                     </div>
                     <span class="badge ${statusClass(r.status)}">${esc(r.status)}</span>
                   </div>
                   <div class="small muted" style="margin-top:8px">
-                    ${r.kind === 'Deposit'
-                      ? `Sender: ${esc(r.sender)} • TRX: ${esc(r.trx)}`
-                      : `Title: ${esc(r.title)} • Number: ${esc(r.number)}`}
+                    ${r.kind === 'Deposit' ? `Sender: ${esc(r.sender)} • TRX: ${esc(r.trx)}` : `Title: ${esc(r.title)} • Number: ${esc(r.number)}`}
                   </div>
                   <div class="row" style="margin-top:10px">
                     <button class="btn btn-success" onclick="approveRequest(${r.id})">APPROVE</button>
                     <button class="btn btn-danger" onclick="rejectRequest(${r.id})">REJECT</button>
                   </div>
                 </div>
-              `).join("") || `<div class="item">No payment requests.</div>`}
+              `).join("") || `<div class="item">No requests.</div>`}
             </div>
           </div>
         `;
-        $("methodForm").addEventListener("submit", addMethod);
       }
 
       if(adminView === "announcements"){
@@ -1911,7 +1347,6 @@
               <div class="field"><label>Message</label><textarea id="anText" required></textarea></div>
               <button class="btn btn-primary">PUBLISH</button>
             </form>
-
             <div class="panel glass">
               <h3>Published Messages</h3>
               <div class="feed" style="margin-top:12px">
@@ -1937,14 +1372,13 @@
             <form id="leaderboardForm" class="panel glass form">
               <h3>Add / Update Leaderboard</h3>
               <div class="field"><label>Name</label><input id="lbName" required></div>
-              <div class="field"><label>Kills</label><input id="lbKills" type="number" min="0" value="0"></div>
-              <div class="field"><label>Matches</label><input id="lbMatches" type="number" min="0" value="0"></div>
-              <div class="field"><label>Wins</label><input id="lbWins" type="number" min="0" value="0"></div>
+              <div class="field"><label>Kills</label><input id="lbKills" type="number" value="0"></div>
+              <div class="field"><label>Matches</label><input id="lbMatches" type="number" value="0"></div>
+              <div class="field"><label>Wins</label><input id="lbWins" type="number" value="0"></div>
               <div class="field"><label>Match Name</label><input id="lbMatchName" required></div>
               <div class="field"><label>Time</label><input id="lbTime" required></div>
               <button class="btn btn-primary">SAVE ENTRY</button>
             </form>
-
             <div class="panel glass">
               <h3>Entries</h3>
               <div class="leader-list" style="margin-top:12px">
@@ -1964,32 +1398,36 @@
         $("leaderboardForm").addEventListener("submit", addLeader);
       }
 
-      if(adminView === "banners"){
+      if(adminView === "promos"){
         wrap.innerHTML = `
-          <form id="bannerForm" class="grid grid-2">
-            ${banners.map((b,i)=>`
-              <div class="panel glass form">
-                <h3>Banner ${i+1}</h3>
-                <div class="field"><label>Title</label><input id="bnTitle${i}" value="${esc(b.title)}"></div>
-                <div class="field"><label>Subtitle</label><input id="bnSub${i}" value="${esc(b.subtitle)}"></div>
-                <div class="field"><label>Image URL / Data URL</label><textarea id="bnImg${i}">${esc(b.image)}</textarea></div>
+          <div class="grid grid-2">
+            <form id="promoForm" class="panel glass form">
+              <h3>Add Promo Code</h3>
+              <div class="field"><label>Code</label><input id="promoCode" required></div>
+              <div class="field"><label>Reward Coins</label><input id="promoReward" type="number" min="0" value="50"></div>
+              <button class="btn btn-primary">ADD PROMO</button>
+            </form>
+            <div class="panel glass">
+              <h3>Promo Codes</h3>
+              <div class="feed" style="margin-top:12px">
+                ${promoCodes.map((p,i)=>`
+                  <div class="item">
+                    <div class="row">
+                      <strong>${esc(p.code)}</strong>
+                      <span class="badge ${p.active?'st-live':'st-cancelled'}">${p.active?'Active':'Disabled'}</span>
+                    </div>
+                    <div class="small muted" style="margin-top:8px">Reward: ${esc(p.reward)} coins</div>
+                    <div class="row" style="margin-top:10px">
+                      <button class="btn btn-warning" onclick="togglePromo(${i})">${p.active?'Disable':'Enable'}</button>
+                      <button class="btn btn-danger" onclick="deletePromo(${i})">DELETE</button>
+                    </div>
+                  </div>
+                `).join("")}
               </div>
-            `).join("")}
-            <button class="btn btn-primary" style="grid-column:1/-1">SAVE BANNERS</button>
-          </form>
-        `;
-        $("bannerForm").addEventListener("submit", saveBanners);
-      }
-
-      if(adminView === "policy"){
-        wrap.innerHTML = `
-          <div class="panel glass">
-            <h3>Security & Policy</h3>
-            <div class="notice" style="margin-top:12px">
-              Player email cannot be changed. Players can edit UID, username, and IGN. Admin can review all player data, ban/unban users, approve payments, publish announcements, and manage tournament security.
             </div>
           </div>
         `;
+        $("promoForm").addEventListener("submit", addPromo);
       }
     }
 
@@ -2001,114 +1439,17 @@
       renderAdmin();
     }
 
-    function saveMatch(e){
-      e.preventDefault();
-      const id = Number($("amId").value || 0);
-      const obj = {
-        id: id || Date.now(),
-        title:$("amTitle").value.trim(),
-        matchName:$("amMatchName").value,
-        mode:$("amMode").value.trim(),
-        map:$("amMap").value.trim(),
-        time:$("amTime").value.trim(),
-        entryFee:Number($("amFee").value || 0),
-        roomType:$("amRoomType").value.trim(),
-        teamAllowed:$("amTeamAllowed").value === "true",
-        status:$("amStatus").value,
-        roomId:$("amRoomId").value.trim(),
-        roomPass:$("amRoomPass").value.trim(),
-        prizePool:{
-          total:Number($("amTotal").value || 0),
-          winner:Number($("amWinner").value || 0),
-          runnerUp:Number($("amRunner").value || 0),
-          killReward:Number($("amKill").value || 0)
-        },
-        notes:$("amNotes").value.trim()
-      };
-      const idx = matches.findIndex(m => m.id === obj.id);
-      if(idx >= 0) matches[idx] = obj; else matches.unshift(obj);
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
-
-    function editMatch(id){
-      const m = matches.find(x => x.id === id);
-      adminView = "matches";
-      showPage("admin");
-      setTimeout(() => {
-        $("amId").value = m.id;
-        $("amTitle").value = m.title;
-        $("amMatchName").value = m.matchName;
-        $("amMode").value = m.mode;
-        $("amMap").value = m.map;
-        $("amTime").value = m.time;
-        $("amFee").value = m.entryFee;
-        $("amRoomType").value = m.roomType;
-        $("amTeamAllowed").value = String(m.teamAllowed);
-        $("amStatus").value = m.status;
-        $("amRoomId").value = m.roomId || "";
-        $("amRoomPass").value = m.roomPass || "";
-        $("amTotal").value = m.prizePool.total || 0;
-        $("amWinner").value = m.prizePool.winner || 0;
-        $("amRunner").value = m.prizePool.runnerUp || 0;
-        $("amKill").value = m.prizePool.killReward || 0;
-        $("amNotes").value = m.notes || "";
-      }, 40);
-    }
-
-    function deleteMatch(id){
-      matches = matches.filter(m => m.id !== id);
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
-
-    function addMethod(e){
-      e.preventDefault();
-      paymentMethods.push({
-        id:Date.now(),
-        title:$("pmTitle").value.trim(),
-        number:$("pmNumber").value.trim(),
-        active:$("pmActive").value === "true"
-      });
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
-
-    function toggleMethod(id){
-      const m = paymentMethods.find(x => x.id === id);
-      if(!m) return;
-      m.active = !m.active;
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
-
-    function deleteMethod(id){
-      paymentMethods = paymentMethods.filter(x => x.id !== id);
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
-
     function approveRequest(id){
       const r = paymentRequests.find(x => x.id === id);
       if(!r) return;
       r.status = "Completed";
       const u = users.find(x => x.email === r.email);
       if(u){
-        if(r.kind === "Deposit"){
-          u.coins = (u.coins || 0) + Number(r.amount || 0);
-          u.rupees = u.coins;
-        } else {
-          u.coins = Math.max(0, (u.coins || 0) - Number(r.amount || 0));
-          u.rupees = u.coins;
-        }
+        if(r.kind === "Deposit"){ u.coins = (u.coins || 0) + Number(r.amount || 0); u.rupees = u.coins; }
+        else { u.coins = Math.max(0, (u.coins || 0) - Number(r.amount || 0)); u.rupees = u.coins; }
       }
       saveAll();
-      pushNotification("Payment updated", `${r.kind} request has been approved.`, "payment");
+      pushNotification("Payment updated", `${r.kind} request approved.`, "payment");
       renderAll();
       renderAdmin();
     }
@@ -2118,29 +1459,20 @@
       if(!r) return;
       r.status = "Cancelled";
       saveAll();
-      pushNotification("Payment updated", `${r.kind} request has been rejected.`, "payment");
+      pushNotification("Payment updated", `${r.kind} request rejected.`, "payment");
       renderAll();
       renderAdmin();
     }
 
     function addAnnouncement(e){
       e.preventDefault();
-      announcements.unshift({
-        title:$("anTitle").value.trim(),
-        text:$("anText").value.trim(),
-        by:"ADMIN"
-      });
+      announcements.unshift({ title:$("anTitle").value.trim(), text:$("anText").value.trim(), by:"ADMIN" });
       saveAll();
       renderAll();
       renderAdmin();
     }
 
-    function deleteAnnouncement(i){
-      announcements.splice(i,1);
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
+    function deleteAnnouncement(i){ announcements.splice(i,1); saveAll(); renderAll(); renderAdmin(); }
 
     function addLeader(e){
       e.preventDefault();
@@ -2159,48 +1491,39 @@
       renderAdmin();
     }
 
-    function deleteLeader(i){
-      leaderboard.splice(i,1);
+    function deleteLeader(i){ leaderboard.splice(i,1); saveAll(); renderAll(); renderAdmin(); }
+
+    function addPromo(e){
+      e.preventDefault();
+      promoCodes.unshift({ code:$("promoCode").value.trim().toUpperCase(), reward:Number($("promoReward").value || 0), active:true });
       saveAll();
-      renderAll();
       renderAdmin();
     }
 
-    function saveBanners(e){
-      e.preventDefault();
-      banners = banners.map((b,i)=>({
-        title:$(`bnTitle${i}`).value.trim(),
-        subtitle:$(`bnSub${i}`).value.trim(),
-        image:$(`bnImg${i}`).value.trim()
-      }));
-      saveAll();
-      renderHero();
-      renderCarousel();
-      alert("Banners updated.");
-    }
+    function togglePromo(i){ promoCodes[i].active = !promoCodes[i].active; saveAll(); renderAdmin(); }
+
+    function deletePromo(i){ promoCodes.splice(i,1); saveAll(); renderAdmin(); }
 
     function renderAll(){
       renderHero();
-      if(me()){
-        renderHome();
-      }
+      if(me()) renderHome();
       if(currentPage && currentPage !== "home" && !$("appPage").classList.contains("hidden")){
-        const cp = currentPage;
+        const p = currentPage;
         currentPage = "temp";
-        showPage(cp);
+        showPage(p);
       }
     }
 
     function triggerReveal(){
       document.querySelectorAll(".reveal").forEach((el,i)=>{
-        setTimeout(()=> {
+        setTimeout(()=>{
           const r = el.getBoundingClientRect();
           if(r.top < window.innerHeight - 30) el.classList.add("in");
         }, i * 35);
       });
     }
 
-    const io = new IntersectionObserver(entries=>{
+    const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("in"); });
     }, { threshold:.12 });
     const mo = new MutationObserver(() => {
@@ -2210,10 +1533,7 @@
 
     renderHero();
     triggerReveal();
-
-    if(me()){
-      startApp();
-    }
+    if(me()) startApp();
   </script>
 </body>
 </html>
