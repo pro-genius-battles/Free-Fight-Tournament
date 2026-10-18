@@ -1,274 +1,832 @@
-<section class="screen" id="matchesScreen">
-  <div class="grid-2">
-    <div class="panel" style="padding:1.2rem;">
-      <h3 class="section-title">Upcoming Matches</h3>
-      <div class="list" id="matchList">
-        <div class="list-item">
-          <div class="rank">M1</div>
-          <div>
-            <div class="name">Squad Clash Evening</div>
-            <span class="sub">BR • Squad • Bermuda • 7:00 PM • Entry 200 Coins</span>
-          </div>
-          <button class="btn btn-primary join-match" data-cost="200">Join</button>
-        </div>
-        <div class="list-item">
-          <div class="rank">
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#050914">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#050914" />
 <title>PRO GENIUS BATTLE</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#03070d;color:#f4f7ff;font-family:Arial,sans-serif}
+:root{
+  --bg:#03070d;
+  --bg2:#07111f;
+  --panel:#091321;
+  --line:#244052;
+  --line2:#13263a;
+  --text:#f4f7ff;
+  --muted:#9baec4;
+  --gold:#ffe000;
+  --cyan:#00eaff;
+  --orange:#ff762a;
+  --red:#ff4d5e;
+  --green:#24d18f;
+}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#02050a 0%,#03070d 100%);
+  color:var(--text);
+  font-family:Arial,system-ui,sans-serif;
+}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-header{display:flex;align-items:center;justify-content:space-between;padding:15px;background:#080f1d;border-bottom:1px solid #183348;position:sticky;top:0;z-index:5}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{background:#ffe000;color:#101010;border-radius:12px;padding:12px;font-weight:900}
-.brand b{color:#ffe000;font-size:16px}
-.brand small{display:block;color:#36eaff;font-size:9px;margin-top:4px}
-.iconbtn{background:transparent;border:0;color:#ffe000;font-size:23px}
-.coins{border:1px solid #655a18;color:#ffe000;border-radius:20px;padding:8px;font-size:12px}
-main{padding:15px;max-width:650px;margin:auto}
-h1{font-size:24px;color:#ffe000}
-h2{font-size:19px}
-.panel{background:#091321;border:1px solid #244052;border-radius:16px;padding:16px;margin:14px 0}
-.neon{border-color:#00dfe9;box-shadow:0 0 12px #00dfe915}
-.orange{border-color:#ff701c}
-.muted{color:#9baec4;font-size:12px}
-button.primary{background:linear-gradient(100deg,#00eaff,#ffe000);color:#06101a;border:0;border-radius:10px;padding:13px;font-weight:bold;width:100%;margin-top:10px}
-button.secondary{background:#14243a;color:white;border:1px solid #29435b;border-radius:9px;padding:10px}
-input,textarea,select{width:100%;background:#030914;color:white;border:1px solid #29445c;border-radius:9px;padding:12px;margin:6px 0 12px}
+a{color:inherit}
+
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 16px;
+  background:#080f1d;
+  border-bottom:1px solid #183348;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{
+  background:linear-gradient(135deg,var(--gold),#fff4a5);
+  color:#101010;
+  border-radius:14px;
+  padding:11px 12px;
+  font-weight:900;
+  letter-spacing:.5px;
+  box-shadow:0 0 20px rgba(255,224,0,.18);
+}
+.brand b{color:var(--gold);font-size:16px;display:block;line-height:1.1}
+.brand small{display:block;color:#36eaff;font-size:9px;margin-top:3px;letter-spacing:.8px}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.iconbtn{
+  background:transparent;
+  border:0;
+  color:var(--gold);
+  font-size:22px;
+  padding:4px 6px;
+}
+.coins{
+  border:1px solid #655a18;
+  color:var(--gold);
+  border-radius:20px;
+  padding:8px 10px;
+  font-size:12px;
+  background:rgba(255,224,0,.03);
+}
+
+main{
+  padding:15px;
+  max-width:900px;
+  margin:auto;
+}
+h1{font-size:26px;color:var(--gold);margin:8px 0 10px}
+h2{font-size:19px;margin:0 0 10px}
+h3{margin:0 0 10px}
+p{line-height:1.5}
+.muted{color:var(--muted);font-size:12px}
+.badge{
+  color:var(--gold);
+  font-size:11px;
+  border:1px solid rgba(255,224,0,.24);
+  border-radius:999px;
+  padding:4px 8px;
+}
+.panel{
+  background:linear-gradient(180deg,#091321 0%,#08111c 100%);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin:14px 0;
+  box-shadow:0 6px 24px rgba(0,0,0,.18);
+}
+.neon{
+  border-color:#00dfe9;
+  box-shadow:0 0 0 1px rgba(0,223,233,.12), 0 0 20px rgba(0,223,233,.08);
+}
+.orange{border-color:rgba(255,118,42,.45)}
+.grid-2{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:760px){.grid-2{grid-template-columns:1.1fr .9fr}}
+@media(min-width:980px){main{padding:18px 20px}}
+
+button.primary{
+  background:linear-gradient(100deg,var(--cyan),var(--gold));
+  color:#06101a;
+  border:0;
+  border-radius:12px;
+  padding:13px 14px;
+  font-weight:700;
+  width:100%;
+  margin-top:10px;
+  box-shadow:0 10px 20px rgba(0,234,255,.08);
+}
+button.secondary{
+  background:#14243a;
+  color:#fff;
+  border:1px solid #29435b;
+  border-radius:10px;
+  padding:10px 12px;
+}
+button.danger{
+  background:#2b1116;
+  color:#ffd9df;
+  border:1px solid rgba(255,77,94,.35);
+  border-radius:10px;
+  padding:10px 12px;
+}
+button.good{
+  background:#11271f;
+  color:#cbffe9;
+  border:1px solid rgba(36,209,143,.35);
+  border-radius:10px;
+  padding:10px 12px;
+}
+input,textarea,select{
+  width:100%;
+  background:#030914;
+  color:#fff;
+  border:1px solid #29445c;
+  border-radius:10px;
+  padding:12px;
+  margin:6px 0 12px;
+  outline:none;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,234,255,.08)}
 label{font-size:12px;color:#a8bbd1}
-.bottom{position:sticky;bottom:0;background:#060c16;border-top:1px solid #203448;display:flex;justify-content:space-around;padding:10px 2px;z-index:4}
-.bottom button{background:none;border:0;color:#91a5bd;font-size:10px}
+
+.bottom{
+  position:sticky;
+  bottom:0;
+  background:#060c16;
+  border-top:1px solid #203448;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 2px;
+  z-index:15;
+}
+.bottom button{
+  background:none;
+  border:0;
+  color:#91a5bd;
+  font-size:10px;
+  min-width:56px;
+}
 .bottom span{display:block;font-size:20px;margin-bottom:4px}
-.listitem{background:#030812;border:1px solid #17283a;border-radius:12px;padding:13px;margin:10px 0}
-.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.badge{color:#ffe000;font-size:11px}
-.overlay{position:fixed;inset:0;background:#000d;z-index:10;display:flex;align-items:flex-end}
-.sheet{background:#071321;border:1px solid #244052;border-radius:25px 25px 0 0;width:100%;max-height:88vh;overflow:auto;padding:20px}
-.menuitem{width:100%;text-align:left;display:flex;align-items:center;gap:12px;background:#030812;color:white;border:1px solid #13263a;border-radius:10px;padding:13px;margin:8px 0}
+
+.listitem,.card{
+  background:#030812;
+  border:1px solid #17283a;
+  border-radius:14px;
+  padding:13px;
+  margin:10px 0;
+}
+.card.highlight{border-color:rgba(255,224,0,.25)}
+.listitem .name{font-weight:700}
+.listitem .sub,.sub{color:#97a9bd;font-size:12px;line-height:1.45}
+.rowbetween{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stack{display:flex;flex-direction:column;gap:8px}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:#000d;
+  z-index:30;
+  display:flex;
+  align-items:flex-end;
+}
+.sheet{
+  background:#071321;
+  border:1px solid #244052;
+  border-radius:24px 24px 0 0;
+  width:100%;
+  max-height:88vh;
+  overflow:auto;
+  padding:18px;
+}
+.menuitem{
+  width:100%;
+  text-align:left;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#030812;
+  color:white;
+  border:1px solid #13263a;
+  border-radius:12px;
+  padding:13px;
+  margin:8px 0;
+}
 .menuitem .emoji{font-size:22px}
 .menuitem small{display:block;color:#92a6be;margin-top:4px;font-size:11px}
-.message{background:#030812;border:1px solid #514c20;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;overflow-wrap:anywhere}
-.message b{color:#ffe000}
-.chatbox{border:1px solid #ff701c;border-radius:17px;padding:14px;background:#07111f}
-footer{text-align:center;color:#71859d;padding:18px;font-size:10px}
+.message{
+  background:#030812;
+  border:1px solid #514c20;
+  border-radius:12px;
+  padding:12px;
+  margin:10px 0;
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+.message b{color:var(--gold)}
+.footer{
+  text-align:center;
+  color:#71859d;
+  padding:18px;
+  font-size:10px;
+}
+
+hr{border:0;border-top:1px solid #1d3042;margin:16px 0}
+.smallgrid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:700px){.smallgrid{grid-template-columns:1fr 1fr}}
+.kpi{
+  display:flex;flex-direction:column;gap:4px;
+  border:1px solid #1d3042;border-radius:14px;padding:12px;background:#050b14;
+}
+.kpi strong{font-size:18px;color:#fff}
+.kpi span{font-size:11px;color:#91a5bd}
+.notice{
+  border-left:4px solid var(--orange);
+  background:rgba(255,118,42,.08);
+  padding:12px 12px 12px 14px;
+  border-radius:10px;
+}
 </style>
 </head>
 <body>
 
 <header>
- <div class="brand">
-  <div class="logo">PG</div>
-  <div><b>PRO GENIUS BATTLE</b><small>FREE FIRE ESPORTS HUB</small></div>
- </div>
- <div class="row">
-  <span class="coins">🪙 <span id="coinCount">250</span></span>
-  <button class="iconbtn" onclick="showPage('profile')">👤</button>
-  <button class="iconbtn" onclick="openChats()">▣</button>
-  <button class="iconbtn" onclick="openMenu()">☰</button>
- </div>
+  <div class="brand">
+    <div class="logo">PG</div>
+    <div>
+      <b>PRO GENIUS BATTLE</b>
+      <small>FREE FIRE ESPORTS HUB</small>
+    </div>
+  </div>
+  <div class="row">
+    <span class="coins">🪙 <span id="coinCount">250</span></span>
+    <button class="iconbtn" onclick="showPage('profile')">👤</button>
+    <button class="iconbtn" onclick="openChats()">▣</button>
+    <button class="iconbtn" onclick="openMenu()">☰</button>
+  </div>
 </header>
 
 <main>
-<section id="auth">
- <h1>PLAYER LOGIN</h1>
- <p class="muted">Login or register to enter the tournament arena.</p>
- <div class="panel neon">
-  <div class="row">
-   <button class="secondary" onclick="authTab('login')">LOGIN</button>
-   <button class="secondary" onclick="authTab('register')">REGISTER</button>
-  </div>
-  <form id="loginForm">
-   <h2>Welcome Back</h2>
-   <label>Email</label><input id="email" type="email" required>
-   <label>Password</label><input id="password" type="password" required>
-   <button class="primary">LOGIN TO ARENA</button>
-  </form>
-  <form id="registerForm" class="hidden">
-   <h2>Create Account</h2>
-   <label>Player Name</label><input id="regName" required maxlength="30">
-   <label>Email</label><input id="regEmail" type="email" required>
-   <label>Password</label><input id="regPassword" type="password" minlength="6" required>
-   <button class="primary">CREATE ACCOUNT</button>
-  </form>
-  <p id="authMsg" class="muted"></p>
- </div>
-</section>
+  <section id="auth">
+    <h1>PLAYER LOGIN</h1>
+    <p class="muted">Login or register to enter the tournament arena.</p>
 
-<section id="app" class="hidden">
- <h1>FREE FIRE TOP FRAGGERS</h1>
- <div class="panel neon">
-  <h2 style="text-align:center;color:#ffe000">🏆 WEEKLY HALL OF FAME</h2>
-  <p class="muted" style="text-align:center">Top players • Match wins • Rankings</p>
-  <div id="topPlayers"></div>
- </div>
+    <div class="panel neon">
+      <div class="row" style="margin-bottom:10px">
+        <button class="secondary" type="button" onclick="authTab('login')">LOGIN</button>
+        <button class="secondary" type="button" onclick="authTab('register')">REGISTER</button>
+        <button class="secondary" type="button" onclick="authTab('admin')">ADMIN</button>
+      </div>
 
- <div class="panel orange">
-  <h2 style="color:#ff762a">▣ ADMIN CHATS & ANNOUNCEMENTS</h2>
-  <p class="muted">🔒 Official tournament announcements</p>
-  <div id="homeNews"></div>
-  <button class="secondary" style="width:100%" onclick="openChats()">OPEN ALL ANNOUNCEMENTS</button>
- </div>
+      <form id="loginForm">
+        <h2>Welcome Back</h2>
+        <label>Email</label>
+        <input id="email" type="email" required />
+        <label>Password</label>
+        <input id="password" type="password" required />
+        <button class="primary">LOGIN TO ARENA</button>
+      </form>
 
- <div class="panel">
-  <div class="row"><h2>⚔️ AVAILABLE MATCHES</h2><button class="secondary" onclick="showPage('matches')">View All</button></div>
-  <div id="homeMatches"></div>
- </div>
+      <form id="registerForm" class="hidden">
+        <h2>Create Account</h2>
+        <label>Player Name</label>
+        <input id="regName" required maxlength="30" />
+        <label>Email</label>
+        <input id="regEmail" type="email" required />
+        <label>Password</label>
+        <input id="regPassword" type="password" minlength="6" required />
+        <button class="primary">CREATE ACCOUNT</button>
+      </form>
 
- <div id="content"></div>
-</section>
+      <form id="adminLoginForm" class="hidden">
+        <h2>Admin Login</h2>
+        <label>Admin Email</label>
+        <input id="adminEmail" type="email" required />
+        <label>Admin Password</label>
+        <input id="adminPassword" type="password" required />
+        <button class="primary">LOGIN AS ADMIN</button>
+      </form>
+
+      <p id="authMsg" class="muted"></p>
+    </div>
+  </section>
+
+  <section id="app" class="hidden">
+    <h1>FREE FIRE TOURNAMENT DASHBOARD</h1>
+
+    <div class="grid-2">
+      <div class="panel neon">
+        <h2 style="text-align:center;color:#ffe000">🏆 WEEKLY HALL OF FAME</h2>
+        <p class="muted" style="text-align:center">Top players • Match wins • Rankings</p>
+        <div id="topPlayers"></div>
+      </div>
+
+      <div class="panel orange">
+        <h2 style="color:#ff762a">▣ ANNOUNCEMENTS</h2>
+        <p class="muted">Official tournament updates</p>
+        <div id="homeNews"></div>
+        <button class="secondary" style="width:100%" onclick="openChats()">OPEN ALL ANNOUNCEMENTS</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="rowbetween">
+        <h2>⚔️ AVAILABLE MATCHES</h2>
+        <button class="secondary" onclick="showPage('matches')">View All</button>
+      </div>
+      <div id="homeMatches"></div>
+    </div>
+
+    <div id="content"></div>
+  </section>
 </main>
 
 <div id="bottomNav" class="bottom hidden">
- <button onclick="showPage('matches')"><span>🎮</span>MATCHES</button>
- <button onclick="showPage('rooms')"><span>🎧</span>MY ROOMS</button>
- <button onclick="showPage('wallet')"><span>💳</span>WALLET</button>
- <button onclick="showPage('profile')"><span>👤</span>PROFILE</button>
- <button onclick="showPage('leaderboard')"><span>🏆</span>RANKS</button>
+  <button onclick="showPage('matches')"><span>🎮</span>MATCHES</button>
+  <button onclick="showPage('rooms')"><span>🎧</span>MY ROOMS</button>
+  <button onclick="showPage('wallet')"><span>💳</span>WALLET</button>
+  <button onclick="showPage('profile')"><span>👤</span>PROFILE</button>
+  <button onclick="showPage('leaderboard')"><span>🏆</span>RANKS</button>
 </div>
 
 <div id="menuOverlay" class="overlay hidden" onclick="if(event.target===this)closeMenu()">
- <div class="sheet">
-  <div style="text-align:center;color:#7d91a9">━━━━━━</div>
-  <div class="row">
-   <div class="brand"><div class="logo">PG</div><div><b>PRO GENIUS BATTLE</b><small>Official Tournament App Menu</small></div></div>
-   <button class="iconbtn" onclick="closeMenu()">✕</button>
+  <div class="sheet">
+    <div style="text-align:center;color:#7d91a9">━━━━━━</div>
+    <div class="rowbetween">
+      <div class="brand">
+        <div class="logo">PG</div>
+        <div><b>PRO GENIUS BATTLE</b><small>Official Tournament App Menu</small></div>
+      </div>
+      <button class="iconbtn" onclick="closeMenu()">✕</button>
+    </div>
+    <div id="menuPlayer" class="muted" style="margin:10px 0"></div>
+
+    <button class="menuitem" onclick="menuPage('matches')"><span class="emoji">🎮</span><span><b>Main Matches Lobby</b><small>Browse upcoming custom tournaments</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('profile')"><span class="emoji">👤</span><span><b>Profile, UID & History</b><small>Manage your player profile</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('leaderboard')"><span class="emoji">📊</span><span><b>Leaderboard & Top Players</b><small>Check player rankings</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('wallet')"><span class="emoji">💳</span><span><b>Wallet</b><small>View balance and payment info</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('withdraw')"><span class="emoji">💸</span><span><b>Withdraw Earnings</b><small>View withdrawal instructions</small></span> →</button>
+    <button class="menuitem" onclick="closeMenu();openChats()"><span class="emoji">📢</span><span><b>Broadcast Chats</b><small>Official updates and announcements</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('security')"><span class="emoji">🛡️</span><span><b>Security & App Policy</b><small>Account safety and fair play</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('rules')"><span class="emoji">⚖️</span><span><b>Tournament Rules</b><small>Room rules and match policy</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('install')"><span class="emoji">🌐</span><span><b>Publish & Install Guide</b><small>GitHub Pages and installation help</small></span> →</button>
+    <button class="menuitem" onclick="menuPage('support')"><span class="emoji">☎️</span><span><b>Support</b><small>Contact info and help instructions</small></span> →</button>
+    <button class="primary" onclick="logout()">LOG OUT</button>
   </div>
-  <div id="menuPlayer" class="muted"></div>
-  <button class="menuitem" onclick="menuPage('matches')"><span class="emoji">🎮</span><span><b>Main Matches Lobby</b><small>Browse upcoming Free Fire custom tournaments</small></span> →</button>
-  <button class="menuitem" onclick="menuPage('profile')"><span class="emoji">👤</span><span><b>Profile, Free Fire UID & History</b><small>Manage your player profile</small></span> →</button>
-  <button class="menuitem" onclick="menuPage('leaderboard')"><span class="emoji">📊</span><span><b>Leaderboard & Top Players</b><small>Check player rankings</small></span> →</button>
-  <button class="menuitem" onclick="menuPage('wallet')"><span class="emoji">💳</span><span><b>Deposit Funds</b><small>View wallet and payment instructions</small></span> →</button>
-  <button class="menuitem" onclick="menuPage('withdraw')"><span class="emoji">💸</span><span><b>Withdraw Earnings</b><small>View withdrawal instructions</small></span> →</button>
-  <button class="menuitem" onclick="closeMenu();openChats()"><span class="emoji">📢</span><span><b>Admin Broadcast Chats</b><small>Official updates and announcements</small></span> →</button>
-  <button class="menuitem" onclick="menuPage('security')"><span class="emoji">🛡️</span><span><b>Security & App Policy</b><small>Account safety and fair play rules</small></span> →</button>
-  <button class="menuitem" onclick="menuPage('rules')"><span class="emoji">⚖️</span><span><b>Tournament Rules</b><small>Room rules, kills and match policy</small></span> →</button>
-  <button class="menuitem" onclick="menuPage('install')"><span class="emoji">🌐</span><span><b>Publish Website & Install Guide</b><small>GitHub Pages and installation help</small></span> →</button>
-  <button class="primary" onclick="location.href='https://wa.me/923207394660'">☎ WHATSAPP HELP</button>
- </div>
 </div>
 
 <div id="chatOverlay" class="overlay hidden" onclick="if(event.target===this)closeChats()">
- <div class="sheet">
-  <div class="row"><h2 style="color:#ff762a">▣ ADMIN CHATS & ANNOUNCEMENTS</h2><button class="iconbtn" onclick="closeChats()">✕</button></div>
-  <p class="muted">🔒 Players can read official announcements.</p>
-  <div id="allNews"></div>
-  <button class="primary" onclick="closeChats()">CLOSE CHATS</button>
- </div>
+  <div class="sheet">
+    <div class="rowbetween">
+      <h2 style="color:#ff762a">▣ ANNOUNCEMENTS</h2>
+      <button class="iconbtn" onclick="closeChats()">✕</button>
+    </div>
+    <p class="muted">Players can read official announcements here.</p>
+    <div id="allNews"></div>
+    <button class="primary" onclick="closeChats()">CLOSE</button>
+  </div>
 </div>
 
-<footer>PRO GENIUS BATTLE • Fan-made tournament portal</footer>
+<footer class="footer">PRO GENIUS BATTLE • Fan-made tournament portal</footer>
 
 <script>
-const $=id=>document.getElementById(id);
-const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
-const put=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $ = id => document.getElementById(id);
+const get = (k,d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch(e){ return d } };
+const put = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-let current=null;
-let users=get("pg_users",[]);
-let matches=get("pg_matches",[
- {name:"Rookie Training Room",type:"Free",mode:"Duo • Bermuda • 7 PM"},
- {name:"Squad Clash",type:"Free",mode:"Squad • Bermuda • 8 PM"},
- {name:"Elite Battle",type:"Paid",mode:"Squad • Bermuda • 9 PM"}
+let current = null;
+let users = get("pg_users", []);
+let matches = get("pg_matches", [
+  { name:"Rookie Training Room", type:"Free", mode:"Duo • Bermuda • 7:00 PM", entry:0, status:"Open" },
+  { name:"Squad Clash", type:"Free", mode:"Squad • Bermuda • 8:00 PM", entry:0, status:"Open" },
+  { name:"Elite Battle", type:"Paid", mode:"Squad • Bermuda • 9:00 PM", entry:200, status:"Paid" }
 ]);
-let news=get("pg_news",[
- {title:"Welcome to PRO GENIUS BATTLE",text:"Welcome players! Check match details before joining.",by:"ADMIN"},
- {title:"Room Information",text:"Room details should be published by the tournament admin before the match.",by:"MATCH ADMIN"}
+let news = get("pg_news", [
+  { title:"Welcome to PRO GENIUS BATTLE", text:"Welcome players! Check match details before joining.", by:"ADMIN" },
+  { title:"Room Information", text:"Room details should be published by the tournament admin before the match.", by:"MATCH ADMIN" }
 ]);
-let joined=get("pg_joined",{});
+let joined = get("pg_joined", {});
+let results = get("pg_results", [
+  { name:"Alpha Squad", kills:18, wins:4 },
+  { name:"Storm King", kills:16, wins:3 },
+  { name:"Noob Crusher", kills:14, wins:2 },
+  { name:"Headshot Pro", kills:13, wins:2 },
+  { name:"Clutch Master", kills:11, wins:1 }
+]);
+
+const adminAccount = {
+  email: "admin@progeniusbattle.local",
+  password: "Admin@12345",
+  name: "Tournament Admin",
+  role: "admin",
+  uid: "",
+  coins: 9999
+};
+
+if (!users.some(u => u.email === adminAccount.email)) {
+  users.unshift(adminAccount);
+  put("pg_users", users);
+}
 
 function authTab(t){
- $("loginForm").classList.toggle("hidden",t!=="login");
- $("registerForm").classList.toggle("hidden",t!=="register");
- $("authMsg").textContent="";
+  $("loginForm").classList.toggle("hidden", t !== "login");
+  $("registerForm").classList.toggle("hidden", t !== "register");
+  $("adminLoginForm").classList.toggle("hidden", t !== "admin");
+  $("authMsg").textContent = "";
 }
+
 function start(u){
- current=u;
- $("auth").classList.add("hidden");
- $("app").classList.remove("hidden");
- $("bottomNav").classList.remove("hidden");
- $("menuPlayer").textContent=u.name+" • "+u.email;
- put("pg_session",u.email);
- render();
- showPage("dashboard");
+  current = u;
+  $("auth").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  $("bottomNav").classList.remove("hidden");
+  $("menuPlayer").textContent = `${u.name} • ${u.email}`;
+  put("pg_session", u.email);
+  render();
+  showPage("dashboard");
 }
-$("loginForm").onsubmit=e=>{
- e.preventDefault();
- const email=$("email").value.trim().toLowerCase();
- const password=$("password").value;
- const u=users.find(x=>x.email===email&&x.password===password);
- if(!u){$("authMsg").textContent="Login failed. Check your details or register first.";return}
- start(u);
+
+$("loginForm").onsubmit = e => {
+  e.preventDefault();
+  const email = $("email").value.trim().toLowerCase();
+  const password = $("password").value;
+  const u = users.find(x => x.email === email && x.password === password && x.role !== "admin");
+  if (!u) { $("authMsg").textContent = "Login failed. Check your details or register first."; return; }
+  start(u);
 };
-$("registerForm").onsubmit=e=>{
- e.preventDefault();
- const email=$("regEmail").value.trim().toLowerCase();
- if(users.some(u=>u.email===email)){$("authMsg").textContent="Email already registered.";return}
- const u={name:$("regName").value.trim(),email,password:$("regPassword").value,uid:"",role:"player"};
- users.push(u);put("pg_users",users);
- $("registerForm").reset();authTab("login");
- $("authMsg").textContent="Account created. Please log in.";
+
+$("registerForm").onsubmit = e => {
+  e.preventDefault();
+  const email = $("regEmail").value.trim().toLowerCase();
+  if (users.some(u => u.email === email)) { $("authMsg").textContent = "Email already registered."; return; }
+  const u = {
+    name: $("regName").value.trim(),
+    email,
+    password: $("regPassword").value,
+    uid: "",
+    role: "player",
+    coins: 250
+  };
+  users.push(u);
+  put("pg_users", users);
+  $("registerForm").reset();
+  authTab("login");
+  $("authMsg").textContent = "Account created. Please log in.";
 };
-function openMenu(){$("menuOverlay").classList.remove("hidden")}
-function closeMenu(){$("menuOverlay").classList.add("hidden")}
-function openChats(){$("chatOverlay").classList.remove("hidden");renderNews()}
-function closeChats(){$("chatOverlay").classList.add("hidden")}
-function menuPage(p){closeMenu();showPage(p)}
+
+$("adminLoginForm").onsubmit = e => {
+  e.preventDefault();
+  const email = $("adminEmail").value.trim().toLowerCase();
+  const password = $("adminPassword").value;
+  const u = users.find(x => x.email === email && x.password === password && x.role === "admin");
+  if (!u) { $("authMsg").textContent = "Admin login failed."; return; }
+  start(u);
+};
+
+function openMenu(){ $("menuOverlay").classList.remove("hidden"); }
+function closeMenu(){ $("menuOverlay").classList.add("hidden"); }
+function openChats(){ $("chatOverlay").classList.remove("hidden"); renderNews(); }
+function closeChats(){ $("chatOverlay").classList.add("hidden"); }
+function menuPage(p){ closeMenu(); showPage(p); }
+
 function renderNews(){
- $("homeNews").innerHTML=news.slice(0,2).map(n=>`<div class="message"><b>${esc(n.by||"ADMIN")} — ${esc(n.title)}</b><p>${esc(n.text)}</p></div>`).join("");
- $("allNews").innerHTML=news.map(n=>`<div class="message"><b>${esc(n.by||"ADMIN")}</b><p>${esc(n.title)}</p><p>${esc(n.text)}</p></div>`).join("")||"<p>No announcements yet.</p>";
+  $("homeNews").innerHTML = news.slice(0,2).map(n => `
+    <div class="message">
+      <b>${esc(n.by || "ADMIN")} — ${esc(n.title)}</b>
+      <p>${esc(n.text)}</p>
+    </div>`).join("") || "<p>No announcements yet.</p>";
+
+  $("allNews").innerHTML = news.map(n => `
+    <div class="message">
+      <b>${esc(n.by || "ADMIN")}</b>
+      <p>${esc(n.title)}</p>
+      <p>${esc(n.text)}</p>
+    </div>`).join("") || "<p>No announcements yet.</p>";
 }
+
 function renderMatches(){
- const html=matches.map((m,i)=>`<div class="listitem"><div class="row"><b>${esc(m.name)}</b><span class="badge">${esc(m.type)}</span></div><p class="muted">${esc(m.mode)}</p><button class="secondary" onclick="join(${i})">${joined[current.email+':'+i]?'JOINED':'JOIN MATCH'}</button></div>`).join("")||"<p>No matches yet.</p>";
- $("homeMatches").innerHTML=html;
- return html;
+  const html = matches.map((m,i) => {
+    const key = current?.email + ":" + i;
+    const isJoined = !!joined[key];
+    return `
+      <div class="listitem">
+        <div class="rowbetween">
+          <div>
+            <div class="name">${esc(m.name)}</div>
+            <div class="sub">${esc(m.mode)}</div>
+          </div>
+          <span class="badge">${esc(m.type)} • ${esc(m.status || "Open")}</span>
+        </div>
+        <div class="sub" style="margin-top:6px">Entry fee: ${m.entry ? "🪙 " + esc(m.entry) : "Free"}</div>
+        <button class="secondary" style="width:100%;margin-top:10px" onclick="joinMatch(${i})">${isJoined ? "JOINED" : "JOIN MATCH"}</button>
+      </div>
+    `;
+  }).join("");
+  $("homeMatches").innerHTML = html || "<p>No matches yet.</p>";
+  return html;
 }
+
+function renderTopPlayers(){
+  $("topPlayers").innerHTML = results.slice(0,5).map((u,i) => `
+    <div class="listitem">
+      <div class="rowbetween">
+        <b>🏅 #${i+1} ${esc(u.name)}</b>
+        <span class="badge">Kills: ${esc(u.kills)} • Wins: ${esc(u.wins)}</span>
+      </div>
+    </div>
+  `).join("");
+}
+
 function render(){
- $("coinCount").textContent=current.coins??250;
- renderMatches();renderNews();
- $("topPlayers").innerHTML=users.slice(0,5).map((u,i)=>`<div class="listitem">🏅 #${i+1} ${esc(u.name)} <span class="muted">Player</span></div>`).join("");
+  $("coinCount").textContent = current.coins ?? 250;
+  renderMatches();
+  renderNews();
+  renderTopPlayers();
 }
-window.join=function(i){
- if(!joined[current.email+':'+i]){
- joined[current.email+':'+i]=true;put("pg_joined",joined);
- alert("Match request recorded on this device. Check official announcements for room details.");
- render();
- }else alert("You have already joined this match.");
+
+window.joinMatch = function(i){
+  const key = current.email + ":" + i;
+  if (!joined[key]) {
+    joined[key] = true;
+    put("pg_joined", joined);
+    alert("Match request recorded on this device. Check official announcements for room details.");
+    render();
+  } else {
+    alert("You have already joined this match.");
+  }
 };
+
 function showPage(p){
- const c=$("content");
- const back='<button class="secondary" onclick="showPage(\'dashboard\')">← Back to Dashboard</button>';
- if(p==="dashboard"){c.innerHTML="";return}
- if(p==="matches"){c.innerHTML=`<div class="panel"><h2>🎮 Main Matches Lobby</h2>${renderMatches()}${back}</div>`}
- if(p==="rooms"){c.innerHTML=`<div class="panel"><h2>🎧 My Rooms</h2><p class="muted">Room IDs and passwords are shown here only when the tournament admin publishes them.</p>${back}</div>`}
- if(p==="profile"){c.innerHTML=`<div class="panel"><h2>👤 Player Profile</h2><form id="profileForm"><label>Player Name</label><input id="pname" required value="${esc(current.name)}"><label>Email</label><input value="${esc(current.email)}" disabled><label>Free Fire UID</label><input id="puid" value="${esc(current.uid||"")}" placeholder="Your game UID"><button class="primary">SAVE PROFILE</button></form><button class="secondary" onclick="logout()">LOG OUT</button>${back}</div>`;
- $("profileForm").onsubmit=e=>{e.preventDefault();current.name=$("pname").value.trim();current.uid=$("puid").value.trim();const i=users.findIndex(u=>u.email===current.email);users[i]=current;put("pg_users",users);start(current);showPage("profile");alert("Profile saved on this device.")};
- }
- if(p==="leaderboard"){c.innerHTML=`<div class="panel"><h2>🏆 Leaderboard & Top Players</h2>${users.map((u,i)=>`<div class="listitem">#${i+1} ${esc(u.name)}</div>`).join("")}${back}</div>`}
- if(p==="wallet"){c.innerHTML=`<div class="panel"><h2>💳 Wallet & Deposits</h2><p>Demo wallet balance: 🪙 ${current.coins??250}</p><p class="muted">This page does not process payments. Verify any payment instructions with the tournament organiser before sending money.</p>${back}</div>`}
- if(p==="withdraw"){c.innerHTML=`<div class="panel"><h2>💸 Withdraw Earnings</h2><p class="muted">Withdrawal processing is not connected in this demo. No real payout can be requested here.</p>${back}</div>`}
- if(p==="announcements"){c.innerHTML=`<div class="panel"><h2>📢 Announcements</h2><div id="pageNews"></div>${back}</div>`;$("pageNews").innerHTML=news.map(n=>`<div class="message"><b>${esc(n.by)} — ${esc(n.title)}</b><p>${esc(n.text)}</p></div>`).join("")}
- if(p==="admin"){if(current.role!=="admin"){c.innerHTML=`<div class="panel"><h2>Admin Panel</h2><p class="muted">Admin access has not been configured. Do not make a player account an admin by editing browser storage.</p>${back}</div>`;return}
- c.innerHTML=`<div class="panel"><h2>🛠 Admin Panel</h2><form id="mf"><label>Tournament name</label><input id="mn" required><label>Type</label><select id="mt"><option>Free</option><option>Paid</option></select><label>Mode and time</label><input id="mm" required><button class="primary">ADD MATCH</button></form><hr><form id="nf"><label>Announcement title</label><input id="nt" required><label>Message</label><textarea id="nm" required></textarea><button class="primary">PUBLISH ANNOUNCEMENT</button></form>${back}</div>`;
- $("mf").onsubmit=e=>{e.preventDefault();matches.push({name:$("mn").value,type:$("mt").value,mode:$("mm").value});put("pg_matches",matches);render();showPage("admin");alert("Match added locally.")};
- $("nf").onsubmit=e=>{e.preventDefault();news.unshift({title:$("nt").value,text:$("nm").value,by:current.name});put("pg_news",news);render();showPage("admin");alert("Announcement published locally.")};
- }
- if(p==="security"){c.innerHTML=`<div class="panel"><h2>🛡️ Security & App Policy</h2><p>Never share your account password or payment PIN. Play fairly and use the official tournament instructions.</p><p class="muted">This static demo does not provide server-side authentication or encryption for stored account data.</p>${back}</div>`}
- if(p==="rules"){c.innerHTML=`<div class="panel"><h2>⚖️ Tournament Rules</h2><ul><li>Register the correct player name and Free Fire UID.</li><li>Follow the mode and start time announced by the organiser.</li><li>Do not share private room credentials.</li><li>Ask the organiser to clarify prize and entry-fee terms before paying.</li></ul>${back}</div>`}
- if(p==="install"){c.innerHTML=`<div class="panel"><h2>🌐 Publish Website & Install Guide</h2><p>1. Save this code in a file named index.html.</p><p>2. Upload it to the root of your GitHub repository.</p><p>3. Enable GitHub Pages in repository Settings.</p><p>4. Open the published HTTPS site in Chrome. Use Chrome's menu and choose Install app or Add to Home screen if offered.</p><p class="muted">This HTML alone does not create an APK.</p>${back}</div>`}
+  const c = $("content");
+  const back = '<button class="secondary" onclick="showPage(\\\'dashboard\\\')">← Back to Dashboard</button>';
+
+  if (p === "dashboard") { c.innerHTML = ""; return; }
+
+  if (p === "matches") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>🎮 Main Matches Lobby</h2>
+        ${renderMatches()}
+        ${back}
+      </div>`;
+  }
+
+  if (p === "rooms") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>🎧 My Rooms</h2>
+        <p class="muted">Room IDs and passwords are shown here only when the tournament admin publishes them.</p>
+        <div class="notice">Use announcements to deliver private room credentials safely.</div>
+        ${back}
+      </div>`;
+  }
+
+  if (p === "profile") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>👤 Player Profile</h2>
+        <form id="profileForm">
+          <label>Player Name</label>
+          <input id="pname" required value="${esc(current.name)}" />
+          <label>Email</label>
+          <input value="${esc(current.email)}" disabled />
+          <label>Free Fire UID</label>
+          <input id="puid" value="${esc(current.uid || "")}" placeholder="Your game UID" />
+          <button class="primary">SAVE PROFILE</button>
+        </form>
+        <button class="secondary" onclick="logout()">LOG OUT</button>
+        ${back}
+      </div>`;
+    $("profileForm").onsubmit = e => {
+      e.preventDefault();
+      current.name = $("pname").value.trim();
+      current.uid = $("puid").value.trim();
+      const i = users.findIndex(u => u.email === current.email);
+      users[i] = current;
+      put("pg_users", users);
+      start(current);
+      showPage("profile");
+      alert("Profile saved on this device.");
+    };
+  }
+
+  if (p === "leaderboard") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>🏆 Leaderboard & Top Players</h2>
+        ${results.map((u,i) => `
+          <div class="listitem">
+            <div class="rowbetween">
+              <b>#${i+1} ${esc(u.name)}</b>
+              <span class="badge">${esc(u.kills)} kills • ${esc(u.wins)} wins</span>
+            </div>
+          </div>`).join("")}
+        ${back}
+      </div>`;
+  }
+
+  if (p === "wallet") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>💳 Wallet & Deposits</h2>
+        <div class="smallgrid">
+          <div class="kpi"><strong>🪙 ${current.coins ?? 250}</strong><span>Current balance</span></div>
+          <div class="kpi"><strong>${matches.filter(m => m.type === "Paid").length}</strong><span>Paid matches</span></div>
+        </div>
+        <p class="muted">This page does not process payments. Verify payment instructions with the tournament organiser before sending money.</p>
+        ${back}
+      </div>`;
+  }
+
+  if (p === "withdraw") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>💸 Withdraw Earnings</h2>
+        <p class="muted">Withdrawal processing is not connected in this demo. No real payout can be requested here.</p>
+        <div class="notice">For real payouts, connect a server-side payment system and verify users properly.</div>
+        ${back}
+      </div>`;
+  }
+
+  if (p === "announcements") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>📢 Announcements</h2>
+        <div id="pageNews"></div>
+        ${back}
+      </div>`;
+    $("pageNews").innerHTML = news.map(n => `
+      <div class="message">
+        <b>${esc(n.by)} — ${esc(n.title)}</b>
+        <p>${esc(n.text)}</p>
+      </div>`).join("");
+  }
+
+  if (p === "admin") {
+    if (current.role !== "admin") {
+      c.innerHTML = `
+        <div class="panel">
+          <h2>Admin Panel</h2>
+          <p class="muted">Admin access has not been configured for this account.</p>
+          ${back}
+        </div>`;
+      return;
+    }
+
+    c.innerHTML = `
+      <div class="panel">
+        <h2>🛠 Admin Panel</h2>
+
+        <form id="mf">
+          <label>Tournament name</label>
+          <input id="mn" required />
+          <label>Type</label>
+          <select id="mt">
+            <option>Free</option>
+            <option>Paid</option>
+          </select>
+          <label>Mode and time</label>
+          <input id="mm" required />
+          <label>Entry fee</label>
+          <input id="me" type="number" min="0" value="0" />
+          <button class="primary">ADD MATCH</button>
+        </form>
+
+        <hr>
+
+        <form id="nf">
+          <label>Announcement title</label>
+          <input id="nt" required />
+          <label>Message</label>
+          <textarea id="nm" required rows="4"></textarea>
+          <button class="primary">PUBLISH ANNOUNCEMENT</button>
+        </form>
+
+        <hr>
+
+        <form id="rf">
+          <label>Player name</label>
+          <input id="rn" required />
+          <label>Kills</label>
+          <input id="rk" type="number" min="0" value="0" />
+          <label>Wins</label>
+          <input id="rw" type="number" min="0" value="0" />
+          <button class="primary">ADD / UPDATE RESULT</button>
+        </form>
+
+        ${back}
+      </div>`;
+
+    $("mf").onsubmit = e => {
+      e.preventDefault();
+      matches.push({
+        name: $("mn").value.trim(),
+        type: $("mt").value,
+        mode: $("mm").value.trim(),
+        entry: Number($("me").value || 0),
+        status: Number($("me").value || 0) > 0 ? "Paid" : "Open"
+      });
+      put("pg_matches", matches);
+      render();
+      showPage("admin");
+      alert("Match added locally.");
+    };
+
+    $("nf").onsubmit = e => {
+      e.preventDefault();
+      news.unshift({
+        title: $("nt").value.trim(),
+        text: $("nm").value.trim(),
+        by: current.name
+      });
+      put("pg_news", news);
+      render();
+      showPage("admin");
+      alert("Announcement published locally.");
+    };
+
+    $("rf").onsubmit = e => {
+      e.preventDefault();
+      const name = $("rn").value.trim();
+      const kills = Number($("rk").value || 0);
+      const wins = Number($("rw").value || 0);
+      const idx = results.findIndex(x => x.name.toLowerCase() === name.toLowerCase());
+      if (idx >= 0) results[idx] = { name, kills, wins };
+      else results.unshift({ name, kills, wins });
+      put("pg_results", results);
+      renderTopPlayers();
+      showPage("admin");
+      alert("Result saved locally.");
+    };
+  }
+
+  if (p === "security") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>🛡️ Security & App Policy</h2>
+        <p>Never share your password or payment PIN. Play fairly and use only official tournament instructions.</p>
+        <p class="muted">This static demo does not provide server-side authentication or encryption for stored account data.</p>
+        ${back}
+      </div>`;
+  }
+
+  if (p === "rules") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>⚖️ Tournament Rules</h2>
+        <ul>
+          <li>Register the correct player name and Free Fire UID.</li>
+          <li>Follow the mode and start time announced by the organiser.</li>
+          <li>Do not share private room credentials.</li>
+          <li>Clarify prize and entry-fee terms before paying.</li>
+          <li>Respect fair play and anti-cheat rules.</li>
+        </ul>
+        ${back}
+      </div>`;
+  }
+
+  if (p === "install") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>🌐 Publish Website & Install Guide</h2>
+        <p>1. Save this code in a file named <b>index.html</b>.</p>
+        <p>2. Upload it to the root of your repository.</p>
+        <p>3. Enable Git hosting pages in repository settings.</p>
+        <p>4. Open the published HTTPS site in Chrome and install it from the browser menu if offered.</p>
+        <p class="muted">This HTML alone does not create an APK.</p>
+        ${back}
+      </div>`;
+  }
+
+  if (p === "support") {
+    c.innerHTML = `
+      <div class="panel">
+        <h2>☎️ Support</h2>
+        <p>Use your own support contact details here.</p>
+        <p class="muted">Add organizer email, Telegram, WhatsApp, or Discord for official help.</p>
+        ${back}
+      </div>`;
+  }
 }
-function logout(){localStorage.removeItem("pg_session");current=null;$("app").classList.add("hidden");$("bottomNav").classList.add("hidden");$("auth").classList.remove("hidden");$("content").innerHTML="";authTab("login")}
-const saved=get("pg_session",null);
-if(saved){const u=users.find(x=>x.email===saved);if(u)start(u)}
+
+function logout(){
+  localStorage.removeItem("pg_session");
+  current = null;
+  $("app").classList.add("hidden");
+  $("bottomNav").classList.add("hidden");
+  $("auth").classList.remove("hidden");
+  $("content").innerHTML = "";
+  authTab("login");
+}
+
+const saved = get("pg_session", null);
+if (saved) {
+  const u = users.find(x => x.email === saved);
+  if (u) start(u);
+}
 </script>
 </body>
- </html>
- 
+</html>
