@@ -1,1539 +1,461 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PRO GENIUS BATTLE — Free Fire Tournament App</title>
-  <meta name="theme-color" content="#071a33" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box}
-    :root{
-      --bg:#04101f;
-      --bg2:#071a33;
-      --panel:#0b1d35;
-      --panel2:#102746;
-      --line:#25486f;
-      --text:#eef7ff;
-      --muted:#9fb7d4;
-      --blue:#33b7ff;
-      --cyan:#75ecff;
-      --green:#2ed39a;
-      --gold:#ffd870;
-      --orange:#ff9f59;
-      --red:#ff627b;
-      --shadow:0 20px 50px rgba(0,0,0,.28);
-    }
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      min-height:100vh;
-      color:var(--text);
-      font-family:Inter,sans-serif;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(51,183,255,.14), transparent 24%),
-        radial-gradient(circle at 90% 0%, rgba(117,236,255,.11), transparent 18%),
-        linear-gradient(180deg,#030d18 0%,#04101f 45%,#020811 100%);
-    }
-    h1,h2,h3,h4{font-family:Orbitron,sans-serif;letter-spacing:.04em;margin:0}
-    .hidden{display:none!important}
-    .muted{color:var(--muted)}
-    .small{font-size:13px}
-    .tiny{font-size:12px}
-    .reveal{opacity:0;transform:translateY(18px);transition:.6s ease}
-    .reveal.in{opacity:1;transform:none}
-
-    header{
-      position:sticky;top:0;z-index:60;
-      backdrop-filter:blur(14px);
-      background:linear-gradient(180deg, rgba(4,16,31,.96), rgba(4,16,31,.82));
-      border-bottom:1px solid rgba(37,72,111,.55);
-    }
-    .topbar{
-      max-width:1180px;margin:0 auto;padding:14px 16px;
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-    }
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{
-      width:48px;height:48px;border-radius:16px;display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--blue),var(--cyan));color:#03111d;
-      font-family:Orbitron,sans-serif;font-weight:800;box-shadow:0 14px 28px rgba(51,183,255,.22)
-    }
-    .brand strong{display:block;font-size:16px}
-    .brand small{display:block;color:var(--cyan);font-size:10px;letter-spacing:.16em;margin-top:4px}
-    .top-actions{display:flex;align-items:center;gap:10px}
-    .pill{
-      padding:9px 12px;border-radius:999px;border:1px solid rgba(117,236,255,.24);
-      background:rgba(10,28,49,.72);color:#d7f3ff;font-size:12px;
-      display:flex;align-items:center;gap:8px;
-    }
-    .iconbtn{
-      border:1px solid rgba(117,236,255,.18);background:rgba(8,22,38,.74);color:#dff5ff;
-      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
-      cursor:pointer;transition:.2s ease;
-    }
-    .iconbtn:hover{transform:translateY(-1px);border-color:rgba(117,236,255,.4)}
-
-    .shell{max-width:1180px;margin:0 auto;padding:0 16px 110px}
-    .hero{
-      position:relative;min-height:calc(100vh - 78px);display:grid;place-items:center;overflow:hidden;
-    }
-    .hero-bg{position:absolute;inset:0;overflow:hidden}
-    .hero-slide{
-      position:absolute;inset:0;opacity:0;transition:opacity 1s ease;background-size:cover;background-position:center;
-      transform:scale(1.04);
-    }
-    .hero-slide.active{opacity:1}
-    .hero-slide::after{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.78)),
-      radial-gradient(circle at 80% 20%, rgba(51,183,255,.18), transparent 22%);
-    }
-    .hero-grid{
-      position:relative;z-index:2;width:min(1080px,100%);
-      display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;
-    }
-    .tag{
-      display:inline-block;padding:8px 12px;border-radius:999px;
-      border:1px solid rgba(117,236,255,.22);background:rgba(10,28,49,.58);
-      color:var(--cyan);font-size:11px;letter-spacing:.16em;margin-bottom:14px;
-    }
-    .hero-copy h1{font-size:clamp(34px,6vw,66px);line-height:1.02;max-width:10ch}
-    .hero-copy p{margin:16px 0 0;max-width:55ch;color:#d8e8f8;line-height:1.65}
-    .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-    .meta-chip{
-      padding:10px 12px;border-radius:14px;background:rgba(8,22,38,.64);
-      border:1px solid rgba(117,236,255,.16);font-size:12px;color:#dff6ff;
-    }
-
-    .auth-card{
-      background:linear-gradient(180deg, rgba(11,29,53,.82), rgba(8,21,38,.92));
-      border:1px solid rgba(117,236,255,.18);border-radius:26px;padding:20px;
-      box-shadow:var(--shadow);backdrop-filter:blur(16px);position:relative;overflow:hidden;
-    }
-    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-    .tab{
-      flex:1 1 0;min-width:90px;border:1px solid rgba(117,236,255,.16);
-      background:#0b1b31;color:#e9f6ff;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer;
-    }
-    .tab.active{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#03111d;border-color:transparent}
-
-    .form{display:grid;gap:12px}
-    .field{display:grid;gap:6px}
-    .field label{font-size:12px;color:#bdd3ea}
-    input,select,textarea{
-      width:100%;padding:13px 14px;border-radius:14px;border:1px solid rgba(37,72,111,.9);
-      background:#07121f;color:#fff;outline:none;
-    }
-    textarea{min-height:96px;resize:vertical}
-    input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(117,236,255,.08)}
-
-    .btn{
-      border:0;border-radius:14px;padding:13px 15px;font-weight:800;cursor:pointer;transition:.18s ease;
-    }
-    .btn:hover{transform:translateY(-1px);filter:brightness(1.03)}
-    .btn-primary{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#03111d}
-    .btn-secondary{background:#0d1d33;color:#eef7ff;border:1px solid rgba(37,72,111,.9)}
-    .btn-success{background:#0f2a20;color:#dcfff1;border:1px solid rgba(46,211,154,.35)}
-    .btn-danger{background:#2d1118;color:#ffe5eb;border:1px solid rgba(255,98,123,.34)}
-    .btn-warning{background:#2a1c0d;color:#fff0d2;border:1px solid rgba(255,159,89,.35)}
-
-    .panel{
-      background:linear-gradient(180deg, rgba(11,29,53,.92), rgba(9,22,40,.92));
-      border:1px solid rgba(37,72,111,.82);border-radius:24px;padding:16px;box-shadow:var(--shadow);
-    }
-    .glass{background:linear-gradient(180deg, rgba(11,29,53,.76), rgba(9,22,40,.88));backdrop-filter:blur(14px)}
-    .section-head{
-      display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;
-    }
-
-    .grid{display:grid;gap:16px}
-    .grid-2{grid-template-columns:1fr}
-    .grid-3{grid-template-columns:1fr}
-    @media(min-width:860px){
-      .grid-2{grid-template-columns:1.1fr .9fr}
-      .grid-3{grid-template-columns:repeat(3,1fr)}
-    }
-
-    .kpis{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin-top:16px}
-    .kpi{
-      background:linear-gradient(180deg,#071423,#0b1d35);border:1px solid rgba(37,72,111,.65);
-      border-radius:18px;padding:14px;
-    }
-    .kpi strong{display:block;font-size:24px;font-family:Orbitron,sans-serif;color:#fff}
-    .kpi span{font-size:12px;color:var(--muted)}
-
-    .carousel{
-      position:relative;min-height:280px;border-radius:24px;overflow:hidden;border:1px solid rgba(117,236,255,.18);
-    }
-    .carousel-slide{
-      position:absolute;inset:0;opacity:0;transition:opacity .9s ease;background-size:cover;background-position:center;
-    }
-    .carousel-slide.active{opacity:1}
-    .carousel-slide::after{
-      content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.82));
-    }
-    .carousel-copy{
-      position:absolute;left:18px;right:18px;bottom:18px;z-index:2;
-      display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;
-    }
-    .dots{display:flex;gap:8px}
-    .dot{
-      width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);border:0;cursor:pointer;
-    }
-    .dot.active{background:var(--cyan);box-shadow:0 0 0 4px rgba(117,236,255,.14)}
-
-    .item-list,.feed,.payment-list,.team-list,.history-list,.leader-list,.request-list{display:grid;gap:12px}
-    .item{
-      background:linear-gradient(180deg,#081423,#0c1d33);border:1px solid rgba(37,72,111,.72);
-      border-radius:20px;padding:14px;position:relative;overflow:hidden;
-    }
-    .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-    .badge{
-      display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;
-      font-size:11px;font-weight:800;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#eef7ff;
-    }
-    .st-upcoming{background:rgba(51,183,255,.12);border-color:rgba(51,183,255,.3);color:#dff5ff}
-    .st-live{background:rgba(46,211,154,.12);border-color:rgba(46,211,154,.3);color:#ddfff1}
-    .st-completed{background:rgba(255,216,112,.12);border-color:rgba(255,216,112,.3);color:#fff5d8}
-    .st-cancelled{background:rgba(255,98,123,.12);border-color:rgba(255,98,123,.3);color:#ffe1e7}
-    .st-pending{background:rgba(255,159,89,.12);border-color:rgba(255,159,89,.3);color:#ffe9d5}
-
-    .toolbar{display:grid;gap:12px;grid-template-columns:1fr;margin-bottom:14px}
-    @media(min-width:760px){.toolbar{grid-template-columns:1.2fr .9fr .9fr}}
-
-    .overlay{
-      position:fixed;inset:0;z-index:80;background:rgba(2,8,14,.72);backdrop-filter:blur(8px);
-      display:none;align-items:flex-end;justify-content:center;padding:16px;
-    }
-    .overlay.show{display:flex}
-    .sheet{
-      width:min(960px,100%);max-height:92vh;overflow:auto;
-      background:linear-gradient(180deg, rgba(9,22,40,.98), rgba(7,18,33,.98));
-      border:1px solid rgba(37,72,111,.72);border-radius:26px;padding:18px;box-shadow:var(--shadow);
-    }
-
-    .menu-grid{display:grid;gap:10px;grid-template-columns:1fr}
-    @media(min-width:760px){.menu-grid{grid-template-columns:1fr 1fr}}
-    .menu-item{
-      width:100%;text-align:left;border:1px solid rgba(37,72,111,.7);background:#081423;color:#eef7ff;
-      border-radius:18px;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;
-    }
-    .menu-item .emoji{font-size:22px;line-height:1}
-
-    .bottomnav{
-      position:fixed;left:0;right:0;bottom:0;z-index:70;display:grid;grid-template-columns:repeat(5,1fr);
-      background:linear-gradient(180deg, rgba(4,14,24,.98), rgba(3,10,18,.98));
-      border-top:1px solid rgba(37,72,111,.52);backdrop-filter:blur(14px);
-    }
-    .bottomnav button{
-      border:0;background:none;color:#a8bfd9;font-size:10px;font-weight:800;padding:12px 4px 14px;cursor:pointer;
-    }
-    .bottomnav .ic{display:block;font-size:20px;margin-bottom:5px}
-    .bottomnav button.active{color:var(--cyan)}
-
-    .notice{
-      padding:12px 14px;border-radius:16px;border:1px solid rgba(117,236,255,.2);
-      background:rgba(8,22,38,.56);color:#d5ebff;line-height:1.6;font-size:13px;
-    }
-    .admin-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-    .admin-tabs button{
-      border:1px solid rgba(37,72,111,.76);background:#0a1a2d;color:#eaf6ff;border-radius:12px;
-      padding:10px 12px;font-weight:800;cursor:pointer;
-    }
-    .admin-tabs button.active{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#03111d;border-color:transparent}
-    .table{width:100%;border-collapse:collapse;font-size:13px}
-    .table th,.table td{border-bottom:1px solid rgba(37,72,111,.42);padding:10px 8px;text-align:left;vertical-align:top}
-    .table th{font-size:12px;color:#d8ebff}
-
-    footer{text-align:center;color:#7d97b5;font-size:12px;padding:28px 16px 140px}
-    @media(max-width:920px){
-      .hero-grid{grid-template-columns:1fr}
-      .hero-copy h1{max-width:none}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#04101f">
+<title>PRO GENIUS BATTLE</title>
+<style>
+:root{--bg:#04101f;--panel:#0b1d35;--blue:#33b7ff;--cyan:#75ecff;--text:#eef7ff;--muted:#9fb7d4;--line:#25486f}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#102b4b,var(--bg) 60%);color:var(--text);font-family:Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#04101ff2;border-bottom:1px solid var(--line);padding:14px}
+.top{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{color:var(--cyan);font-size:20px;font-weight:900}
+nav{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;padding:12px}
+button,.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:bold;cursor:pointer;background:linear-gradient(90deg,var(--blue),var(--cyan));color:#03111d}
+button.secondary{background:#102746;color:white;border:1px solid var(--line)}
+button.danger{background:#451c2b;color:#fff}
+main{max-width:1100px;margin:auto;padding:16px 16px 90px}
+h1,h2,h3{color:var(--cyan)}
+h1{font-size:clamp(28px,6vw,48px)}
+p{line-height:1.6}
+.muted{color:var(--muted);font-size:13px}
+.panel{background:linear-gradient(145deg,#0d2440,#071524);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+input,select,textarea{width:100%;padding:12px;margin:5px 0 12px;border-radius:9px;border:1px solid var(--line);background:#061321;color:white}
+label{font-size:13px;color:#c7def5}
+form button{width:100%}
+.hidden{display:none!important}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tabs button{flex:1}
+.card{border:1px solid var(--line);background:#071524;border-radius:14px;padding:14px;margin:10px 0}
+.badge{display:inline-block;background:#143752;border-radius:20px;padding:5px 9px;font-size:12px}
+table{width:100%;border-collapse:collapse}
+td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line);font-size:13px}
+.tablewrap{overflow-x:auto}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+.bottom{position:fixed;bottom:0;left:0;right:0;z-index:5;display:flex;justify-content:space-around;gap:3px;padding:8px 3px;background:#04101ff5;border-top:1px solid var(--line)}
+.bottom button{padding:10px 7px;font-size:11px}
+.notice{padding:12px;background:#102746;border-radius:10px;font-size:13px;line-height:1.6}
+</style>
 </head>
 <body>
-  <header>
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo">PG</div>
-        <div>
-          <strong>PRO GENIUS BATTLE</strong>
-          <small>FREE FIRE ESPORTS HUB</small>
-        </div>
-      </div>
-      <div class="top-actions">
-        <div class="pill">🪙 <span id="topCoins">0</span></div>
-        <button class="iconbtn" onclick="openNotifications()">🔔</button>
-        <button class="iconbtn" onclick="openMenu()">☰</button>
-      </div>
-    </div>
-  </header>
 
-  <main class="shell">
-    <section id="authPage">
-      <div class="hero">
-        <div class="hero-bg" id="heroBg"></div>
+<header>
+ <div class="top">
+  <div class="logo">⚡ PRO GENIUS BATTLE</div>
+  <div>🪙 <span id="coins">0</span></div>
+ </div>
+</header>
 
-        <div class="hero-grid">
-          <div class="hero-copy reveal">
-            <div class="tag">LIVE TOURNAMENT PLATFORM</div>
-            <h1>Login, register, play and manage Free Fire tournaments.</h1>
-            <p>
-              Full registration with full name, Free Fire ID name, Free Fire UID, email, password, referral or promo code, login with email or Free Fire ID name, forgot password, wallet, payments, leaderboard, profile edit, and admin player database.
-            </p>
-            <div class="hero-meta">
-              <div class="meta-chip">Email + Password</div>
-              <div class="meta-chip">Free Fire ID Name Login</div>
-              <div class="meta-chip">Referral / Promo System</div>
-              <div class="meta-chip">Forgot Password</div>
-            </div>
-          </div>
+<main>
+<section id="authPage">
+ <div class="panel">
+  <h1>FREE FIRE ARENA</h1>
+  <p>Register. Compete. Climb the leaderboard.</p>
+  <p class="muted">Free Fire tournament community</p>
+ </div>
 
-          <div class="auth-card reveal">
-            <div class="tabs">
-              <button class="tab active" id="tabLogin" onclick="switchAuth('login')">LOGIN</button>
-              <button class="tab" id="tabRegister" onclick="switchAuth('register')">REGISTER</button>
-              <button class="tab" id="tabForgot" onclick="switchAuth('forgot')">FORGOT</button>
-              <button class="tab" id="tabAdmin" onclick="switchAuth('admin')">ADMIN</button>
-            </div>
-
-            <div id="authMsg" class="small muted" style="margin-bottom:10px"></div>
-
-            <form id="loginForm" class="form">
-              <div class="field">
-                <label>Email or Free Fire ID Name</label>
-                <input id="loginIdentifier" placeholder="Email or FF ID name" required>
-              </div>
-              <div class="field">
-                <label>Password</label>
-                <input id="loginPassword" type="password" placeholder="Enter password" required>
-              </div>
-              <button class="btn btn-primary">LOGIN</button>
-            </form>
-
-            <form id="registerForm" class="form hidden">
-              <div class="field">
-                <label>Full Name</label>
-                <input id="regFullName" required>
-              </div>
-              <div class="field">
-                <label>Free Fire ID Name</label>
-                <input id="regFfName" required>
-              </div>
-              <div class="field">
-                <label>Free Fire UID</label>
-                <input id="regUid" placeholder="8-12 digits" required>
-              </div>
-              <div class="field">
-                <label>Email</label>
-                <input id="regEmail" type="email" required>
-              </div>
-              <div class="field">
-                <label>Password</label>
-                <input id="regPassword" type="password" minlength="6" required>
-              </div>
-              <div class="field">
-                <label>Referral / Promo Code</label>
-                <input id="regPromo" placeholder="Optional">
-              </div>
-              <button class="btn btn-primary">CREATE ACCOUNT</button>
-            </form>
-
-            <form id="forgotForm" class="form hidden">
-              <div class="field">
-                <label>Email</label>
-                <input id="forgotEmail" type="email" required>
-              </div>
-              <div class="field">
-                <label>New Password</label>
-                <input id="forgotNewPassword" type="password" minlength="6" required>
-              </div>
-              <button class="btn btn-primary">RESET PASSWORD</button>
-            </form>
-
-            <form id="adminForm" class="form hidden">
-              <div class="field">
-                <label>Admin Email</label>
-                <input id="adminEmail" type="email" required>
-              </div>
-              <div class="field">
-                <label>Admin Password</label>
-                <input id="adminPassword" type="password" required>
-              </div>
-              <button class="btn btn-primary">LOGIN AS ADMIN</button>
-            </form>
-
-            <div class="notice" style="margin-top:14px">
-              Referral code gives bonus coins. Email stays locked after registration. Players can edit full name, Free Fire ID name, and UID later from profile.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="appPage" class="hidden">
-      <div class="grid grid-2" style="margin-top:18px">
-        <div class="panel glass reveal">
-          <div class="section-head">
-            <div>
-              <h2>Home Dashboard</h2>
-              <div class="tiny muted" id="playerIdentity">Player</div>
-            </div>
-            <span class="badge" id="heroBadge">LIVE TOURNAMENT</span>
-          </div>
-
-          <div class="carousel">
-            <div id="homeCarouselTrack"></div>
-            <div class="carousel-copy">
-              <div>
-                <div class="badge">ROTATING BANNER</div>
-                <h2 id="bannerTitle" style="margin-top:10px">Banner</h2>
-                <div class="small muted" id="bannerSubtitle" style="margin-top:6px"></div>
-              </div>
-              <div class="dots" id="bannerDots"></div>
-            </div>
-          </div>
-
-          <div class="kpis">
-            <div class="kpi"><strong id="kpiJoined">0</strong><span>Matches Joined</span></div>
-            <div class="kpi"><strong id="kpiWins">0</strong><span>Wins</span></div>
-            <div class="kpi"><strong id="kpiKills">0</strong><span>Kills</span></div>
-            <div class="kpi"><strong id="kpiBalance">0</strong><span>Coins / Rupees</span></div>
-          </div>
-        </div>
-
-        <div class="panel reveal">
-          <div class="section-head">
-            <h2>Announcements</h2>
-            <button class="btn btn-secondary" onclick="showPage('announcements')">Open</button>
-          </div>
-          <div id="homeAnnouncements" class="feed"></div>
-        </div>
-      </div>
-
-      <div id="pageContent" style="margin-top:16px"></div>
-    </section>
-  </main>
-
-  <div id="bottomNav" class="bottomnav hidden">
-    <button data-nav="home" onclick="showPage('home')"><span class="ic">🏠</span>HOME</button>
-    <button data-nav="matches" onclick="showPage('matches')"><span class="ic">🎮</span>MATCHES</button>
-    <button data-nav="wallet" onclick="showPage('wallet')"><span class="ic">💳</span>WALLET</button>
-    <button data-nav="leaderboard" onclick="showPage('leaderboard')"><span class="ic">🏆</span>RANKS</button>
-    <button data-nav="profile" onclick="showPage('profile')"><span class="ic">👤</span>PROFILE</button>
+ <div class="panel">
+  <div class="tabs">
+   <button id="loginTab" onclick="authTab('login')">LOGIN</button>
+   <button class="secondary" id="registerTab" onclick="authTab('register')">REGISTER</button>
+   <button class="secondary" id="forgotTab" onclick="authTab('forgot')">FORGOT</button>
   </div>
+  <p id="authMessage" class="muted"></p>
 
-  <div id="menuOverlay" class="overlay" onclick="if(event.target===this)closeMenu()">
-    <div class="sheet">
-      <div class="section-head">
-        <div>
-          <h2>Menu</h2>
-          <div class="tiny muted" id="menuIdentity">Guest</div>
-        </div>
-        <button class="iconbtn" onclick="closeMenu()">✕</button>
-      </div>
+  <form id="loginForm">
+   <label>Email or Free Fire ID Name</label>
+   <input id="loginId" required>
+   <label>Password</label>
+   <input id="loginPass" type="password" required>
+   <button>LOGIN</button>
+  </form>
 
-      <div class="menu-grid">
-        <button class="menu-item" onclick="goMenu('home')"><span class="emoji">🏠</span><span><strong>Home</strong><br><small class="muted">Dashboard</small></span></button>
-        <button class="menu-item" onclick="goMenu('matches')"><span class="emoji">🎮</span><span><strong>Matches</strong><br><small class="muted">Search and join</small></span></button>
-        <button class="menu-item" onclick="goMenu('teams')"><span class="emoji">👥</span><span><strong>Teams</strong><br><small class="muted">Create team</small></span></button>
-        <button class="menu-item" onclick="goMenu('wallet')"><span class="emoji">💳</span><span><strong>Wallet</strong><br><small class="muted">Deposit and withdraw</small></span></button>
-        <button class="menu-item" onclick="goMenu('leaderboard')"><span class="emoji">🏆</span><span><strong>Leaderboard</strong><br><small class="muted">Kills and wins</small></span></button>
-        <button class="menu-item" onclick="goMenu('history')"><span class="emoji">📜</span><span><strong>History</strong><br><small class="muted">Matches, teams, payments</small></span></button>
-        <button class="menu-item" onclick="goMenu('announcements')"><span class="emoji">📢</span><span><strong>Announcements</strong><br><small class="muted">Admin-only messages</small></span></button>
-        <button class="menu-item" onclick="goMenu('support')"><span class="emoji">☎️</span><span><strong>Support</strong><br><small class="muted">Help and rules</small></span></button>
-        <button class="menu-item" onclick="goMenu('admin')"><span class="emoji">🛠️</span><span><strong>Admin Panel</strong><br><small class="muted">Manage app data</small></span></button>
-      </div>
+  <form id="registerForm" class="hidden">
+   <label>Full Name</label><input id="fullName" required>
+   <label>Free Fire ID Name</label><input id="ffName" required>
+   <label>Free Fire UID</label><input id="uid" required>
+   <label>Email</label><input id="email" type="email" required>
+   <label>Password (minimum 8 characters)</label>
+   <input id="password" type="password" minlength="8" required>
+   <label>Referral / Promo Code</label><input id="promo">
+   <button>CREATE ACCOUNT</button>
+  </form>
 
-      <button class="btn btn-danger" style="width:100%;margin-top:16px" onclick="logout()">LOG OUT</button>
-    </div>
+  <form id="forgotForm" class="hidden">
+   <p class="notice">This demo cannot securely reset passwords. Use a real authentication backend for account recovery.</p>
+   <label>Registered Email</label><input id="resetEmail" type="email" required>
+   <button>CONTINUE</button>
+  </form>
+
+  <p class="muted">Your email should be kept private. Never reuse your personal password on an untrusted website.</p>
+ </div>
+</section>
+
+<section id="appPage" class="hidden">
+ <div class="panel">
+  <h1>Welcome, <span id="welcomeName">Player</span>!</h1>
+  <p class="muted" id="roleLabel">Player dashboard</p>
+  <div class="grid">
+   <div class="card">🎮 Matches joined: <b id="joinedCount">0</b></div>
+   <div class="card">🏆 Wins: <b id="winsCount">0</b></div>
+   <div class="card">🪙 Demo coins: <b id="balance">0</b></div>
   </div>
+ </div>
 
-  <div id="notificationsOverlay" class="overlay" onclick="if(event.target===this)closeNotifications()">
-    <div class="sheet">
-      <div class="section-head">
-        <div>
-          <h2>Notifications</h2>
-          <div class="tiny muted">Match, payment, room, result</div>
-        </div>
-        <button class="iconbtn" onclick="closeNotifications()">✕</button>
-      </div>
-      <div id="notificationsList" class="feed"></div>
-    </div>
+ <section id="homeSection">
+  <div class="panel">
+   <h2>📢 Announcements</h2>
+   <div id="announcementList"></div>
   </div>
-
-  <div id="rulesOverlay" class="overlay" onclick="if(event.target===this)closeRules()">
-    <div class="sheet">
-      <div class="section-head">
-        <div>
-          <h2>Tournament Rules</h2>
-          <div class="tiny muted">Read before joining</div>
-        </div>
-        <button class="iconbtn" onclick="closeRules()">✕</button>
-      </div>
-
-      <div class="item-list">
-        <div class="item">🚫 No hacks or cheats</div>
-        <div class="item">🗣️ No abusive language</div>
-        <div class="item">⏰ No late joining</div>
-        <div class="item">💸 No refund after approval</div>
-        <div class="item">⚖️ Admin decision is final</div>
-      </div>
-
-      <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="confirmJoin()">I ACCEPT & JOIN</button>
-    </div>
+  <div class="panel">
+   <h2>🏆 Featured Tournaments</h2>
+   <div id="featuredMatches"></div>
   </div>
-
-  <footer>
-    PRO GENIUS BATTLE • Single-file tournament app demo • Frontend only local storage version
-  </footer>
-
-  <script>
-    const $ = id => document.getElementById(id);
-    const store = {
-      get(k,d){ try { return JSON.parse(localStorage.getItem(k)) ?? d } catch(e){ return d } },
-      set(k,v){ localStorage.setItem(k, JSON.stringify(v)) }
-    };
-    const esc = s => String(s ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-
-    let banners = store.get("pg_banners_auth", [
-      { title:"Prize Pool Royale", subtitle:"Winner, runner-up, and special kill rewards on every match", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#0a2546'/><circle cx='1300' cy='180' r='150' fill='#6feeff' opacity='.15'/><rect x='150' y='180' width='260' height='260' rx='28' fill='#0f2744' stroke='#84e1ff' opacity='.78'/><text x='220' y='338' fill='#ffd870' font-size='126' font-family='Arial'>🏆</text><text x='470' y='300' fill='#fff' font-size='86' font-family='Arial' font-weight='700'>PRIZE POOL ROYALE</text><text x='470' y='380' fill='#d6ebff' font-size='34' font-family='Arial'>Compete daily and win rewards</text></svg>`) },
-      { title:"Squad Arena", subtitle:"Create team, add captain, save players", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#071223'/><circle cx='300' cy='190' r='140' fill='#35b8ff' opacity='.18'/><text x='120' y='340' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>BUILD YOUR SQUAD</text><text x='120' y='420' fill='#9de7ff' font-size='34' font-family='Arial'>Captain, players, team history</text></svg>`) },
-      { title:"Live Board", subtitle:"Track kills, wins, rankings, and results", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#081627'/><text x='120' y='330' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>LEADERBOARD LIVE</text><text x='120' y='410' fill='#a2e7ff' font-size='34' font-family='Arial'>Every top player in one place</text></svg>`) },
-      { title:"EasyPaisa & JazzCash", subtitle:"Deposit and withdraw for Pakistan players", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#0a2340'/><text x='120' y='330' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>PAY FAST</text><text x='120' y='410' fill='#a2e7ff' font-size='34' font-family='Arial'>EasyPaisa and JazzCash supported</text></svg>`) },
-      { title:"Admin Control", subtitle:"Manage players, matches, announcements, and payments", image:"data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#08192b'/><text x='120' y='330' fill='#fff' font-size='84' font-family='Arial' font-weight='700'>ADMIN CONTROL</text><text x='120' y='410' fill='#a2e7ff' font-size='34' font-family='Arial'>Full tournament management</text></svg>`) }
-    ]);
-
-    let promoCodes = store.get("pg_promos_auth", [
-      { code:"WELCOME50", reward:50, active:true },
-      { code:"PRO100", reward:100, active:true }
-    ]);
-
-    let users = store.get("pg_users_auth", []);
-    let matches = store.get("pg_matches_auth", [
-      { id:1,title:"Daily Solo Clash",matchName:"Solo",mode:"Battle Royale",map:"Bermuda",time:"7:00 PM",entryFee:0,roomType:"BR",teamAllowed:false,status:"Upcoming",prizePool:{total:300,winner:150,runnerUp:100,killReward:50},roomId:"",roomPass:"",notes:"Open solo practice match" },
-      { id:2,title:"CS Duo Rush",matchName:"Duo",mode:"Clash Squad",map:"Kalahari",time:"8:00 PM",entryFee:50,roomType:"CS",teamAllowed:false,status:"Live",prizePool:{total:1000,winner:500,runnerUp:300,killReward:200},roomId:"CS-44",roomPass:"2299",notes:"Fast duo CS match" },
-      { id:3,title:"Squad Classic",matchName:"Squad",mode:"Battle Royale",map:"Bermuda",time:"9:00 PM",entryFee:100,roomType:"BR",teamAllowed:true,status:"Upcoming",prizePool:{total:2500,winner:1500,runnerUp:700,killReward:300},roomId:"",roomPass:"",notes:"Team match for 4 players" }
-    ]);
-    let leaderboard = store.get("pg_leaderboard_auth", [
-      {name:"Alpha Squad",kills:18,matches:4,wins:4,matchName:"Squad Classic",time:"9:00 PM"},
-      {name:"Storm King",kills:15,matches:5,wins:3,matchName:"CS Duo Rush",time:"8:00 PM"},
-      {name:"Headshot Pro",kills:12,matches:6,wins:2,matchName:"Daily Solo Clash",time:"7:00 PM"}
-    ]);
-    let announcements = store.get("pg_announce_auth", [
-      {title:"Welcome",text:"Tournament portal is live. Review details before joining.",by:"ADMIN"},
-      {title:"Room Rules",text:"Join only when room details are announced.",by:"MATCH ADMIN"}
-    ]);
-    let notifications = store.get("pg_notifications_auth", [
-      {title:"Match reminder",text:"Daily Solo Clash starts at 7:00 PM",type:"reminder",time:new Date().toLocaleString()},
-      {title:"Result published",text:"Lone Wolf 1v1 results are available now",type:"result",time:new Date().toLocaleString()}
-    ]);
-    let teams = store.get("pg_teams_auth", []);
-    let joined = store.get("pg_joined_auth", {});
-    let paymentMethods = store.get("pg_methods_auth", [
-      {id:1,title:"EasyPaisa",number:"03XX-XXXXXXX",active:true},
-      {id:2,title:"JazzCash",number:"03XX-XXXXXXX",active:true}
-    ]);
-    let paymentRequests = store.get("pg_requests_auth", []);
-    let support = store.get("pg_support_auth", {
-      contact:"support@progeniusbattle.local",
-      whatsapp:"+92 300 0000000",
-      help:"For payment help, contact support with your transaction ID.",
-      report:"Report abuse, room issue, or payment issue here."
-    });
-
-    let currentEmail = store.get("pg_session_auth", null);
-    let currentPage = "home";
-    let bannerIndex = 0;
-    let pendingJoinId = null;
-    let adminView = "players";
-
-    const safeAdmin = {
-      fullName:"Admin User",
-      ffName:"AdminFF",
-      uid:"00000000",
-      email:"admin@example.com",
-      password:"change-me-now",
-      role:"admin",
-      coins:9999,
-      rupees:9999,
-      kills:0,
-      wins:0,
-      banned:false,
-      referralCode:"ADMINREF",
-      usedPromo:""
-    };
-
-    if(!users.some(u => u.email === safeAdmin.email)){
-      users.unshift(safeAdmin);
-      saveAll();
-    }
-
-    function saveAll(){
-      store.set("pg_banners_auth", banners);
-      store.set("pg_promos_auth", promoCodes);
-      store.set("pg_users_auth", users);
-      store.set("pg_matches_auth", matches);
-      store.set("pg_leaderboard_auth", leaderboard);
-      store.set("pg_announce_auth", announcements);
-      store.set("pg_notifications_auth", notifications);
-      store.set("pg_teams_auth", teams);
-      store.set("pg_joined_auth", joined);
-      store.set("pg_methods_auth", paymentMethods);
-      store.set("pg_requests_auth", paymentRequests);
-      store.set("pg_support_auth", support);
-      store.set("pg_session_auth", currentEmail);
-    }
-
-    function me(){ return users.find(u => u.email === currentEmail) || null; }
-
-    function switchAuth(tab){
-      $("loginForm").classList.toggle("hidden", tab !== "login");
-      $("registerForm").classList.toggle("hidden", tab !== "register");
-      $("forgotForm").classList.toggle("hidden", tab !== "forgot");
-      $("adminForm").classList.toggle("hidden", tab !== "admin");
-      $("tabLogin").classList.toggle("active", tab === "login");
-      $("tabRegister").classList.toggle("active", tab === "register");
-      $("tabForgot").classList.toggle("active", tab === "forgot");
-      $("tabAdmin").classList.toggle("active", tab === "admin");
-      $("authMsg").textContent = "";
-    }
-
-    function makeReferralCode(name){
-      return (name || "PLAYER").replace(/\s+/g,"").toUpperCase().slice(0,5) + Math.floor(1000 + Math.random() * 9000);
-    }
-
-    $("registerForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const fullName = $("regFullName").value.trim();
-      const ffName = $("regFfName").value.trim();
-      const uid = $("regUid").value.trim();
-      const email = $("regEmail").value.trim().toLowerCase();
-      const password = $("regPassword").value;
-      const promo = $("regPromo").value.trim().toUpperCase();
-
-      if(!/^\d{8,12}$/.test(uid)){ $("authMsg").textContent = "Free Fire UID must be 8 to 12 digits."; return; }
-      if(users.some(u => u.email === email)){ $("authMsg").textContent = "Email already registered."; return; }
-      if(users.some(u => (u.ffName || "").toLowerCase() === ffName.toLowerCase())){ $("authMsg").textContent = "Free Fire ID name already used."; return; }
-
-      let bonus = 100;
-      let usedPromo = "";
-      if(promo){
-        const foundPromo = promoCodes.find(p => p.code === promo && p.active);
-        const refUser = users.find(u => u.referralCode === promo);
-        if(foundPromo){
-          bonus += Number(foundPromo.reward || 0);
-          usedPromo = promo;
-        } else if(refUser){
-          bonus += 50;
-          refUser.coins = (refUser.coins || 0) + 50;
-          refUser.rupees = refUser.coins;
-          usedPromo = promo;
-        }
-      }
-
-      users.push({
-        fullName,
-        ffName,
-        uid,
-        email,
-        password,
-        role:"player",
-        coins:bonus,
-        rupees:bonus,
-        kills:0,
-        wins:0,
-        banned:false,
-        referralCode:makeReferralCode(fullName),
-        usedPromo
-      });
-      saveAll();
-      $("authMsg").textContent = "Account created successfully. Login now.";
-      switchAuth("login");
-      $("loginIdentifier").value = email;
-    });
-
-    $("loginForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const identifier = $("loginIdentifier").value.trim().toLowerCase();
-      const password = $("loginPassword").value;
-      const user = users.find(u => u.role !== "admin" && (u.email.toLowerCase() === identifier || (u.ffName || "").toLowerCase() === identifier) && u.password === password);
-      if(!user){ $("authMsg").textContent = "Invalid login details."; return; }
-      if(user.banned){ $("authMsg").textContent = "Your account is banned."; return; }
-      currentEmail = user.email;
-      saveAll();
-      startApp();
-    });
-
-    $("forgotForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const email = $("forgotEmail").value.trim().toLowerCase();
-      const newPass = $("forgotNewPassword").value;
-      const user = users.find(u => u.email === email && u.role !== "admin");
-      if(!user){ $("authMsg").textContent = "Account not found."; return; }
-      user.password = newPass;
-      saveAll();
-      $("authMsg").textContent = "Password reset successful. Login now.";
-      switchAuth("login");
-      $("loginIdentifier").value = email;
-    });
-
-    $("adminForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const email = $("adminEmail").value.trim().toLowerCase();
-      const password = $("adminPassword").value;
-      const admin = users.find(u => u.email === email && u.password === password && u.role === "admin");
-      if(!admin){ $("authMsg").textContent = "Admin login failed."; return; }
-      currentEmail = admin.email;
-      saveAll();
-      startApp();
-    });
-
-    function startApp(){
-      $("authPage").classList.add("hidden");
-      $("appPage").classList.remove("hidden");
-      $("bottomNav").classList.remove("hidden");
-      renderAll();
-      showPage("home");
-    }
-
-    function logout(){
-      currentEmail = null;
-      saveAll();
-      $("authPage").classList.remove("hidden");
-      $("appPage").classList.add("hidden");
-      $("bottomNav").classList.add("hidden");
-      $("pageContent").innerHTML = "";
-      closeMenu();
-      closeNotifications();
-      switchAuth("login");
-    }
-
-    function renderHero(){
-      $("heroBg").innerHTML = banners.map((b,i)=>`<div class="hero-slide ${i===bannerIndex?'active':''}" style="background-image:url('${esc(b.image)}')"></div>`).join("");
-    }
-    function renderCarousel(){
-      $("homeCarouselTrack").innerHTML = banners.map((b,i)=>`<div class="carousel-slide ${i===bannerIndex?'active':''}" style="background-image:url('${esc(b.image)}')"></div>`).join("");
-      $("bannerDots").innerHTML = banners.map((_,i)=>`<button class="dot ${i===bannerIndex?'active':''}" onclick="setBanner(${i})"></button>`).join("");
-      $("bannerTitle").textContent = banners[bannerIndex]?.title || "Banner";
-      $("bannerSubtitle").textContent = banners[bannerIndex]?.subtitle || "";
-    }
-    function setBanner(i){ bannerIndex = i % banners.length; renderHero(); if(!$("appPage").classList.contains("hidden")) renderCarousel(); }
-    setInterval(()=> setBanner((bannerIndex + 1) % banners.length), 3500);
-
-    function pushNotification(title,text,type="info"){ notifications.unshift({title,text,type,time:new Date().toLocaleString()}); saveAll(); }
-
-    function openNotifications(){
-      $("notificationsOverlay").classList.add("show");
-      $("notificationsList").innerHTML = notifications.map(n=>`
-        <div class="item reveal">
-          <div class="row"><strong>${esc(n.title)}</strong><span class="badge">${esc(n.type)}</span></div>
-          <div class="small muted" style="margin-top:8px">${esc(n.text)}</div>
-          <div class="tiny muted" style="margin-top:8px">${esc(n.time)}</div>
-        </div>
-      `).join("") || `<div class="item">No notifications.</div>`;
-      triggerReveal();
-    }
-    function closeNotifications(){ $("notificationsOverlay").classList.remove("show"); }
-
-    function openMenu(){
-      $("menuOverlay").classList.add("show");
-      const u = me();
-      $("menuIdentity").textContent = u ? `${u.ffName} • ${u.role}` : "Guest";
-    }
-    function closeMenu(){ $("menuOverlay").classList.remove("show"); }
-    function goMenu(page){ closeMenu(); showPage(page); }
-
-    function openRules(matchId){ pendingJoinId = matchId; $("rulesOverlay").classList.add("show"); }
-    function closeRules(){ $("rulesOverlay").classList.remove("show"); pendingJoinId = null; }
-
-    function statusClass(status){
-      const s = String(status || "").toLowerCase();
-      if(s === "live") return "st-live";
-      if(s === "completed") return "st-completed";
-      if(s === "cancelled") return "st-cancelled";
-      if(s === "pending") return "st-pending";
-      return "st-upcoming";
-    }
-
-    function joinedKey(id){ const u = me(); return u ? `${u.email}:${id}` : ""; }
-
-    function confirmJoin(){
-      const u = me();
-      const match = matches.find(m => m.id === pendingJoinId);
-      if(!u || !match){ closeRules(); return; }
-      const key = joinedKey(match.id);
-      if(joined[key]){ alert("Already joined."); closeRules(); return; }
-      joined[key] = true;
-      if(match.entryFee){ u.coins = Math.max(0, (u.coins || 0) - Number(match.entryFee)); u.rupees = u.coins; }
-      saveAll();
-      pushNotification("Join successful", `You joined ${match.title}`, "join");
-      renderAll();
-      closeRules();
-    }
-
-    function renderHome(){
-      const u = me();
-      if(!u) return;
-      $("topCoins").textContent = u.coins || 0;
-      $("playerIdentity").textContent = `${u.ffName} • ${u.role}`;
-      $("heroBadge").textContent = matches.some(m => m.status === "Live") ? "LIVE TOURNAMENT" : "EVENT BOARD";
-      $("kpiJoined").textContent = Object.keys(joined).filter(k => k.startsWith(u.email + ":")).length;
-      $("kpiWins").textContent = u.wins || 0;
-      $("kpiKills").textContent = u.kills || 0;
-      $("kpiBalance").textContent = u.coins || 0;
-
-      $("homeAnnouncements").innerHTML = announcements.slice(0,3).map(a=>`
-        <div class="item reveal">
-          <div class="row"><strong>${esc(a.title)}</strong><span class="badge">${esc(a.by)}</span></div>
-          <div class="small muted" style="margin-top:8px">${esc(a.text)}</div>
-        </div>
-      `).join("") || `<div class="item">No announcements.</div>`;
-
-      renderCarousel();
-      triggerReveal();
-    }
-
-    function matchCard(m){
-      const isJoined = !!joined[joinedKey(m.id)];
-      return `
-        <div class="item reveal">
-          <div class="row">
-            <div>
-              <strong>${esc(m.title)}</strong>
-              <div class="small muted">${esc(m.matchName)} • ${esc(m.mode)} • ${esc(m.map)}</div>
-            </div>
-            <span class="badge ${statusClass(m.status)}">${esc(m.status)}</span>
-          </div>
-          <div class="small muted" style="margin-top:10px">
-            Time: ${esc(m.time)}<br>
-            Entry Fee: ${m.entryFee ? "Rs " + esc(m.entryFee) : "Free"}<br>
-            Room Type: ${esc(m.roomType)}<br>
-            Team Allowed: ${m.teamAllowed ? "Yes" : "No"}
-          </div>
-          <div class="row" style="margin-top:12px">
-            <button class="btn btn-secondary" onclick="showMatchDetail(${m.id})">DETAILS</button>
-            <button class="btn ${isJoined?'btn-success':'btn-primary'}" onclick="openRules(${m.id})">${isJoined?'JOINED':'JOIN MATCH'}</button>
-          </div>
-        </div>
-      `;
-    }
-
-    function showPage(page){
-      currentPage = page;
-      document.querySelectorAll("[data-nav]").forEach(btn => btn.classList.toggle("active", btn.dataset.nav === page));
-      const c = $("pageContent");
-
-      if(page === "home"){
-        c.innerHTML = `
-          <div class="grid grid-3">
-            <div class="panel reveal"><div class="section-head"><h2>Matches</h2><button class="btn btn-secondary" onclick="showPage('matches')">Open</button></div><div class="small muted">Open tournaments and join match rooms.</div></div>
-            <div class="panel reveal"><div class="section-head"><h2>Wallet</h2><button class="btn btn-secondary" onclick="showPage('wallet')">Open</button></div><div class="small muted">Deposit and withdraw with EasyPaisa / JazzCash.</div></div>
-            <div class="panel reveal"><div class="section-head"><h2>Profile</h2><button class="btn btn-secondary" onclick="showPage('profile')">Open</button></div><div class="small muted">Edit full name, FF ID name, UID.</div></div>
-          </div>
-        `;
-        renderHome();
-        triggerReveal();
-        return;
-      }
-
-      if(page === "matches"){
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <div><h2>Matches</h2><div class="tiny muted">Search and filter</div></div>
-            </div>
-            <div class="toolbar">
-              <input id="matchSearch" placeholder="Search title, mode, map" oninput="renderMatchesPage()">
-              <select id="matchType" onchange="renderMatchesPage()">
-                <option value="">All Types</option>
-                <option>Solo</option><option>Duo</option><option>Squad</option><option>CS</option><option>BR</option>
-              </select>
-              <select id="matchStatus" onchange="renderMatchesPage()">
-                <option value="">All Status</option>
-                <option>Upcoming</option><option>Live</option><option>Completed</option><option>Cancelled</option>
-              </select>
-            </div>
-            <div id="matchesWrap" class="item-list"></div>
-          </section>
-        `;
-        renderMatchesPage();
-      }
-
-      if(page === "wallet"){
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <div><h2>Wallet</h2><div class="tiny muted">Deposit and withdrawal</div></div>
-              <span class="badge">1 coin = 1 rupee</span>
-            </div>
-            <div class="grid grid-2">
-              <div class="panel glass">
-                <h3>Payment Methods</h3>
-                <div id="paymentMethodsWrap" class="payment-list" style="margin-top:12px"></div>
-              </div>
-              <div class="panel glass">
-                <h3>Deposit Request</h3>
-                <form id="depositForm" class="form" style="margin-top:12px">
-                  <div class="field"><label>Method</label><select id="depositMethod"></select></div>
-                  <div class="field"><label>Amount (Rs)</label><input id="depositAmount" type="number" min="0" required></div>
-                  <div class="field"><label>Sender Number</label><input id="senderNumber" required></div>
-                  <div class="field"><label>Transaction ID</label><input id="depositTrx" required></div>
-                  <button class="btn btn-primary">SUBMIT DEPOSIT</button>
-                </form>
-              </div>
-            </div>
-
-            <div class="grid grid-2" style="margin-top:14px">
-              <div class="panel glass">
-                <h3>Withdraw Request</h3>
-                <form id="withdrawForm" class="form" style="margin-top:12px">
-                  <div class="field"><label>Method</label><select id="withdrawMethod"></select></div>
-                  <div class="field"><label>Amount (Rs)</label><input id="withdrawAmount" type="number" min="0" required></div>
-                  <div class="field"><label>Account Title</label><input id="withdrawTitle" required></div>
-                  <div class="field"><label>Account Number</label><input id="withdrawNumber" required></div>
-                  <button class="btn btn-primary">REQUEST WITHDRAWAL</button>
-                </form>
-              </div>
-              <div class="panel glass">
-                <h3>Your Payment History</h3>
-                <div id="paymentHistoryWrap" class="payment-list" style="margin-top:12px"></div>
-              </div>
-            </div>
-          </section>
-        `;
-        renderWallet();
-        $("depositForm").addEventListener("submit", submitDeposit);
-        $("withdrawForm").addEventListener("submit", submitWithdraw);
-      }
-
-      if(page === "leaderboard"){
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <h2>Leaderboard</h2>
-              <span class="badge">Kills • Matches • Wins</span>
-            </div>
-            <div class="leader-list">
-              ${leaderboard.map((l,i)=>`
-                <div class="item reveal">
-                  <div class="row">
-                    <strong>#${i+1} ${esc(l.name)}</strong>
-                    <span class="badge">Kills ${esc(l.kills)}</span>
-                  </div>
-                  <div class="small muted" style="margin-top:8px">Matches: ${esc(l.matches)} • Wins: ${esc(l.wins)} • Match: ${esc(l.matchName)} • Time: ${esc(l.time)}</div>
-                </div>
-              `).join("")}
-            </div>
-          </section>
-        `;
-        triggerReveal();
-      }
-
-      if(page === "profile"){
-        const u = me();
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <div><h2>Player Profile</h2><div class="tiny muted">Email cannot be changed</div></div>
-            </div>
-            <form id="profileForm" class="form" style="max-width:700px">
-              <div class="field"><label>Full Name</label><input id="profileFullName" value="${esc(u.fullName || "")}" required></div>
-              <div class="field"><label>Free Fire ID Name</label><input id="profileFfName" value="${esc(u.ffName || "")}" required></div>
-              <div class="field"><label>Email</label><input value="${esc(u.email)}" disabled></div>
-              <div class="field"><label>Free Fire UID</label><input id="profileUid" value="${esc(u.uid || "")}" required></div>
-              <div class="field"><label>Your Referral Code</label><input value="${esc(u.referralCode || "")}" disabled></div>
-              <div class="field"><label>Used Promo / Referral</label><input value="${esc(u.usedPromo || "None")}" disabled></div>
-              <button class="btn btn-primary">SAVE PROFILE</button>
-            </form>
-          </section>
-        `;
-        $("profileForm").addEventListener("submit", saveProfile);
-      }
-
-      if(page === "teams"){
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <div><h2>Team Creator</h2><div class="tiny muted">Add captain and players</div></div>
-            </div>
-            <div class="grid grid-2">
-              <form id="teamForm" class="panel glass form">
-                <div class="field"><label>Team Name</label><input id="teamName" required></div>
-                <div class="field"><label>Captain / Owner</label><input id="teamCaptain" required></div>
-                <div class="field"><label>Player 1 UID</label><input id="teamP1" required></div>
-                <div class="field"><label>Player 2 UID</label><input id="teamP2"></div>
-                <div class="field"><label>Player 3 UID</label><input id="teamP3"></div>
-                <div class="field"><label>Player 4 UID</label><input id="teamP4"></div>
-                <button class="btn btn-primary">SAVE TEAM</button>
-              </form>
-              <div class="panel glass">
-                <h3>Saved Teams</h3>
-                <div id="teamsWrap" class="team-list" style="margin-top:12px"></div>
-              </div>
-            </div>
-          </section>
-        `;
-        $("teamForm").addEventListener("submit", saveTeam);
-        renderTeams();
-      }
-
-      if(page === "history"){
-        renderHistoryPage();
-      }
-
-      if(page === "announcements"){
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <h2>Announcements</h2>
-              <span class="badge">Only admin can write</span>
-            </div>
-            <div class="feed">
-              ${announcements.map(a=>`
-                <div class="item reveal">
-                  <div class="row"><strong>${esc(a.title)}</strong><span class="badge">${esc(a.by)}</span></div>
-                  <div class="small muted" style="margin-top:8px">${esc(a.text)}</div>
-                </div>
-              `).join("")}
-            </div>
-          </section>
-        `;
-        triggerReveal();
-      }
-
-      if(page === "support"){
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <h2>Support</h2>
-              <span class="badge">Help and report</span>
-            </div>
-            <div class="grid grid-2">
-              <div class="item reveal"><strong>Contact</strong><div class="small muted" style="margin-top:8px">${esc(support.contact)}</div><div class="small muted">${esc(support.whatsapp)}</div></div>
-              <div class="item reveal"><strong>Payment Help</strong><div class="small muted" style="margin-top:8px">${esc(support.help)}</div></div>
-              <div class="item reveal"><strong>Rules</strong><div class="small muted" style="margin-top:8px">No hacks, no abuse, no late join, no refund after approval.</div></div>
-              <div class="item reveal"><strong>Report Problem</strong><div class="small muted" style="margin-top:8px">${esc(support.report)}</div></div>
-            </div>
-          </section>
-        `;
-        triggerReveal();
-      }
-
-      if(page === "admin"){
-        const u = me();
-        if(!u || u.role !== "admin"){
-          c.innerHTML = `<section class="panel"><h2>Admin Panel</h2><div class="notice" style="margin-top:14px">Admin login required.</div></section>`;
-          return;
-        }
-        c.innerHTML = `
-          <section class="panel">
-            <div class="section-head">
-              <div><h2>Admin Dashboard</h2><div class="tiny muted">Player database, payments, promos, announcements</div></div>
-            </div>
-            <div class="admin-tabs">
-              <button class="${adminView==='players'?'active':''}" onclick="setAdminView('players')">Players</button>
-              <button class="${adminView==='payments'?'active':''}" onclick="setAdminView('payments')">Payments</button>
-              <button class="${adminView==='announcements'?'active':''}" onclick="setAdminView('announcements')">Announcements</button>
-              <button class="${adminView==='leaderboard'?'active':''}" onclick="setAdminView('leaderboard')">Leaderboard</button>
-              <button class="${adminView==='promos'?'active':''}" onclick="setAdminView('promos')">Promo Codes</button>
-            </div>
-            <div id="adminWrap"></div>
-          </section>
-        `;
-        renderAdmin();
-      }
-
-      triggerReveal();
-    }
-
-    function renderMatchesPage(){
-      const q = ($("matchSearch")?.value || "").toLowerCase().trim();
-      const t = $("matchType")?.value || "";
-      const s = $("matchStatus")?.value || "";
-      const list = matches.filter(m => {
-        const okQ = !q || [m.title,m.matchName,m.mode,m.map].join(" ").toLowerCase().includes(q);
-        const okT = !t || m.matchName === t || m.roomType === t;
-        const okS = !s || m.status === s;
-        return okQ && okT && okS;
-      });
-      $("matchesWrap").innerHTML = list.map(matchCard).join("") || `<div class="item">No matches found.</div>`;
-      triggerReveal();
-    }
-
-    function showMatchDetail(id){
-      const m = matches.find(x => x.id === id);
-      if(!m) return;
-      $("pageContent").innerHTML = `
-        <section class="panel">
-          <div class="section-head">
-            <div><h2>Match Detail Page</h2><div class="tiny muted">See every detail before join</div></div>
-            <button class="btn btn-secondary" onclick="showPage('matches')">← Back</button>
-          </div>
-          <div class="grid grid-2">
-            <div class="item reveal">
-              <strong>${esc(m.title)}</strong>
-              <div class="small muted" style="margin-top:10px">
-                Match Name: ${esc(m.matchName)}<br>
-                Mode: ${esc(m.mode)}<br>
-                Map: ${esc(m.map)}<br>
-                Time: ${esc(m.time)}<br>
-                Entry Fee: ${m.entryFee ? "Rs " + esc(m.entryFee) : "Free"}<br>
-                Room Type: ${esc(m.roomType)}<br>
-                Team Allowed: ${m.teamAllowed ? "Yes" : "No"}<br>
-                Status: ${esc(m.status)}
-              </div>
-            </div>
-            <div class="item reveal">
-              <strong>Prize Pool</strong>
-              <div class="small muted" style="margin-top:10px">
-                Total Prize Pool: Rs ${esc(m.prizePool.total)}<br>
-                Winner Prize: Rs ${esc(m.prizePool.winner)}<br>
-                Runner-up Prize: Rs ${esc(m.prizePool.runnerUp)}<br>
-                Special Kill Reward: Rs ${esc(m.prizePool.killReward)}<br><br>
-                Room ID: ${esc(m.roomId || "Not announced")}<br>
-                Room Password: ${esc(m.roomPass || "Not announced")}
-              </div>
-              <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="openRules(${m.id})">JOIN THIS MATCH</button>
-            </div>
-          </div>
-        </section>
-      `;
-      triggerReveal();
-    }
-
-    function renderWallet(){
-      const methods = paymentMethods.filter(m => m.active);
-      $("paymentMethodsWrap").innerHTML = paymentMethods.map(m=>`
-        <div class="item reveal">
-          <div class="row">
-            <strong>${esc(m.title)}</strong>
-            <span class="badge ${m.active?'st-live':'st-cancelled'}">${m.active?'Active':'Disabled'}</span>
-          </div>
-          <div class="small muted" style="margin-top:8px">${esc(m.number)}</div>
-        </div>
-      `).join("") || `<div class="item">No methods.</div>`;
-
-      $("depositMethod").innerHTML = methods.map(m=>`<option value="${m.id}">${esc(m.title)} — ${esc(m.number)}</option>`).join("");
-      $("withdrawMethod").innerHTML = methods.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join("");
-
-      const u = me();
-      const mine = paymentRequests.filter(r => r.email === u.email);
-      $("paymentHistoryWrap").innerHTML = mine.map(r=>`
-        <div class="item reveal">
-          <div class="row">
-            <strong>${esc(r.kind)} • ${esc(r.methodTitle)}</strong>
-            <span class="badge ${statusClass(r.status)}">${esc(r.status)}</span>
-          </div>
-          <div class="small muted" style="margin-top:8px">Amount: Rs ${esc(r.amount)}</div>
-        </div>
-      `).join("") || `<div class="item">No payment requests.</div>`;
-      triggerReveal();
-    }
-
-    function submitDeposit(e){
-      e.preventDefault();
-      const u = me();
-      const method = paymentMethods.find(m => String(m.id) === $("depositMethod").value);
-      paymentRequests.unshift({
-        id:Date.now(),
-        email:u.email,
-        kind:"Deposit",
-        methodId:method.id,
-        methodTitle:method.title,
-        amount:Number($("depositAmount").value || 0),
-        sender:$("senderNumber").value.trim(),
-        trx:$("depositTrx").value.trim(),
-        status:"Pending"
-      });
-      saveAll();
-      pushNotification("Deposit submitted", "Your deposit request is pending approval.", "payment");
-      renderWallet();
-      e.target.reset();
-    }
-
-    function submitWithdraw(e){
-      e.preventDefault();
-      const u = me();
-      const method = paymentMethods.find(m => String(m.id) === $("withdrawMethod").value);
-      paymentRequests.unshift({
-        id:Date.now(),
-        email:u.email,
-        kind:"Withdraw",
-        methodId:method.id,
-        methodTitle:method.title,
-        amount:Number($("withdrawAmount").value || 0),
-        title:$("withdrawTitle").value.trim(),
-        number:$("withdrawNumber").value.trim(),
-        status:"Pending"
-      });
-      saveAll();
-      pushNotification("Withdrawal requested", "Your withdrawal request is pending review.", "withdraw");
-      renderWallet();
-      e.target.reset();
-    }
-
-    function saveProfile(e){
-      e.preventDefault();
-      const u = me();
-      const uid = $("profileUid").value.trim();
-      if(!/^\d{8,12}$/.test(uid)){ alert("UID must be 8 to 12 digits."); return; }
-      u.fullName = $("profileFullName").value.trim();
-      u.ffName = $("profileFfName").value.trim();
-      u.uid = uid;
-      saveAll();
-      renderAll();
-      alert("Profile updated.");
-    }
-
-    function saveTeam(e){
-      e.preventDefault();
-      const u = me();
-      teams.unshift({
-        id:Date.now(),
-        ownerEmail:u.email,
-        teamName:$("teamName").value.trim(),
-        captain:$("teamCaptain").value.trim(),
-        players:[$("teamP1").value.trim(),$("teamP2").value.trim(),$("teamP3").value.trim(),$("teamP4").value.trim()].filter(Boolean)
-      });
-      saveAll();
-      renderTeams();
-      e.target.reset();
-    }
-
-    function renderTeams(){
-      const u = me();
-      const myTeams = teams.filter(t => t.ownerEmail === u.email);
-      $("teamsWrap").innerHTML = myTeams.map(t=>`
-        <div class="item reveal">
-          <div class="row">
-            <strong>${esc(t.teamName)}</strong>
-            <span class="badge">Captain ${esc(t.captain)}</span>
-          </div>
-          <div class="small muted" style="margin-top:8px">${t.players.map(esc).join(" • ")}</div>
-        </div>
-      `).join("") || `<div class="item">No teams yet.</div>`;
-      triggerReveal();
-    }
-
-    function renderHistoryPage(){
-      const u = me();
-      const joinedIds = Object.keys(joined).filter(k => k.startsWith(u.email + ":")).map(k => Number(k.split(":")[1]));
-      const myMatches = matches.filter(m => joinedIds.includes(m.id));
-      const myPayments = paymentRequests.filter(p => p.email === u.email);
-      const myTeams = teams.filter(t => t.ownerEmail === u.email);
-
-      $("pageContent").innerHTML = `
-        <section class="panel">
-          <div class="section-head">
-            <h2>Player History</h2>
-            <span class="badge">Matches • payments • teams</span>
-          </div>
-
-          <div class="grid grid-2">
-            <div class="panel glass">
-              <h3>Joined Matches</h3>
-              <div class="history-list" style="margin-top:12px">
-                ${myMatches.map(m=>`<div class="item"><strong>${esc(m.title)}</strong><div class="small muted">${esc(m.matchName)} • ${esc(m.time)}</div></div>`).join("") || `<div class="item">No matches joined.</div>`}
-              </div>
-            </div>
-            <div class="panel glass">
-              <h3>Stats</h3>
-              <div class="history-list" style="margin-top:12px">
-                <div class="item"><strong>Wins</strong><div class="small muted">${u.wins || 0}</div></div>
-                <div class="item"><strong>Kills</strong><div class="small muted">${u.kills || 0}</div></div>
-                <div class="item"><strong>Coins</strong><div class="small muted">${u.coins || 0}</div></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-2" style="margin-top:14px">
-            <div class="panel glass">
-              <h3>Payment History</h3>
-              <div class="payment-list" style="margin-top:12px">
-                ${myPayments.map(p=>`<div class="item"><div class="row"><strong>${esc(p.kind)} • ${esc(p.methodTitle)}</strong><span class="badge ${statusClass(p.status)}">${esc(p.status)}</span></div><div class="small muted" style="margin-top:8px">Rs ${esc(p.amount)}</div></div>`).join("") || `<div class="item">No payment history.</div>`}
-              </div>
-            </div>
-            <div class="panel glass">
-              <h3>Team History</h3>
-              <div class="team-list" style="margin-top:12px">
-                ${myTeams.map(t=>`<div class="item"><strong>${esc(t.teamName)}</strong><div class="small muted">Captain: ${esc(t.captain)}</div></div>`).join("") || `<div class="item">No teams.</div>`}
-              </div>
-            </div>
-          </div>
-        </section>
-      `;
-      triggerReveal();
-    }
-
-    function setAdminView(v){ adminView = v; showPage("admin"); }
-
-    function renderAdmin(){
-      const wrap = $("adminWrap");
-      if(adminView === "players"){
-        wrap.innerHTML = `
-          <div class="panel glass">
-            <h3>Players Database</h3>
-            <table class="table" style="margin-top:12px">
-              <thead>
-                <tr>
-                  <th>Full Name</th>
-                  <th>FF Name</th>
-                  <th>UID</th>
-                  <th>Email</th>
-                  <th>Coins</th>
-                  <th>Referral</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${users.filter(u=>u.role!=="admin").map(u=>`
-                  <tr>
-                    <td>${esc(u.fullName)}</td>
-                    <td>${esc(u.ffName)}</td>
-                    <td>${esc(u.uid)}</td>
-                    <td>${esc(u.email)}</td>
-                    <td>${esc(u.coins || 0)}</td>
-                    <td>${esc(u.referralCode || "")}</td>
-                    <td>${u.banned ? '<span class="badge st-cancelled">Banned</span>' : '<span class="badge st-live">Active</span>'}</td>
-                    <td><button class="btn btn-warning" onclick="toggleBan('${esc(u.email)}')">${u.banned?'Unban':'Ban'}</button></td>
-                  </tr>
-                `).join("")}
-              </tbody>
-            </table>
-          </div>
-        `;
-      }
-
-      if(adminView === "payments"){
-        wrap.innerHTML = `
-          <div class="panel glass">
-            <h3>Payment Requests</h3>
-            <div class="request-list" style="margin-top:12px">
-              ${paymentRequests.map(r=>`
-                <div class="item">
-                  <div class="row">
-                    <div>
-                      <strong>${esc(r.email)}</strong>
-                      <div class="small muted">${esc(r.kind)} • ${esc(r.methodTitle)} • Rs ${esc(r.amount)}</div>
-                    </div>
-                    <span class="badge ${statusClass(r.status)}">${esc(r.status)}</span>
-                  </div>
-                  <div class="small muted" style="margin-top:8px">
-                    ${r.kind === 'Deposit' ? `Sender: ${esc(r.sender)} • TRX: ${esc(r.trx)}` : `Title: ${esc(r.title)} • Number: ${esc(r.number)}`}
-                  </div>
-                  <div class="row" style="margin-top:10px">
-                    <button class="btn btn-success" onclick="approveRequest(${r.id})">APPROVE</button>
-                    <button class="btn btn-danger" onclick="rejectRequest(${r.id})">REJECT</button>
-                  </div>
-                </div>
-              `).join("") || `<div class="item">No requests.</div>`}
-            </div>
-          </div>
-        `;
-      }
-
-      if(adminView === "announcements"){
-        wrap.innerHTML = `
-          <div class="grid grid-2">
-            <form id="announcementForm" class="panel glass form">
-              <h3>Write Announcement</h3>
-              <div class="field"><label>Title</label><input id="anTitle" required></div>
-              <div class="field"><label>Message</label><textarea id="anText" required></textarea></div>
-              <button class="btn btn-primary">PUBLISH</button>
-            </form>
-            <div class="panel glass">
-              <h3>Published Messages</h3>
-              <div class="feed" style="margin-top:12px">
-                ${announcements.map((a,i)=>`
-                  <div class="item">
-                    <div class="row">
-                      <strong>${esc(a.title)}</strong>
-                      <button class="btn btn-danger" onclick="deleteAnnouncement(${i})">DELETE</button>
-                    </div>
-                    <div class="small muted" style="margin-top:8px">${esc(a.text)}</div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-        `;
-        $("announcementForm").addEventListener("submit", addAnnouncement);
-      }
-
-      if(adminView === "leaderboard"){
-        wrap.innerHTML = `
-          <div class="grid grid-2">
-            <form id="leaderboardForm" class="panel glass form">
-              <h3>Add / Update Leaderboard</h3>
-              <div class="field"><label>Name</label><input id="lbName" required></div>
-              <div class="field"><label>Kills</label><input id="lbKills" type="number" value="0"></div>
-              <div class="field"><label>Matches</label><input id="lbMatches" type="number" value="0"></div>
-              <div class="field"><label>Wins</label><input id="lbWins" type="number" value="0"></div>
-              <div class="field"><label>Match Name</label><input id="lbMatchName" required></div>
-              <div class="field"><label>Time</label><input id="lbTime" required></div>
-              <button class="btn btn-primary">SAVE ENTRY</button>
-            </form>
-            <div class="panel glass">
-              <h3>Entries</h3>
-              <div class="leader-list" style="margin-top:12px">
-                ${leaderboard.map((l,i)=>`
-                  <div class="item">
-                    <div class="row">
-                      <strong>${esc(l.name)}</strong>
-                      <button class="btn btn-danger" onclick="deleteLeader(${i})">DELETE</button>
-                    </div>
-                    <div class="small muted" style="margin-top:8px">Kills ${esc(l.kills)} • Matches ${esc(l.matches)} • Wins ${esc(l.wins)}</div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-        `;
-        $("leaderboardForm").addEventListener("submit", addLeader);
-      }
-
-      if(adminView === "promos"){
-        wrap.innerHTML = `
-          <div class="grid grid-2">
-            <form id="promoForm" class="panel glass form">
-              <h3>Add Promo Code</h3>
-              <div class="field"><label>Code</label><input id="promoCode" required></div>
-              <div class="field"><label>Reward Coins</label><input id="promoReward" type="number" min="0" value="50"></div>
-              <button class="btn btn-primary">ADD PROMO</button>
-            </form>
-            <div class="panel glass">
-              <h3>Promo Codes</h3>
-              <div class="feed" style="margin-top:12px">
-                ${promoCodes.map((p,i)=>`
-                  <div class="item">
-                    <div class="row">
-                      <strong>${esc(p.code)}</strong>
-                      <span class="badge ${p.active?'st-live':'st-cancelled'}">${p.active?'Active':'Disabled'}</span>
-                    </div>
-                    <div class="small muted" style="margin-top:8px">Reward: ${esc(p.reward)} coins</div>
-                    <div class="row" style="margin-top:10px">
-                      <button class="btn btn-warning" onclick="togglePromo(${i})">${p.active?'Disable':'Enable'}</button>
-                      <button class="btn btn-danger" onclick="deletePromo(${i})">DELETE</button>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-        `;
-        $("promoForm").addEventListener("submit", addPromo);
-      }
-    }
-
-    function toggleBan(email){
-      const u = users.find(x => x.email === email);
-      if(!u) return;
-      u.banned = !u.banned;
-      saveAll();
-      renderAdmin();
-    }
-
-    function approveRequest(id){
-      const r = paymentRequests.find(x => x.id === id);
-      if(!r) return;
-      r.status = "Completed";
-      const u = users.find(x => x.email === r.email);
-      if(u){
-        if(r.kind === "Deposit"){ u.coins = (u.coins || 0) + Number(r.amount || 0); u.rupees = u.coins; }
-        else { u.coins = Math.max(0, (u.coins || 0) - Number(r.amount || 0)); u.rupees = u.coins; }
-      }
-      saveAll();
-      pushNotification("Payment updated", `${r.kind} request approved.`, "payment");
-      renderAll();
-      renderAdmin();
-    }
-
-    function rejectRequest(id){
-      const r = paymentRequests.find(x => x.id === id);
-      if(!r) return;
-      r.status = "Cancelled";
-      saveAll();
-      pushNotification("Payment updated", `${r.kind} request rejected.`, "payment");
-      renderAll();
-      renderAdmin();
-    }
-
-    function addAnnouncement(e){
-      e.preventDefault();
-      announcements.unshift({ title:$("anTitle").value.trim(), text:$("anText").value.trim(), by:"ADMIN" });
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
-
-    function deleteAnnouncement(i){ announcements.splice(i,1); saveAll(); renderAll(); renderAdmin(); }
-
-    function addLeader(e){
-      e.preventDefault();
-      const item = {
-        name:$("lbName").value.trim(),
-        kills:Number($("lbKills").value || 0),
-        matches:Number($("lbMatches").value || 0),
-        wins:Number($("lbWins").value || 0),
-        matchName:$("lbMatchName").value.trim(),
-        time:$("lbTime").value.trim()
-      };
-      const idx = leaderboard.findIndex(l => l.name.toLowerCase() === item.name.toLowerCase());
-      if(idx >= 0) leaderboard[idx] = item; else leaderboard.unshift(item);
-      saveAll();
-      renderAll();
-      renderAdmin();
-    }
-
-    function deleteLeader(i){ leaderboard.splice(i,1); saveAll(); renderAll(); renderAdmin(); }
-
-    function addPromo(e){
-      e.preventDefault();
-      promoCodes.unshift({ code:$("promoCode").value.trim().toUpperCase(), reward:Number($("promoReward").value || 0), active:true });
-      saveAll();
-      renderAdmin();
-    }
-
-    function togglePromo(i){ promoCodes[i].active = !promoCodes[i].active; saveAll(); renderAdmin(); }
-
-    function deletePromo(i){ promoCodes.splice(i,1); saveAll(); renderAdmin(); }
-
-    function renderAll(){
-      renderHero();
-      if(me()) renderHome();
-      if(currentPage && currentPage !== "home" && !$("appPage").classList.contains("hidden")){
-        const p = currentPage;
-        currentPage = "temp";
-        showPage(p);
-      }
-    }
-
-    function triggerReveal(){
-      document.querySelectorAll(".reveal").forEach((el,i)=>{
-        setTimeout(()=>{
-          const r = el.getBoundingClientRect();
-          if(r.top < window.innerHeight - 30) el.classList.add("in");
-        }, i * 35);
-      });
-    }
-
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("in"); });
-    }, { threshold:.12 });
-    const mo = new MutationObserver(() => {
-      document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-    });
-    mo.observe(document.body, { childList:true, subtree:true });
-
-    renderHero();
-    triggerReveal();
-    if(me()) startApp();
-  </script>
+ </section>
+
+ <section id="matchesSection" class="hidden">
+  <div class="panel">
+   <h2>🎮 Tournaments</h2>
+   <div id="matchList"></div>
+  </div>
+ </section>
+
+ <section id="walletSection" class="hidden">
+  <div class="panel">
+   <h2>💳 Wallet</h2>
+   <p>Demo balance: <b id="walletBalance">0</b> coins</p>
+   <p class="notice">No real money is stored or transferred by this demo. Do not submit payment details here.</p>
+   <h3>Wallet History</h3>
+   <div id="walletHistory"></div>
+  </div>
+ </section>
+
+ <section id="leaderboardSection" class="hidden">
+  <div class="panel">
+   <h2>🏆 Leaderboard</h2>
+   <div class="tablewrap"><table>
+    <thead><tr><th>Player</th><th>Matches</th><th>Wins</th></tr></thead>
+    <tbody id="leaderRows"></tbody>
+   </table></div>
+  </div>
+ </section>
+
+ <section id="profileSection" class="hidden">
+  <div class="panel">
+   <h2>👤 Edit Profile</h2>
+   <form id="profileForm">
+    <label>Full Name</label><input id="editFull" required>
+    <label>Free Fire ID Name</label><input id="editFF" required>
+    <label>Free Fire UID</label><input id="editUID" required>
+    <p class="muted">Email cannot be changed here.</p>
+    <button>UPDATE PROFILE</button>
+   </form>
+   <button class="secondary" onclick="logout()">LOG OUT</button>
+  </div>
+ </section>
+
+ <section id="adminSection" class="hidden">
+  <div class="panel">
+   <h2>⚙️ Admin Dashboard</h2>
+   <p class="notice">Admin view in this demo. A production admin panel requires server-side authorization.</p>
+   <h3>Create Tournament</h3>
+   <form id="tournamentForm">
+    <label>Tournament Name</label><input id="matchName" required>
+    <label>Mode</label><select id="matchMode"><option>Solo</option><option>Duo</option><option>Squad</option></select>
+    <label>Entry Type</label><select id="matchType"><option>Free</option><option>Paid</option></select>
+    <label>Entry Fee (display only)</label><input id="matchFee" type="number" min="0" value="0">
+    <label>Start Time</label><input id="matchTime" type="datetime-local">
+    <button>ADD TOURNAMENT</button>
+   </form>
+
+   <h3>Manage Tournaments</h3>
+   <div id="adminMatches"></div>
+
+   <h3>Player Database (demo)</h3>
+   <div class="tablewrap"><table>
+    <thead><tr><th>Name</th><th>FF Name</th><th>UID</th><th>Email</th></tr></thead>
+    <tbody id="playerRows"></tbody>
+   </table></div>
+
+   <h3>Post Announcement</h3>
+   <form id="announcementForm">
+    <label>Announcement</label><textarea id="announcementText" required></textarea>
+    <button>POST ANNOUNCEMENT</button>
+   </form>
+  </div>
+ </section>
+</section>
+</main>
+
+<div id="bottomNav" class="bottom hidden">
+ <button onclick="showPage('home')">🏠<br>HOME</button>
+ <button onclick="showPage('matches')">🎮<br>MATCHES</button>
+ <button onclick="showPage('wallet')">💳<br>WALLET</button>
+ <button onclick="showPage('leaderboard')">🏆<br>RANKS</button>
+ <button onclick="showPage('profile')">👤<br>PROFILE</button>
+</div>
+
+<footer>© 2026 PRO GENIUS BATTLE · Independent community tournament demo</footer>
+
+<script>
+/*
+ IMPORTANT:
+ This is a front-end demo, not secure authentication.
+ Set ADMIN_EMAIL to the email you intend to use for the designated admin.
+ Never put a real admin password in this HTML file.
+ Real authentication and permissions must be enforced by a backend.
+*/
+const ADMIN_EMAIL = "YOUR_ADMIN_EMAIL@example.com";
+
+const $ = id => document.getElementById(id);
+const get = key => {
+ try { return JSON.parse(localStorage.getItem(key)) || []; }
+ catch { return []; }
+};
+const put = (key,value) => localStorage.setItem(key,JSON.stringify(value));
+let currentUser = null;
+
+let users = get("pgb_users");
+let matches = get("pgb_matches");
+let announcements = get("pgb_announcements");
+let joins = get("pgb_joins");
+let history = get("pgb_history");
+
+function saveAll(){
+ put("pgb_users",users);
+ put("pgb_matches",matches);
+ put("pgb_announcements",announcements);
+ put("pgb_joins",joins);
+ put("pgb_history",history);
+}
+function authTab(tab){
+ ["login","register","forgot"].forEach(t=>{
+  $(t+"Form").classList.toggle("hidden",t!==tab);
+  $(t+"Tab").classList.toggle("secondary",t!==tab);
+ });
+ $("authMessage").textContent="";
+}
+function isAdmin(user){
+ return user && user.email.toLowerCase()===ADMIN_EMAIL.toLowerCase()
+ && ADMIN_EMAIL!=="YOUR_ADMIN_EMAIL@example.com";
+}
+function publicUser(u){
+ return {name:u.name,ffName:u.ffName,uid:u.uid,email:u.email};
+}
+$("registerForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ users=get("pgb_users");
+ const email=$("email").value.trim().toLowerCase();
+ const ffName=$("ffName").value.trim();
+ if(users.some(u=>u.email.toLowerCase()===email||u.ffName.toLowerCase()===ffName.toLowerCase())){
+  $("authMessage").textContent="Email or Free Fire ID name is already registered.";
+  return;
+ }
+ if($("password").value.length<8){
+  $("authMessage").textContent="Use at least 8 characters.";
+  return;
+ }
+ const user={
+  name:$("fullName").value.trim(),
+  ffName,uid:$("uid").value.trim(),email,
+  password:$("password").value,
+  coins:$("promo").value.trim()?10:0,
+  wins:0
+ };
+ users.push(user);saveAll();
+ $("authMessage").textContent="Account created. You can now log in.";
+ e.target.reset();authTab("login");
+});
+$("loginForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ users=get("pgb_users");
+ const id=$("loginId").value.trim().toLowerCase();
+ const pass=$("loginPass").value;
+ const user=users.find(u=>
+  (u.email.toLowerCase()===id||u.ffName.toLowerCase()===id)
+  &&u.password===pass
+ );
+ if(!user){
+  $("authMessage").textContent="Login failed. Check your details.";
+  return;
+ }
+ currentUser=user.email;
+ openApp();
+});
+$("forgotForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ $("authMessage").textContent="Password reset needs a secure email/backend service. No password was changed.";
+});
+function openApp(){
+ users=get("pgb_users");
+ const user=users.find(u=>u.email===currentUser);
+ if(!user){logout();return}
+ $("authPage").classList.add("hidden");
+ $("appPage").classList.remove("hidden");
+ $("bottomNav").classList.remove("hidden");
+ $("welcomeName").textContent=user.name;
+ $("roleLabel").textContent=isAdmin(user)?"Designated admin demo view":"Player dashboard";
+ $("adminSection").classList.toggle("hidden",!isAdmin(user));
+ $("coins").textContent=user.coins||0;
+ $("balance").textContent=user.coins||0;
+ $("walletBalance").textContent=user.coins||0;
+ $("joinedCount").textContent=joins.filter(j=>j.email===user.email).length;
+ $("winsCount").textContent=user.wins||0;
+ $("editFull").value=user.name;
+ $("editFF").value=user.ffName;
+ $("editUID").value=user.uid;
+ renderAll();showPage("home");
+}
+function logout(){
+ currentUser=null;
+ $("appPage").classList.add("hidden");
+ $("bottomNav").classList.add("hidden");
+ $("authPage").classList.remove("hidden");
+ authTab("login");
+}
+function showPage(page){
+ ["home","matches","wallet","leaderboard","profile"].forEach(p=>{
+  $(p+"Section").classList.toggle("hidden",p!==page);
+ });
+ if(page==="home") $("homeSection").classList.remove("hidden");
+ if(page==="matches") renderMatches();
+ if(page==="wallet") renderWallet();
+ if(page==="leaderboard") renderLeaderboard();
+ if(page==="profile") $("profileSection").classList.remove("hidden");
+}
+$("profileForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ users=get("pgb_users");
+ const u=users.find(x=>x.email===currentUser);if(!u)return;
+ u.name=$("editFull").value.trim();
+ u.ffName=$("editFF").value.trim();
+ u.uid=$("editUID").value.trim();
+ saveAll();openApp();
+});
+$("tournamentForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ if(!isAdmin(users.find(u=>u.email===currentUser)))return;
+ matches=get("pgb_matches");
+ matches.push({
+  id:Date.now(),name:$("matchName").value.trim(),
+  mode:$("matchMode").value,type:$("matchType").value,
+  fee:Number($("matchFee").value)||0,time:$("matchTime").value,
+  status:"Upcoming"
+ });
+ saveAll();e.target.reset();renderAll();
+});
+$("announcementForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ if(!isAdmin(users.find(u=>u.email===currentUser)))return;
+ announcements=get("pgb_announcements");
+ announcements.unshift({text:$("announcementText").value.trim(),date:new Date().toLocaleDateString()});
+ saveAll();e.target.reset();renderAll();
+});
+function joinMatch(id){
+ matches=get("pgb_matches");joins=get("pgb_joins");
+ const m=matches.find(x=>x.id===id);
+ if(!m)return;
+ if(joins.some(j=>j.email===currentUser&&j.matchId===id)){
+  alert("You already joined this tournament.");return;
+ }
+ joins.push({email:currentUser,matchId:id});
+ saveAll();renderAll();alert("Demo registration saved on this browser.");
+}
+function renderMatches(){
+ matches=get("pgb_matches");
+ $("matchList").replaceChildren();
+ if(!matches.length)$("matchList").textContent="No tournaments available yet.";
+ matches.forEach(m=>{
+  const d=document.createElement("div");d.className="card";
+  const title=document.createElement("h3");title.textContent=m.name;
+  const info=document.createElement("p");
+  info.textContent=m.mode+" · "+m.type+" · "+m.status+
+   (m.type==="Paid"?" · Display fee: Rs "+m.fee:" · Free entry");
+  const btn=document.createElement("button");btn.textContent="JOIN TOURNAMENT";
+  btn.onclick=()=>joinMatch(m.id);
+  d.append(title,info);
+  if(m.time){const t=document.createElement("p");t.textContent="Start: "+m.time;d.append(t)}
+  d.append(btn);$("matchList").append(d);
+ });
+}
+function renderAdminMatches(){
+ $("adminMatches").replaceChildren();
+ matches.forEach(m=>{
+  const d=document.createElement("div");d.className="card";
+  const p=document.createElement("p");p.textContent=m.name+" — "+m.status;
+  const sel=document.createElement("select");
+  ["Upcoming","Live","Completed","Cancelled"].forEach(s=>{
+   const o=document.createElement("option");o.value=s;o.textContent=s;o.selected=m.status===s;sel.append(o);
+  });
+  sel.onchange=()=>{m.status=sel.value;saveAll();renderAll()};
+  const del=document.createElement("button");del.className="danger";del.textContent="DELETE";
+  del.onclick=()=>{if(confirm("Delete this tournament?")){matches=matches.filter(x=>x.id!==m.id);saveAll();renderAll()}};
+  d.append(p,sel,del);$("adminMatches").append(d);
+ });
+}
+function renderAnnouncements(){
+ announcements=get("pgb_announcements");
+ $("announcementList").replaceChildren();
+ $("homeAnnouncements").replaceChildren();
+ if(!announcements.length){
+  $("announcementList").textContent="No announcements yet.";
+  $("homeAnnouncements").textContent="No announcements yet.";
+  return;
+ }
+ announcements.forEach(a=>{
+  const d=document.createElement("div");d.className="card";
+  const p=document.createElement("p");p.textContent=a.text;
+  const s=document.createElement("small");s.className="muted";s.textContent=a.date;
+  d.append(p,s);$("announcementList").append(d);
+  $("homeAnnouncements").append(d.cloneNode(true));
+ });
+}
+function renderLeaderboard(){
+ users=get("pgb_users");
+ $("leaderRows").replaceChildren();
+ users.forEach(u=>{
+  const tr=document.createElement("tr");
+  [u.ffName,joins.filter(j=>j.email===u.email).length,u.wins||0].forEach(v=>{
+   const td=document.createElement("td");td.textContent=v;tr.append(td);
+  });
+  $("leaderRows").append(tr);
+ });
+}
+function renderWallet(){
+ users=get("pgb_users");history=get("pgb_history");
+ const u=users.find(x=>x.email===currentUser);
+ $("walletBalance").textContent=u?u.coins||0:0;
+ $("walletHistory").textContent="No wallet transactions.";
+}
+function renderPlayers(){
+ users=get("pgb_users");$("playerRows").replaceChildren();
+ users.forEach(u=>{
+  const tr=document.createElement("tr");
+  [u.name,u.ffName,u.uid,u.email].forEach(v=>{
+   const td=document.createElement("td");td.textContent=v;tr.append(td);
+  });
+  $("playerRows").append(tr);
+ });
+}
+function renderAll(){
+ users=get("pgb_users");matches=get("pgb_matches");
+ $("featuredMatches").replaceChildren();
+ matches.slice(0,3).forEach(m=>{
+  const d=document.createElement("div");d.className="card";
+  const h=document.createElement("h3");h.textContent=m.name;
+  const p=document.createElement("p");p.textContent=m.mode+" · "+m.type+" · "+m.status;
+  d.append(h,p);$("featuredMatches").append(d);
+ });
+ renderMatches();renderAnnouncements();renderLeaderboard();
+ if(isAdmin(users.find(u=>u.email===currentUser))){
+  renderAdminMatches();renderPlayers();
+ }
+}
+</script>
 </body>
-</html>
+  </html>
+     
